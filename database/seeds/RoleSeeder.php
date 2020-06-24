@@ -33,6 +33,14 @@ class RoleSeeder extends Seeder
                             [
                                 'name' => 'normal',
                                 'description' => 'Low level previledged user'
+                            ],
+                            [
+                                'name' => 'director',
+                                'description' => 'Overseing system reports',
+                            ],
+                            [
+                                'name' => 'station master',
+                                'description' => 'Responsible for the assigned station'
                             ]
             );
     

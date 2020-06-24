@@ -26,6 +26,17 @@
       Interface
     </div>
 
+    @if(Auth::user()->is_admin && Auth::user()->hasRole('superuser'))
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('manage.users')}}">
+          <i class="fas fa-fw fa-users"></i>
+          <span>User Management</span></a>
+      </li>
+      
+    @endif
+
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
