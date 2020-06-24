@@ -18,6 +18,7 @@
             <th>Name</th>
             <th>Role(s)</th>
             <th>Registered at</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tfoot>
@@ -25,6 +26,7 @@
             <th>Name</th>
             <th>Role(s)</th>
             <th>Registered at</th>
+            <th>Status</th>
           </tr>
         </tfoot>
         <tbody>
@@ -35,11 +37,26 @@
               <td>
               <a href="{{ route('manage.user', [ 'id' => $user->id]) }}">{{ ucfirst($user->name) }}</a>
             </td>
-
+            <td>
+            @if (count($user->roles) <= 1)
+              {{ ucfirst($user->roles[0]->name) }}
+            @else
               @foreach ($user->roles as $role)
-                <td>{{ ucfirst($role->name)."|" }}</td>
+                  <b>{{ ucfirst($role->name) }}</b> |
               @endforeach
+            @endif
+            </td>
               <td> {{ $user->created_at }}</td>
+              <td>
+                @if ($user->status == true)
+                  <button type="button" class="btn btn-success shadow">
+                      Active
+                  </button></td>
+                @else
+                  <button type="button" class="btn btn-danger shadow">
+                      Inactive
+                  </button></td>
+                @endif
             </tr>
           @endforeach
 

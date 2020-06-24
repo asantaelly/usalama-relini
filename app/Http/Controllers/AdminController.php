@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use app\User;
+use App\User;
+use App\Role;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -40,10 +42,46 @@ class AdminController extends Controller
     public function manage_user($id){
 
         $user = User::find($id);
+        $roles = DB::table('roles')->where('name', '!=', 'superuser')->get();
 
         return view('dashboard.admin.manage_user')->with([
-            'user' => $user
+            'user' => $user,
+            'roles' => $roles
         ]);
+    }
+
+    public function assign_roles(Request $request, $id)
+    {
+        $user = User::find($id);
+        $roles = DB::table('roles')->where('name', '!=', 'superuser')->get();
+
+        $get_roles = $request->input('roles.*.id');
+
+        if(empty($get_roles)){
+            return redirect()->route('manage.user', [$user])
+                ->with([
+                    'status' =>'User roles couldn\'t be updated!',
+                    'user' => $user,
+                    'roles' => $roles
+                ]);
+        }
+
+        foreach ($get_roles as $role_id) {
+            
+            DB::table('user_role')->insert([
+                'role_id' => $role_id,
+                'user_id' => $user->id,
+            ]);
+            
+        }
+
+        return redirect()->route('manage.user', [$user])
+                ->with([
+                    'status' =>'User roles updated successfully',
+                    'user' => $user,
+                    'roles' => $roles
+                ]);
+        
     }
 
 
