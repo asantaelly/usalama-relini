@@ -80,13 +80,12 @@
                                         
                                         <form class="m-2" method="POST" action="{{ route('assign.role', [ 'id' => $user->id])}}" id="assign_form">
                                             @csrf
-                                            <label>Select roles to assign to user:</label>
                                                 @if (empty($user->userRole()))
                                                     <span>
                                                         <b>User has all available roles</b>
-
-                                                        </span>
+                                                    </span>
                                                 @else
+                                                <label>Select roles to assign to user:</label>        
                                                     @foreach ($user->userRole() as $index => $role)
                                                         <div class="form-check">
                                                             <input class="form-check-input" type="checkbox" name="roles[{{ $index+1}}][id]" value="{{ $role->id }}" id="defaultCheck{{ $role->id }}">
@@ -98,7 +97,12 @@
                                                 @endif
                                             
                                               <hr>
-                                              <button type="submit" class="btn btn-primary mr-0">Assign role(s)</button>
+                                              @if (empty($user->userRole()))
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              @else
+                                                <button type="submit" class="btn btn-primary mr-0">Assign role(s)</button>
+                                              @endif
+                                              
                                           </form>
                                           
                                     </div>
