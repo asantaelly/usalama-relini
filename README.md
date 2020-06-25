@@ -1,7 +1,3 @@
-# Online Railway Safety Management System (ORSMS)
-
-## About ORSMS
-Online Railway Safety Management Systems
 
 ### Project Preparation
 ```
@@ -52,6 +48,3 @@ Online Railway Safety Management Systems
        php artisan db:seed
    ```
 
-## License
-
-This project is a Private Property. Not available for public.
