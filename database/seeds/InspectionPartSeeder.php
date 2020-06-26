@@ -23,6 +23,8 @@ class InspectionPartSeeder extends Seeder
                     "Locomotive and Wagon Inspection" =>  array(
                         "Trailer",
                     ),
+
+                    "Traffic Inspection" => array(),
                 );
                 
 
