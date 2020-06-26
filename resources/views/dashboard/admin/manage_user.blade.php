@@ -10,6 +10,7 @@
                     {{ ucfirst($user->name.'\'s')}} Profile
                 </div>
                 <div class="card-body">
+                    <div class="table-responsive">
                     <table class="table table-borderless">
                     <tbody>
                         <tr>
@@ -47,6 +48,7 @@
                           </tr>
                       </tbody>
                     </table>
+                    </div>
 
                     <div class="row ml-2">
                         {{-- Assign role --}}

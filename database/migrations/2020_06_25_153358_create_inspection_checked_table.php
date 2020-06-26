@@ -19,6 +19,8 @@ class CreateInspectionCheckedTable extends Migration
             $table->mediumText('action_required')->nullable();
             $table->boolean('status');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('from_station')->nullable();
+            $table->string('to_station')->nullable();
             $table->timestamps();
         });
     }
