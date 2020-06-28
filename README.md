@@ -34,7 +34,7 @@ Online Railway Safety Management Systems
  
  After creating superuser you can login normal through a system.
  
- ### Hosting the system
+ ### Hosting the system locally
  ```
     php artisan serve
  ```
