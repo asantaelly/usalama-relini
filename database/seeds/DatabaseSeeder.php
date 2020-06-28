@@ -15,5 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call(deathSeeder::class);
         $this->call(InjurySeeder::class);
         $this->call(SectionSeeder::class);
+        $this->call(InspectionPartSeeder::class);
     }
 }

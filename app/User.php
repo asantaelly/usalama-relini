@@ -39,8 +39,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-<<<<<<< HEAD
-=======
 
     /**
      * The roles that belong to the user
@@ -83,5 +81,4 @@ class User extends Authenticatable
             return $assign_roles;
 
     }
->>>>>>> d2359db40fa79fecef723832de958477e4851765
 }
