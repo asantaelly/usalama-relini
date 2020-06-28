@@ -21,12 +21,21 @@
   <!-- Custom styles for this page -->
   <link href="{{asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{ asset('template/vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+  
+    <!-- Core plugin JavaScript-->
+    <script src="v{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+  
+
 </head>
 
 <body id="page-top">
 
   <!-- Page Wrapper -->
   <div id="wrapper">
+    
 
     <!-- Sidebar -->
     @include('dashboard.sidebar')
@@ -46,7 +55,23 @@
 
         <!-- Begin Page Content -->
         <div class="container-fluid">
-
+          <div  aria-live="polite"  style="position: relative;">
+            @if (session('success'))
+            <div class="toast bg-success" aria-atomic="true" data-delay="10000" data-autohide="true" style="position: absolute; top: 0; right: 0;">
+              <div class="toast-header bg-success text-white">
+                <strong class="mr-auto text-white">Success</strong>
+                <small class="text-white">Just Now</small>
+                <button type="button" class="ml-2 mb-1 close text-white" data-dismiss="toast" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="toast-body bg-success text-white">
+                {{session('success')}}
+              </div>
+            </div>
+            @endif
+          </div>
+         
           <!-- Page Heading -->
           <div class="">
             <h1 class="h3 mb-0 text-gray-800">@yield('title')</h1><br/>
@@ -86,14 +111,15 @@
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
   </a>
+  @if (session('success'))
 
+    <script>
+      $(document).ready(function(){
+        $('.toast').toast('show');
+      });
+    </script>
 
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('template/vendor/jquery/jquery.min.js')}}"></script>
-  <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="v{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+  @endif
 
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('template/js/sb-admin-2.min.js')}}"></script>

@@ -16,6 +16,7 @@ class CreateAccidentsTable extends Migration
         Schema::create('accidents', function (Blueprint $table) {
             $table->id();
             $table->dateTime('time_of_accident');
+            $table->string('reference_number');
             $table->string('occured_at');
             $table->string('train');
             $table->string('loco_trolley')->nullable();
@@ -36,8 +37,6 @@ class CreateAccidentsTable extends Migration
             $table->string('time_spent_for_line_clear');
             $table->string('line_closure_time');
             $table->foreignId('section_id')->constrained()->onDelete('cascade');
-            $table->foreignId('death_id')->constrained()->onDelete('cascade')->nullable();
-            $table->foreignId('injury_id')->constrained()->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

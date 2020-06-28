@@ -36,6 +36,11 @@
         <div class="bg-white py-2 collapse-inner rounded">
           {{-- <h6 class="collapse-header">Custom Components:</h6> --}}
           <a class="collapse-item" href="{{route('accident.index')}}">Accident Logs</a>
+          <a class="collapse-item" href="{{route('officer.index')}}">Officer Concerned</a>
+          <a class="collapse-item" href="{{route('progress.index')}}">Progress Report</a>
+          <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
+          <a class="collapse-item" href="{{route('death.index')}}">Death Type</a>
+          <a class="collapse-item" href="{{route('injury.index')}}">Injury Type</a>
           <a class="collapse-item" href="#">Risk Management</a>
         </div>
       </div>

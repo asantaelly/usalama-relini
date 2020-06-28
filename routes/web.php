@@ -22,3 +22,8 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('accident', 'AccidentController');
+Route::resource('officer', 'OfficerConcernedController');
+Route::resource('progress', 'ProgressController');
+Route::resource('section', 'SectionController');
+Route::resource('death', 'DeathController');
+Route::resource('injury', 'InjuryController');
