@@ -27,3 +27,4 @@ Route::resource('progress', 'ProgressController');
 Route::resource('section', 'SectionController');
 Route::resource('death', 'DeathController');
 Route::resource('injury', 'InjuryController');
+Route::resource('report', 'ReportController');

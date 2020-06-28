@@ -12,23 +12,13 @@
 		</span>
 		<span class="text">Add New Accident Log</span>
   </a>
+  <a href="{{route('report.index')}}" class="btn btn-info btn-icon-split btn-sm mr-3">
+		<span class="icon text-white-50">
+			<i class="fas fa-file"></i>
+		</span>
+		<span class="text">Generate Report</span>
+  </a>
 </div><br/><br/>
-	<div class="row col-lg-12 mb-5">
-  <form action="" method="POST">
-    <div class="form-group col-lg-5">
-      <label for="death_id">Death type</label> 
-      <div>
-        <select id="death_id" name="death_id" class="custom-select">
-          <option value="" selected disabled>Select Death Type</option>
-          @foreach ($death_types as $item)
-            <option value="{{$item['value']}}">{{$item['option']}}</option>
-          @endforeach
-        </select>
-      </div>
-      
-    </div>
-  </form>
-  </div>
 
 @endsection
 
