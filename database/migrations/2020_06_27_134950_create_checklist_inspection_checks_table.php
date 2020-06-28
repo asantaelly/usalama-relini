@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateInspectionCheckedTable extends Migration
+class CreateChecklistInspectionChecksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,10 @@ class CreateInspectionCheckedTable extends Migration
      */
     public function up()
     {
-        Schema::create('inspection_checked', function (Blueprint $table) {
+        Schema::create('checklist_inspection_checks', function (Blueprint $table) {
             $table->id();
+            $table->string('inspection_checks');
             $table->foreignId('checklist_item_id')->constrained()->onDelete('cascade');
-            $table->mediumText('action_required')->nullable();
-            $table->boolean('status')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('from_station')->nullable();
-            $table->string('to_station')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +28,6 @@ class CreateInspectionCheckedTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inspection_checked');
+        Schema::dropIfExists('checklist_inspection_checks');
     }
 }

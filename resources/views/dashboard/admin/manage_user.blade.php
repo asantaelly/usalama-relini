@@ -99,12 +99,13 @@
                                                 @endif
                                             
                                               <hr>
-                                              @if (empty($user->userRole()))
+                                              <div class="text-right">
+                                                @if (empty($user->userRole()))
                                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                              @else
-                                                <button type="submit" class="btn btn-primary mr-0">Assign role(s)</button>
-                                              @endif
-                                              
+                                                @else
+                                                    <button type="submit" class="btn btn-primary mr-0">Assign role(s)</button>
+                                                @endif
+                                              </div>  
                                           </form>
                                           
                                     </div>
@@ -150,6 +151,7 @@
         <div class="col-2"></div>
     </div>
     <script>
+        window.onload = function(){
 
         // $.ajaxSetup({
         //     headers: {
@@ -178,7 +180,7 @@
                 }
             });
         });
-
+    }
     </script>
     
 @endsection
