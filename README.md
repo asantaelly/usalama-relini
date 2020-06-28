@@ -39,7 +39,7 @@ Online Railway Safety Management Systems
     php artisan serve
  ```
  
- Then go to the localhost:<port-number> though your browser
+ Then go to the localhost:port-number though your browser
     
  # Note
     
