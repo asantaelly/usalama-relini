@@ -26,6 +26,17 @@
       Interface
     </div>
 
+    @if(Auth::user()->is_admin && Auth::user()->hasRole('superuser'))
+
+      <!-- Nav Item - Charts -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ route('manage.users')}}">
+          <i class="fas fa-fw fa-users"></i>
+          <span>User Management</span></a>
+      </li>
+      
+    @endif
+
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -41,6 +52,7 @@
           <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
           <a class="collapse-item" href="{{route('death.index')}}">Death Type</a>
           <a class="collapse-item" href="{{route('injury.index')}}">Injury Type</a>
+          <a class="collapse-item" href="#">Accident Logs</a>
           <a class="collapse-item" href="#">Risk Management</a>
         </div>
       </div>
