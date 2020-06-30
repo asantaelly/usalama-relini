@@ -35,3 +35,10 @@ if (!function_exists('get_responsible_designation_dropdown')) {
         ];
     }
 }
+
+if (!function_exists('get_operation_year_range_dropdown')) {
+    function get_operation_year_range_dropdown()
+    {
+        return range(date("Y"), 1990);
+    }
+}

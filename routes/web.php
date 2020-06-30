@@ -28,7 +28,9 @@ Route::resource('progress', 'ProgressController');
 Route::resource('section', 'SectionController');
 Route::resource('death', 'DeathController');
 Route::resource('injury', 'InjuryController');
-Route::resource('report', 'ReportController');
+Route::post('report', 'ReportController@generate')->name('report.generate');
+Route::get('/report/show', 'ReportController@show')->name('report.show');
+Route::get('report', 'ReportController@index')->name('report.index');
 
 Route::get('/admin/users', 'AdminController@manage_users')->name('manage.users');
 Route::get('/admin/users/{id}', 'AdminController@manage_user')->name('manage.user');

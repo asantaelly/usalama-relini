@@ -15,12 +15,12 @@ class Accident extends Model
 
     public function injuries()
     {
-        return $this->belongsToMany(Injury::class)->withPivot('number');
+        return $this->belongsToMany(Injury::class,)->withPivot('number');
     }
 
     public function section()
     {
-        return $this->belongsTo(Section::class);
+        return $this->belongsTo(Section::class, 'section_id');
     }
 
     public function progress()

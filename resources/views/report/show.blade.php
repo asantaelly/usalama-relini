@@ -1,136 +1,130 @@
 @extends('dashboard.index')
 
 @section('title')
-		Accident Log
+		Report
 @endsection
 
 @section('content')
     <div class="card card-body p-md-5">
         <div class="row align-items-center mb-5">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                <h5>TANZANIA RAILWAY CORPARATION</h5>
-                <small class="" align="center"><strong>ACCIDENT LOGSHEET</strong></small><br>
-                <small class=""align="center"><strong>HEADQUATER CONTROL</strong></small>
-            </div>
-            <div class="col-sm-6 text-sm-right">
-                <h6 class="d-inline-block m-0 d-print-none">Reference Number</h6>
-                <span class="badge badge-pill badge-success ml-3">{{$accident->reference_number}}</span>
+            <div class="col-sm-12 mb-3 mb-sm-0">
+                <h5 align="center"><strong>TANZANIA RAILWAY CORPARATION</strong></h5>
+                <h5 class="text-sm"align="center"><strong>HEADQUATER CONTROL</strong></h5>
+                <h5 align="center"><strong>{{$data[0]['report_name']}}</strong></h5>
             </div>
         </div>
-        <div class="row mb-5">
-            <div class="col-lg-12 col-md-12">
-            <h6 class="text-sm"><strong>Reported by :</strong> <u> {{auth()->user()->name}}</u> &nbsp; <strong>No :</strong> <u>{{$accident->created_at}}</u></h6>
-            <h6 class=""><strong>Time of Accident :</strong> <u>{{$accident->time_of_accident}}</u> &nbsp; <strong>Place :</strong> <u>{{$accident->occured_at}}</u> &nbsp; <strong>Section :</strong> <u>{{$accident->section->code_name}}</u> </h6>
-            <h6 class=""><strong>Train/Loco(s) :</strong> <u>{{$accident->train}}</u> &nbsp; <strong>Fuel Balance:</strong> <u>{{$accident->fuel_balance}}</u> &nbsp; <strong>TL :</strong> <u>{{$accident->train_load}}</u> </h6>
-            <h6 class=""><strong>Driver(s) :</strong> <u>{{$accident->driver_name}}</u> &nbsp; <strong>Guard(s):</strong> <u>{{$accident->guard_name}}</u> </h6>
-            <h6 class=""><strong>Received From Control :</strong> <u>{{$accident->received_from_control_location}}</u> &nbsp; <strong>At :</strong> <u>{{$accident->received_from_control_time}}</u> </h6>
-            </div>
-        </div>
-        <div class="row mb-2 ml-1">
-            <h6 class=""><strong>SUBJECT:-</strong> <u> {{$accident->accident_subject}}</u></h6>
-        </div>
-        <div class="row mb-2">
-            <div class="col-lg-4 col-md-4">
-                <h6 class=""><strong>BRIEF PARTICULARS</strong></h6>
-            </div>
-            <div class="col-lg-8 col-md-8">
-               <p class="text-sm">{{$accident->brief_particulars}}</p> 
-            </div> 
-        </div>
-        <div class="row mb-2">
-            <div class="col-lg-4 col-md-4">
-                <h6 class=""><strong>DAMAGES</strong></h6>
-            </div>
-            <div class="col-lg-8 col-md-8">
-               <p class="text-sm">{{$accident->damages}}</p> 
-            </div> 
-        </div>
-        <div class="row mb-2">
-            <div class="col-lg-4 col-md-4">
-                <h6 class=""><strong>CAUSE OF ACCIDENT</strong></h6>
-            </div>
-            <div class="col-lg-8 col-md-8">
-               <p class="text-sm">{{$accident->cause_of_accident}}</p> 
-            </div> 
-        </div>
-        <div class="row mb-5">
-            <div class="col-lg-4 col-md-4">
-                <h6 class=""><strong>ASSISTANCE REQUIRED</strong></h6>
-            </div>
-            <div class="col-lg-8 col-md-8">
-               <p class="text-sm">{{$accident->brief_particulars}}</p> 
-            </div> 
-        </div>
-        <div class="row mb-5">
+        <div class="row mb-5 mt-5">
             <div class="col-12">
-                <h5 align="center">OFFICERES CONCERNED</h5>
                 <!-- Table -->
                 <div class="table-responsive">
-                <table class="table mb-0">
+                <table class="table mb-0" style="font-size: 10px">
                     <thead>
                     <tr>
-                        <th class="px-0 bg-transparent border-top-0">S/N</th>
-                        <th class="px-0 bg-transparent border-top-0">TITLE</th>
-                        <th class="px-0 bg-transparent border-top-0">MOBILE PHONE NO.</th>
-                        <th class="px-0 bg-transparent border-top-0">EXT NO.</th>
-                        <th class="px-0 bg-transparent border-top-0">NAME</th>
-                        <th class="px-0 bg-transparent border-top-0">TIME</th>
-                        <th class="px-0 bg-transparent border-top-0">REMARKS</th>
+                        <th class="px-1 bg-transparent border-top-0">S/N</th>
+                        @if (isset($data[0]['accident_subject']) && !is_null($data[0]['accident_subject']))
+                        <th class="px-1 bg-transparent border-top-0">ACCIDENT SUBJECT</th> 
+                        @endif
+                        @if (isset($data[0]['cause_of_accident']) && !is_null($data[0]['cause_of_accident']))
+                        <th class="px-1 bg-transparent border-top-0">CAUSE OF ACCIDENT</th> 
+                        @endif
+                        @if (isset($data[0]['belonged_quarter']) && !is_null($data[0]['belonged_quarter']))
+                        <th class="px-1 bg-transparent border-top-0">BELONGED QUARTER</th> 
+                        @endif
+                        @if (isset($data[0]['operation_year']) && !is_null($data[0]['operation_year']))
+                        <th class="px-1 bg-transparent border-top-0">OPERATION YEAR</th> 
+                        @endif
+                        @if (isset($data[0]['section_name']) && !is_null($data[0]['section_name']))
+                        <th class="px-1 bg-transparent border-top-0">SECTION NAME</th> 
+                        @endif
+                        @if (isset($data[0]['section_between']) && !is_null($data[0]['section_between']))
+                        <th class="px-1 bg-transparent border-top-0">SECTION BETWEEN</th> 
+                        @endif
+                        @if (isset($data[0]['section_rail_size']) && !is_null($data[0]['section_rail_size']))
+                        <th class="px-1 bg-transparent border-top-0">SECTION RAIL SIZE</th> 
+                        @endif
+                        @if (isset($data[0]['section_kilometers']) && !is_null($data[0]['section_kilometers']))
+                        <th class="px-1 bg-transparent border-top-0">SECTION KILOMETERS</th> 
+                        @endif
+                        @if (isset($data[0]['loco_trolley']) && !is_null($data[0]['loco_trolley']))
+                        <th class="px-1 bg-transparent border-top-0">LOCO / TROLLEY</th> 
+                        @endif
+                        @if (isset($data[0]['resposible_designation']) && !is_null($data[0]['resposible_designation']))
+                        <th class="px-1 bg-transparent border-top-0">RESPOSIBLE DESIGNATION</th> 
+                        @endif
+                        @if (isset($data[0]['death_nature']) && !is_null($data[0]['death_nature']))
+                        <th class="px-1 bg-transparent border-top-0">NATURE OF DEATH</th> 
+                        @endif
+                        @if (isset($data[0]['injury_nature']) && !is_null($data[0]['injury_nature']))
+                        <th class="px-1 bg-transparent border-top-0">NATURE OF INJURY</th> 
+                        @endif
+                        @if (isset($data[0]['total']) && !is_null($data[0]['total']))
+                        <th class="px-1 bg-transparent border-top-0">COUNT</th> 
+                        @endif
                     </tr>
                     </thead>
                     <tbody>
-                        @foreach ($officers as $officer)
+                        @foreach ($data as $key => $value)
                         <tr>
-                        <td class="px-0">{{$loop->index+1}}</td>
-                        <td class="px-0">{{$officer->title}}</td>
-                        <td class="px-0">
-                            @foreach ($officer->officer_contacts as $contact)
-                            {{$contact->phone_no}} 
-                            @if ($loop->last)
-                                &nbsp;
-                            @else
-                             /
-                            @endif  
-                          @endforeach
-                        </td>
-                        <td class="px-0">{{$officer->ext_no}}</td>
-                        <td class="px-0">{{$officer->name}}</td>
-                        <td><span class="h6 text-sm">--</span></td>
-                        <td class="px-0"><span class="h6 text-sm">--</span></td>
-                    </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-                </div>
-        </div>
-        </div>
-        <div class="row mt-5">
-        <div class="col-12 col-md-12">
-            <h5 align="center">PROGRESS REPORT</h5>
-            <!-- Table -->
-            <div class="table-responsive">
-                <table class="table mb-0">
-                    <thead>
-                    <tr>
-                        <th class="px-1 bg-transparent border-top-0">DATE/TIME</th>
-                        <th class="px-5 bg-transparent border-top-0">PARTICULARS</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach ($accident->progress as $progress)
-                        <tr>
+                            <td class="px-1"> {{$loop->index +1}} </td>
+                            @if (isset($data[0]['accident_subject']) && !is_null($data[0]['accident_subject']))
+                            <td class="px-1">{{ is_null($value['accident_subject'])? '--': $value['accident_subject'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['cause_of_accident']) && !is_null($data[0]['cause_of_accident']))
+                            <td class="px-1">{{ is_null($value['cause_of_accident'])? '--': $value['cause_of_accident'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['belonged_quarter']) && !is_null($data[0]['belonged_quarter']))
+                            <td class="px-1">{{ is_null($value['belonged_quarter'])? '--': str_replace( "_", " ", strtoupper($value['belonged_quarter'])) }}</td> 
+                            @endif
+                            @if (isset($data[0]['operation_year']) && !is_null($data[0]['operation_year']))
+                            <td class="px-1">{{ is_null($value['operation_year'])? '--': $value['operation_year'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['section_name']) && !is_null($data[0]['section_name']))
+                            <td class="px-1">{{ is_null($value['section_name'])? '--': $value['section_name'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['section_between']) && !is_null($data[0]['section_between']))
+                            <td class="px-1">{{ is_null($value['section_between'])? '--': $value['section_between'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['section_rail_size']) && !is_null($data[0]['section_rail_size']))
+                            <td class="px-1">{{ is_null($value['section_rail_size'])? '--': $value['section_rail_size'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['section_kilometers']) && !is_null($data[0]['section_kilometers']))
+                            <td class="px-1">{{ is_null($value['section_kilometers'])? '--': $value['section_kilometers'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['loco_trolley']) && !is_null($data[0]['loco_trolley']))
+                            <td class="px-1">{{ is_null($value['loco_trolley'])? '--': $value['loco_trolley'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['resposible_designation']) && !is_null($data[0]['resposible_designation']))
+                            <td class="px-1">{{ is_null($value['resposible_designation'])? '--': $value['resposible_designation'] }}</td> 
+                            @endif
+                            @if (isset($data[0]['death_nature']) && !is_null($data[0]['death_nature']))
                             <td class="px-1">
-                            <span class="h6 text-sm">{{$progress->time}}</span>
-                            </td>
-                            <td class="px-5">
-                                {{$progress->particulars}}
-                            </td>
+                                <ul>
+                                @foreach ($value['death_nature'] as $death)
+                                <li>{{ $death->nature}} &nbsp; ({{ $death->pivot->number}} people)</li>
+                                @endforeach
+                                </ul> 
+                            </td> 
+                            @endif
+                            @if (isset($data[0]['injury_nature']) && !is_null($data[0]['injury_nature']))
+                            <td class="px-1">
+                                <ul>
+                                @foreach ($value['injury_nature'] as $injury)
+                                <li>{{ $injury->nature}} &nbsp; ({{ $injury->pivot->number}} people)</li>
+                                @endforeach
+                                </ul> 
+                            </td> 
+                            @endif
+                            @if (isset($data[0]['total']) && !is_null($data[0]['total']))
+                            <td class="px-1"> {{ is_null($value['total'])? '--': $value['total'] }}</td> 
+                            @endif
                         </tr>
                     @endforeach
-                    
                     </tbody>
                 </table>
+                
                 </div>
+                
+            <h6 class="mt-5" align="center"><strong>Report Generated By {{auth()->user()->name}}</strong></h6>
         </div>
         </div>
     </div>

@@ -29,13 +29,8 @@
     <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
   
     <!-- Core plugin JavaScript-->
-    <script src="v{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-  
+    <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
     <script src="{{ asset('template/js/select2.min.js')}}"></script>
-  <link href="{{ asset('template/css/sb-admin-2.min.css')}}" rel="stylesheet">
-
-  <!-- Custom styles for this page -->
-  <link href="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 
 </head>
 
@@ -98,8 +93,6 @@
             <h1 class="h3 mb-0 text-gray-800">Welcome {{ Auth::user()->name}}</h1> --}}
             {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
           {{-- </div> --}}
-
-            @yield('content')
            
 
         </div>
@@ -112,7 +105,7 @@
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>Copyright &copy; ORSMS 2020</span>
+            <span>Copyright &copy; ORSMS {{date("Y")}}</span>
           </div>
         </div>
       </footer>
@@ -138,14 +131,6 @@
 
   @endif
 
-
-  <!-- Bootstrap core JavaScript-->
-  <script src="{{ asset('template/vendor/jquery/jquery.min.js')}}"></script>
-  <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-
-  <!-- Core plugin JavaScript-->
-  <script src="v{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
-
   <!-- Custom scripts for all pages-->
   <script src="{{ asset('template/js/sb-admin-2.min.js')}}"></script>
 
@@ -161,14 +146,6 @@
 
   <!-- Page level custom scripts -->
   <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
-
-
-  <!-- Page level plugins -->
-  <script src="{{ asset('template/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-  <script src="{{ asset('template/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="{{ asset('template/js/demo/datatables-demo.js')}}"></script>
 
 </body>
 
