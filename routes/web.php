@@ -21,13 +21,25 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-// ADMIN routes
+
+Route::resource('accident', 'AccidentController');
+Route::resource('officer', 'OfficerConcernedController');
+Route::resource('progress', 'ProgressController');
+Route::resource('section', 'SectionController');
+Route::resource('death', 'DeathController');
+Route::resource('injury', 'InjuryController');
+Route::post('report', 'ReportController@generate')->name('report.generate');
+Route::get('/report/show', 'ReportController@show')->name('report.show');
+Route::get('report', 'ReportController@index')->name('report.index');
+
 Route::get('/admin/users', 'AdminController@manage_users')->name('manage.users');
 Route::get('/admin/users/{id}', 'AdminController@manage_user')->name('manage.user');
 Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.role');
+
 
 
 // INSPECTION routes
 Route::get('/inspection/form', 'InspectionController@form')->name('inspection.form');
 Route::get('/inspection/details', 'InspectionController@details')->name('inspection.details');
 Route::get('/inspection/add_details', 'InspectionController@add_details')->name('inspection.add');
+
