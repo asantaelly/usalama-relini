@@ -34,12 +34,12 @@ Online Railway Safety Management Systems
  
  After creating superuser you can login normal through a system.
  
- ### Hosting the system
+ ### Hosting the system locally
  ```
     php artisan serve
  ```
  
- Then go to the localhost:<port-number> though your browser
+ Then go to the localhost:port-number though your browser
     
  # Note
     

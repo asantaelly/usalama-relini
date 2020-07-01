@@ -38,11 +38,11 @@
     @endif
 
       <!-- Nav Item - Charts -->
-      <li class="nav-item">
+      {{-- <li class="nav-item">
         <a class="nav-link" href="{{ route('inspection.form')}}">
           <i class="fas fa-fw fa-clipboard-check"></i>
           <span>Inspection</span></a>
-      </li>
+      </li> --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -66,21 +66,21 @@
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    {{-- <li class="nav-item">
+    <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-clipboard-check"></i>
         <span>Inspection</span>
       </a>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" href="#">Infrastructure</a>
-          <a class="collapse-item" href="#">Rolling stock</a>
-          <a class="collapse-item" href="#">Traffic</a>
+          <a class="collapse-item" href="{{ route('inspection.details')}}">Inspection Details</a>
+          <a class="collapse-item" href="{{ route('inspection.form')}}">Inspection Form</a>
+          {{-- <a class="collapse-item" href="#">Traffic</a>
           <a class="collapse-item" href="#">Telecom & ICT</a>
-          <a class="collapse-item" href="#">Electrical System</a>
+          <a class="collapse-item" href="#">Electrical System</a> --}}
         </div>
       </div>
-    </li> --}}
+    </li>
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
