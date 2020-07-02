@@ -2,7 +2,7 @@
 
 @section('content')
         <div class="row m-2">
-            <a href="{{ route('inspection.add')}}" class="btn btn-primary btn-icon-split m-1">
+            <a href="{{ route('inspection.add')}}" class="btn btn-primary btn-icon-split btn-sm m-1">
                 <span class="icon text-white-50">
                     <i class="fas fa-plus"></i>
                 </span>

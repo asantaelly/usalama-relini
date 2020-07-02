@@ -47,9 +47,17 @@ Online Railway Safety Management Systems
    ```
        php artisan migrate
    ```
-   and
+   ,
    ```
        php artisan db:seed
+   ```
+   ,
+   ```
+      composer dump-autoload
+   ```
+   and
+   ```
+      php artisan config:clear
    ```
 
 ## License
