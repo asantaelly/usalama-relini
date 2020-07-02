@@ -12,7 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $this->call(RoleSeeder::class);
-        $this->call(deathSeeder::class);
+        $this->call(DeathSeeder::class);
         $this->call(InjurySeeder::class);
         $this->call(SectionSeeder::class);
         $this->call(InspectionPartSeeder::class);
