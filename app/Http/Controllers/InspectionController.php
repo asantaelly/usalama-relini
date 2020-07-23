@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use App\InspectionCategory;
 use Carbon\Carbon;
 use App\ChecklistItem;
@@ -99,5 +100,36 @@ class InspectionController extends Controller
 
         return redirect()->route('inspection.add');
 
+    }
+
+    public function store_inspection(Request $request){
+
+        $request->validate([
+            'comment.*.message' => 'required'
+        ]);
+
+        $comments = $request->input('comment.*.message');
+        $checklist_number = $request->input('checklist.*.id');
+
+        $Checklist_comments = array_combine($checklist_number, $comments);
+
+        if($Checklist_comments == FALSE){
+            return redirect()->route('inspection.form')
+                ->with('status', 'Comments can not be Empty!');
+        }
+
+        foreach($Checklist_comments as $id => $comment){
+
+            DB::table('inspection_checked')->insert([
+                'checklist_item_id' => $id,
+                'action_required' => $comment,
+                'user_id' => Auth::user()->id,
+                'section' => 'KAM-PUG',
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        }
+
+        return redirect()->route('inspection.add');
     }
 }

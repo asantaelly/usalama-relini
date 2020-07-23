@@ -7,7 +7,8 @@
                 <h5 class="text-center">Inspection Form</h5>
             </div>
             <div class="card-body">
-                <form action="" method="POST">
+                <form action="{{ route('inspection.checked')}}" method="POST">
+                    @csrf
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <label for="">From Station</label>
@@ -62,7 +63,6 @@
                                 </tr>
                             </tfoot>
 
-                            <form action="" method="POST">
                             <tbody>
 
                                 @foreach ($checklists as $checklist)
@@ -93,16 +93,20 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <textarea class="form-control" name="" id="" cols="15" rows="7"></textarea>
+                                        <textarea class="form-control" name="comment[{{ $checklist->id}}][message]" id="" cols="15" rows="7"></textarea>
+                                        <input type="hidden" name="checklist[{{$checklist->id}}][id]" value="{{ $checklist->id }}">
 
                                     </td>
                                     </tr>
                                 @endforeach
 
                             </tbody>
-                            </form>
 
                         </table>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-lg btn-primary">Submit Findings</button>
                     </div>
                 </form>
             </div>

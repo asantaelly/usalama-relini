@@ -40,6 +40,7 @@ Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.r
 
 // INSPECTION routes
 Route::get('/inspection/form', 'InspectionController@form')->name('inspection.form');
+Route::post('/inspection/form', 'InspectionController@store_inspection')->name('inspection.checked');
 Route::get('/inspection/details', 'InspectionController@details')->name('inspection.details');
 Route::get('/inspection/add_details', 'InspectionController@add_details')->name('inspection.add');
 Route::post('/inspection/add_details', 'InspectionController@store_details')->name('inspection.store');

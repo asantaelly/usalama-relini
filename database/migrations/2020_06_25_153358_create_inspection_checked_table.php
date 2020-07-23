@@ -16,11 +16,9 @@ class CreateInspectionCheckedTable extends Migration
         Schema::create('inspection_checked', function (Blueprint $table) {
             $table->id();
             $table->foreignId('checklist_item_id')->constrained()->onDelete('cascade');
-            $table->mediumText('action_required')->nullable();
-            $table->boolean('status')->nullable();
+            $table->mediumText('action_required');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('from_station')->nullable();
-            $table->string('to_station')->nullable();
+            $table->string('section');
             $table->timestamps();
         });
     }
