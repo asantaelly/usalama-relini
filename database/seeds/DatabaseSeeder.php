@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SectionSeeder::class);
         $this->call(InspectionPartSeeder::class);
         $this->call(ItemTableSeeder::class);
+        $this->call(DepartmentSeeder::class);
     }
 }

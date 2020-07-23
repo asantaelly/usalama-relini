@@ -37,19 +37,6 @@ class ItemTableSeeder extends Seeder
                 continue;
             }
             
-            
-            // {
-
-            //     $part_id = DB::table('inspection_parts')->insertGetId([
-            //         'title' => $key,
-            //         'created_at' => Carbon::now(),
-            //         'updated_at' => Carbon::now(),
-            //     ]);
-            // }
-
-            // if(empty($values)){
-            // break;
-            // }
 
             foreach ($values as $sub_value) {
                 

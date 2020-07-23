@@ -14,19 +14,99 @@ class InspectionController extends Controller
     
     public function form(){
 
-        // $checklists = DB::table('checklist_items')->get();
+        $sections = DB::table('sections')->get();
         $checklists = ChecklistItem::all();
+        $departments = DB::table('departments')->get();
 
         return view('dashboard.inspection.inspection_form')->with([
             'checklists' => $checklists,
+            'sections' => $sections,
+            'departments' => $departments,
         ]);
     }
+
+    public function generate_form(){
+        
+        $sections = DB::table('sections')->get();
+        $checklists = ChecklistItem::all();
+        $departments = DB::table('departments')->get();
+        $inspection_types = DB::table('inspection_sections')->get();
+        $inspection_parts = DB::table('inspection_parts')->get();
+
+        return view('dashboard.inspection.generate_form')->with([
+            'checklists' => $checklists,
+            'sections' => $sections,
+            'departments' => $departments,
+            'inspection_types' => $inspection_types,
+            'inspection_parts' => $inspection_parts,
+        ]);
+    }
+
+    public function show_inspection_form(Request $request){
+
+        $department = DB::table('departments')->where('id', $request->input('department'))->value('name');
+        $section = DB::table('sections')->where('id', $request->input('section'))->value('between');
+        $inspection_type = DB::table('inspection_sections')->where('id', $request->input('inspection_type'))->value('title');
+        $inspection_part = DB::table('inspection_parts')->where('id', $request->input('inspection_part'))->value('title');
+
+
+        $checklists = ChecklistItem::where('inspection_part_id', $request->input('inspection_part'))->get();
+
+        return view('dashboard.inspection.inspection_form')->with([
+            'checklists' => $checklists,
+            'section' => $section,
+            'department' => $department,
+            'inspection_type' => $inspection_type,
+            'inspection_part' => $inspection_part,
+        ]);
+    }
+
+
+    // Duplicate Genaration function
+    public function generate_results(){
+
+        $sections = DB::table('sections')->get();
+        $checklists = ChecklistItem::all();
+        $departments = DB::table('departments')->get();
+        $inspection_types = DB::table('inspection_sections')->get();
+        $inspection_parts = DB::table('inspection_parts')->get();
+
+        return view('dashboard.inspection.generate_results')->with([
+            'checklists' => $checklists,
+            'sections' => $sections,
+            'departments' => $departments,
+            'inspection_types' => $inspection_types,
+            'inspection_parts' => $inspection_parts,
+        ]);
+    }
+
+    // Duplicate results showing function
+    public function show_inspection_results(Request $request){
+
+        $department = DB::table('departments')->where('id', $request->input('department'))->value('name');
+        $section = DB::table('sections')->where('id', $request->input('section'))->value('between');
+        $inspection_type = DB::table('inspection_sections')->where('id', $request->input('inspection_type'))->value('title');
+        $inspection_part = DB::table('inspection_parts')->where('id', $request->input('inspection_part'))->value('title');
+
+
+        $checklists = ChecklistItem::where('inspection_part_id', $request->input('inspection_part'))->get();
+
+        return view('dashboard.inspection.inspection_results')->with([
+            'checklists' => $checklists,
+            'section' => $section,
+            'department' => $department,
+            'inspection_type' => $inspection_type,
+            'inspection_part' => $inspection_part,
+        ]);
+    }
+
 
     public function details(){
 
         return view('dashboard.inspection.inspection_details');
     }
 
+    
     public function add_details(){
 
         $inspection_sections = DB::table('inspection_sections')->get();

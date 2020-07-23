@@ -73,8 +73,11 @@
       </a>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" href="{{ route('inspection.details')}}">Inspection Details</a>
-          <a class="collapse-item" href="{{ route('inspection.form')}}">Inspection Form</a>
+          {{-- <a class="collapse-item" href="{{ route('inspection.details')}}">Inspection Details</a> --}}
+          {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Inspection Form</a> --}}
+          <a class="collapse-item" href="{{ route('generate.form')}}">Inspection Checklist</a>
+          <a class="collapse-item" href="{{ route('generate.results')}}">Inspection Results</a>
+          <a class="collapse-item" href="{{ route('inspection.add')}}">Add Checklist</a>
           {{-- <a class="collapse-item" href="#">Traffic</a>
           <a class="collapse-item" href="#">Telecom & ICT</a>
           <a class="collapse-item" href="#">Electrical System</a> --}}

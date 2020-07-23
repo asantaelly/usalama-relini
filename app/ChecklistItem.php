@@ -19,4 +19,8 @@ class ChecklistItem extends Model
     public function remarks(){
         return $this->hasMany('App\ChecklistRemark');
     }
+
+    public function checked_inspections(){
+        return $this->hasMany('App\InspectionChecked');
+    }
 }

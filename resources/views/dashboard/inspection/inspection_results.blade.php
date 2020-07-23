@@ -4,11 +4,9 @@
 
         <div class="card shadow">
             <div class="card-header">
-                <h5 class="text-center h3 font-weight-bolder">Inspection Checklist</h5>
+                <h5 class="text-center h3 font-weight-bolder">Inspection Results</h5>
             </div>
             <div class="card-body">
-                <form action="{{ route('inspection.checked')}}" method="POST">
-                    @csrf
                     <div class="form-row">
                         <div class="form-group col-md-5">
                             <h3>Department:     <span class="font-weight-bold">{{ $department }}</span></h3>
@@ -78,9 +76,9 @@
                                         </ul>
                                     </td>
                                     <td>
-                                        <textarea class="form-control" name="comment[{{ $checklist->id}}][message]" id="" cols="15" rows="7"></textarea>
-                                        <input type="hidden" name="checklist[{{$checklist->id}}][id]" value="{{ $checklist->id }}">
-
+                                        @foreach ($checklist->checked_inspections as $checked)
+                                            {{ $checked->action_required }}
+                                        @endforeach
                                     </td>
                                     </tr>
                                 @endforeach
@@ -89,11 +87,6 @@
 
                         </table>
                     </div>
-
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-lg btn-primary">Submit Inspection</button>
-                    </div>
-                </form>
             </div>
         </div>
 
