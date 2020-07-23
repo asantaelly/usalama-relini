@@ -1,43 +1,49 @@
 @extends('dashboard.index')
 
 @section('content')
-        <!-- Page Heading -->
+<!-- Page Heading -->
 <h1 class="h3 mb-2 text-gray-800">Add Inspection Details</h1>
-{{-- <p class="mb-4"></p> --}}
 
         <div class="card shadow">
             <div class="card-header">
                 <h5 class="text-center">Inspection Form</h5>
             </div>
             <div class="card-body">
-                <form action="" method="">
+                <form action="{{ route('inspection.store')}}" method="POST">
+                    @csrf
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="sectionInput">Select Categories</label>
                             <select name="section_id" id="section" class="custom-select">
                                         <option value="" selected disabled>Select Category:</option>
-                                @foreach ($inspection_sections as $insptn_section)
-                                        <option value="{{ $insptn_section->id }}">{{ $insptn_section->title }}</option>
+                                @foreach ($inspection_sections as $inspection_section)
+                                        <option value="{{ $inspection_section->id }}">{{ $inspection_section->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="form-group col-md-6">
                             <label for="partsInput">Select area for Inspection</label>
-                            <select name="" id="" class="custom-select">
-                                <option value="" selected disabled>Select Parts:</option>
-                                @foreach ($inspection_parts as $insptn_part)
-                                    <option value="{{ $insptn_part->id }}">{{ $insptn_part->title }}</option>
+                            <select name="part_id" id="" class="custom-select">
+                                <option value="" selected disabled>Select Part:</option>
+                                @foreach ($inspection_parts as $inspection_part)
+                                    <option value="{{ $inspection_part->id }}">{{ $inspection_part->title }}</option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
                     <hr>
                     
-
+                    {{-- Checklist ITEM --}}
                         <div class="form-row">
                             <div class="form-group col-md-8">
                                 <label for="itemInput">Item</label>
-                                <input type="text" class="form-control" placeholder="Item">
+
+                                <select name="checklist_item_id" id="" class="custom-select">
+                                    <option value="" selected disabled>Select Item:</option>
+                                    @foreach ($items as $item)
+                                        <option value="{{ $item->id }}">{{ $item->item }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                         <div class="form-row">
@@ -46,7 +52,7 @@
                             <div class="form-group col-md-4" id="particular_wrapper">
                                 <label for="particularInput">Particulars</label>
                                 <div class="row">
-                                    <input type="text" class="form-control col-8 m-1" name="inspection[1]particular" placeholder="Particular">
+                                    <input type="text" class="form-control col-8 m-1" name="inspection[1][particulars]" placeholder="Particular">
                                     <button type="button" id="add_particular" class="btn btn-success btn-circle btn-sm mt-2" title="Add field">
                                         <i class="fas fa-plus"></i>
                                     </button>

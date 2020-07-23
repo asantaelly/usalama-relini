@@ -15,7 +15,7 @@ class CreateChecklistParticularsTable extends Migration
     {
         Schema::create('checklist_particulars', function (Blueprint $table) {
             $table->id();
-            $table->string('particular');
+            $table->string('particular')->nullable();
             $table->foreignId('checklist_item_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
