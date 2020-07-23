@@ -6,16 +6,23 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\InspectionCategory;
 use Carbon\Carbon;
+use App\ChecklistItem;
 
 class InspectionController extends Controller
 {
     
     public function form(){
 
-        return view('dashboard.inspection.inspection_form');
+        // $checklists = DB::table('checklist_items')->get();
+        $checklists = ChecklistItem::all();
+
+        return view('dashboard.inspection.inspection_form')->with([
+            'checklists' => $checklists,
+        ]);
     }
 
     public function details(){
+
         return view('dashboard.inspection.inspection_details');
     }
 

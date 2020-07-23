@@ -61,78 +61,47 @@
                                     <th>Action required</th>
                                 </tr>
                             </tfoot>
+
+                            <form action="" method="POST">
                             <tbody>
-                                <tr>
-                                <td>Rail Size</td>
-                                <td>
-                                    <ul>
-                                        <li>80 lbs</li>
-                                        <li>60 lbs</li>
-                                        <li>56.12 lbs</li>
-                                        <li>45 lbs</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <li>Table wear</li>
-                                        <li>Side wear</li>
-                                        <li>Skidded rail</li>
-                                        <li>Wheel burns</li>
-                                        <li>Corrugations</li>
-                                    </ul>
-                                </td>
-                                <td>
-                                    For 80 lbs not exceed 8mm
-                                </td>
-                                <td>Comments go here</td>
-                                </tr>
 
+                                @foreach ($checklists as $checklist)
                                 <tr>
-                                    <td>Rail Size</td>
+                                    <td>{{ $checklist->item }}</td>
                                     <td>
+                                        {{-- Particulars --}}
                                         <ul>
-                                            <li>80 lbs</li>
-                                            <li>60 lbs</li>
-                                            <li>56.12 lbs</li>
-                                            <li>45 lbs</li>
+                                            @foreach ($checklist->particulars as $particular)
+                                                <li>{{ $particular->particular }}</li>
+                                            @endforeach
                                         </ul>
                                     </td>
                                     <td>
+                                        {{-- Inspection Checks --}}
                                         <ul>
-                                            <li>Table wear</li>
-                                            <li>Side wear</li>
-                                            <li>Skidded rail</li>
-                                            <li>Wheel burns</li>
-                                            <li>Corrugations</li>
+                                            @foreach ($checklist->checks as $check)
+                                                <li>{{ $check->inspection_checks }}</li>
+                                            @endforeach
                                         </ul>
                                     </td>
                                     <td>
-                                        For 80 lbs not exceed 8mm
+                                        {{-- Remarks --}}
+                                        <ul>
+                                            @foreach ($checklist->remarks as $remark)
+                                                <li>{{ $remark->remarks }}</li>
+                                            @endforeach
+                                        </ul>
                                     </td>
-                                    <td>Comments go here</td>
-                                    </tr>
-                                    
+                                    <td>
+                                        <textarea class="form-control" name="" id="" cols="15" rows="7"></textarea>
 
-                                    <tr>
-                                        <td>Welded rail</td>
-                                        <td></td>
-                                        <td>
-                                            <ul>
-                                                <li>Checking Expansion joint</li>
-                                                <li>Deformation of track</li>
-                                                <li>Checking of welded joint</li>
-                                            </ul>
-                                        </td>
-                                        <td>
-                                            <ul>
-                                                <li>Check behaviour Morning/afternoon</li>
-                                                <li>Make sure destress to be done within temperatur range</li>
-                                                <li>Check behaviour fracture in welded joints</li>
-                                            </ul>
-                                        </td>
-                                        <td></td>
+                                    </td>
                                     </tr>
+                                @endforeach
+
                             </tbody>
+                            </form>
+
                         </table>
                     </div>
                 </form>
