@@ -15,7 +15,7 @@ class CreateChecklistInspectionChecksTable extends Migration
     {
         Schema::create('checklist_inspection_checks', function (Blueprint $table) {
             $table->id();
-            $table->string('inspection_checks');
+            $table->string('inspection_checks')->nullable();
             $table->foreignId('checklist_item_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

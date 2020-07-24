@@ -41,7 +41,11 @@ Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.r
 
 
 // INSPECTION routes
-Route::get('/inspection/form', 'InspectionController@form')->name('inspection.form');
+Route::get('/inspection/form', 'InspectionController@show_inspection_form')->name('inspection.form');
+Route::post('/inspection/submit', 'InspectionController@store_inspection')->name('inspection.checked');
+Route::get('/inspection/generate', 'InspectionController@generate_form')->name('generate.form');
 Route::get('/inspection/details', 'InspectionController@details')->name('inspection.details');
 Route::get('/inspection/add_details', 'InspectionController@add_details')->name('inspection.add');
-
+Route::post('/inspection/add_details', 'InspectionController@store_details')->name('inspection.store');
+Route::get('inspection/generate/results', 'InspectionController@generate_results')->name('generate.results');
+Route::get('inspection/show/results', 'InspectionController@show_inspection_results')->name('show.results');

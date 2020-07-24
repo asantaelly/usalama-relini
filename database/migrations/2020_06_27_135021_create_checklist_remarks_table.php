@@ -15,7 +15,7 @@ class CreateChecklistRemarksTable extends Migration
     {
         Schema::create('checklist_remarks', function (Blueprint $table) {
             $table->id();
-            $table->string('remarks');
+            $table->string('remarks')->nullable();
             $table->foreignId('checklist_item_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
