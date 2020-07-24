@@ -15,6 +15,7 @@
                         </div>
                         <div class="form-group col-md-5">
                             <h3>Section:     <span class="font-weight-bold">{{ $section }} </span></h3>
+                            <input type="hidden" name="section" value="{{ $section }}">
                         </div>
                     </div>
                     <div class="form-row">
@@ -35,7 +36,8 @@
                                     <th>Particular</th>
                                     <th>Inspection check</th>
                                     <th>Remarks</th>
-                                    <th>Action required</th>
+                                    <th>Status</th>
+                                    <th>Recommendation</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -44,7 +46,8 @@
                                     <th>Particular</th>
                                     <th>Inspection check</th>
                                     <th>Remarks</th>
-                                    <th>Action required</th>
+                                    <th>Status</th>
+                                    <th>Recommendation</th>
                                 </tr>
                             </tfoot>
 
@@ -77,6 +80,13 @@
                                             @endforeach
                                         </ul>
                                     </td>
+
+                                    {{-- Status --}}
+                                    <td>
+                                        <textarea class="form-control" name="status[{{ $checklist->id}}][message]" id="" cols="15" rows="7"></textarea>
+                                    </td>
+
+                                    {{-- Recommendation --}}
                                     <td>
                                         <textarea class="form-control" name="comment[{{ $checklist->id}}][message]" id="" cols="15" rows="7"></textarea>
                                         <input type="hidden" name="checklist[{{$checklist->id}}][id]" value="{{ $checklist->id }}">

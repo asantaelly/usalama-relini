@@ -44,6 +44,11 @@ class InspectionController extends Controller
 
     public function show_inspection_form(Request $request){
 
+        $request->validate([
+            'section' => 'required',
+            'inspection_part' => 'required'
+        ]);
+
         $department = DB::table('departments')->where('id', $request->input('department'))->value('name');
         $section = DB::table('sections')->where('id', $request->input('section'))->value('between');
         $inspection_type = DB::table('inspection_sections')->where('id', $request->input('inspection_type'))->value('title');
@@ -188,27 +193,26 @@ class InspectionController extends Controller
             'comment.*.message' => 'required'
         ]);
 
-        $comments = $request->input('comment.*.message');
-        $checklist_number = $request->input('checklist.*.id');
+        $recommendations = $request->input('comment.*.message');
+        $statuses = $request->input('status.*.message');
+        $checklist_numbers = $request->input('checklist.*.id');
+        $section = $request->input('section');
 
-        $Checklist_comments = array_combine($checklist_number, $comments);
 
-        if($Checklist_comments == FALSE){
-            return redirect()->route('inspection.form')
-                ->with('status', 'Comments can not be Empty!');
-        }
-
-        foreach($Checklist_comments as $id => $comment){
+        array_map(function($checklist_number, $status, $recommendation) use ($section) {
 
             DB::table('inspection_checked')->insert([
-                'checklist_item_id' => $id,
-                'action_required' => $comment,
-                'user_id' => Auth::user()->id,
-                'section' => 'KAM-PUG',
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ]);
-        }
+                        'checklist_item_id' => $checklist_number,
+                        'status' => $status,
+                        'action_required' => $recommendation,
+                        'user_id' => Auth::id(),
+                        'section' => $section,
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ]);
+
+
+        }, $checklist_numbers, $statuses, $recommendations);
 
         return redirect()->route('inspection.add');
     }

@@ -33,7 +33,8 @@
                                     <th>Particular</th>
                                     <th>Inspection check</th>
                                     <th>Remarks</th>
-                                    <th>Action required</th>
+                                    <th>Status</th>
+                                    <th>Recommendation</th>
                                 </tr>
                             </thead>
                             <tfoot>
@@ -42,7 +43,9 @@
                                     <th>Particular</th>
                                     <th>Inspection check</th>
                                     <th>Remarks</th>
-                                    <th>Action required</th>
+                                    <th>Status</th>
+                                    <th>Recommendation</th>
+
                                 </tr>
                             </tfoot>
 
@@ -74,6 +77,11 @@
                                                 <li>{{ $remark->remarks }}</li>
                                             @endforeach
                                         </ul>
+                                    </td>
+                                    <td>
+                                        @foreach ($checklist->checked_inspections as $checked)
+                                            {{ $checked->status }}
+                                        @endforeach
                                     </td>
                                     <td>
                                         @foreach ($checklist->checked_inspections as $checked)

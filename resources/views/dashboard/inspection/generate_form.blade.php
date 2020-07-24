@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label for="">Section</label>
-                            <select name="section" id="" class="custom-select">
+                            <select name="section" id="" class="custom-select @error('section') is-invalid @enderror">
                                 <option value="" selected disabled>Select Section:</option>
                                 @foreach ($sections as $section)
                                     <option value="{{ $section->id }}">{{ $section->between }}</option>
