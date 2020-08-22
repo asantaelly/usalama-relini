@@ -31,7 +31,7 @@
     <!-- Core plugin JavaScript-->
     <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
     <script src="{{ asset('template/js/select2.min.js')}}"></script>
-
+    <link href="{{asset('css/bootstrap-datetimepicker.min.css')}}" rel="stylesheet" media="screen">
 </head>
 
 <body id="page-top">
@@ -146,6 +146,7 @@
 
   <!-- Page level custom scripts -->
   <script src="{{asset('template/js/demo/datatables-demo.js')}}"></script>
+  <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}" ></script>
 
 </body>
 
