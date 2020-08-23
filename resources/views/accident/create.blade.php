@@ -15,7 +15,7 @@
 			<div class="row" >
 				<div class="form-group col-lg-4">
 					<label for="time_of_accident">Accident Time</label> 
-					<input id="time_of_accident" name="time_of_accident" placeholder="YYYY-MM-DD HH:MM:SS" type="text" required="required" class="form-control @error('time_of_accident') is-invalid @enderror">
+					<input id="time_of_accident" name="time_of_accident" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="time_of_accident" placeholder="YYYY-MM-DD HH:MM:SS" type="text" required="required" class="form-control @error('time_of_accident') is-invalid @enderror">
 					@error('time_of_accident')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -109,7 +109,7 @@
 				</div>
 				<div class="form-group col-lg-6">
 					<label for="received_from_control_time">Received from control Time</label> 
-					<input id="received_from_control_time" name="received_from_control_time" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('received_from_control_time') is-invalid @enderror" required="required">
+					<input id="received_from_control_time" name="received_from_control_time" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="received_from_control_time" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('received_from_control_time') is-invalid @enderror" required="required">
 					@error('received_from_control_time')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -217,7 +217,7 @@
 				<div class="row">
 					<div class="form-group col-lg-6">
 						<label for="time_spent_for_line_clear">Time spent for line clear</label> 
-						<input id="time_spent_for_line_clear" name="time_spent_for_line_clear" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('time_spent_for_line_clear') is-invalid @enderror" required="required">
+						<input id="time_spent_for_line_clear" name="time_spent_for_line_clear" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="time_spent_for_line_clear" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('time_spent_for_line_clear') is-invalid @enderror" required="required">
 						@error('time_spent_for_line_clear')
 						<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
@@ -226,7 +226,7 @@
 					</div>
 					<div class="form-group col-lg-6">
 						<label for="line_closure_time">Line closure time</label> 
-						<input id="line_closure_time" name="line_closure_time" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('line_closure_time') is-invalid @enderror" required="required">
+						<input id="line_closure_time" name="line_closure_time" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="line_closure_time" placeholder="YYYY-MM-DD HH:MM:SS" type="text" class="form-control @error('line_closure_time') is-invalid @enderror" required="required">
 						@error('line_closure_time')
 						<span class="invalid-feedback" role="alert">
 									<strong>{{ $message }}</strong>
@@ -384,6 +384,50 @@
 	$(wrapper_injury).on("click",".remove_field_injury", function(e){ //user click on remove text
 		e.preventDefault(); $(`.added-injury-${x}`).parent('div').remove(); x--;
 	})
+
+	$('#time_of_accident').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+	});
+	
+	$('#received_from_control_time').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+	});
+	
+	$('#time_spent_for_line_clear').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+	});
+	
+	$('#line_closure_time').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+    });
 });
  </script>
 @endsection
