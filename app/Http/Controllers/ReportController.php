@@ -147,8 +147,13 @@ class ReportController extends Controller
             return $data;
 
         });
+        
+        if(!$result->isEmpty()){
 
-        return view('report.show', ['data'=> $result]);
+            return view('report.show', ['data'=> $result]);
+        }
+
+        return redirect()->back()->with(['success' => 'No Data found!']);
 
         
     }

@@ -28,6 +28,8 @@ Route::resource('progress', 'ProgressController');
 Route::resource('section', 'SectionController');
 Route::resource('death', 'DeathController');
 Route::resource('injury', 'InjuryController');
+Route::resource('risk_identification', 'RiskIdentificationController');
+Route::resource('risk_control', 'RiskControlController');
 Route::post('report', 'ReportController@generate')->name('report.generate');
 Route::get('/report/show', 'ReportController@show')->name('report.show');
 Route::get('report', 'ReportController@index')->name('report.index');

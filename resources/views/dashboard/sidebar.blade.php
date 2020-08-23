@@ -59,8 +59,6 @@
           <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
           <a class="collapse-item" href="{{route('death.index')}}">Death Type</a>
           <a class="collapse-item" href="{{route('injury.index')}}">Injury Type</a>
-          <a class="collapse-item" href="#">Accident Logs</a>
-          <a class="collapse-item" href="#">Risk Management</a>
         </div>
       </div>
     </li>
@@ -81,6 +79,22 @@
           {{-- <a class="collapse-item" href="#">Traffic</a>
           <a class="collapse-item" href="#">Telecom & ICT</a>
           <a class="collapse-item" href="#">Electrical System</a> --}}
+        </div>
+      </div>
+    </li>
+
+     <!-- Nav Item - Pages Collapse Menu -->
+     <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-hard-hat"></i>
+        <span>Risk Management</span>
+      </a>
+      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
+          <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
+          <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>
+          <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
         </div>
       </div>
     </li>
