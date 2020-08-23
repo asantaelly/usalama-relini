@@ -198,7 +198,6 @@ class InspectionController extends Controller
         $checklist_numbers = $request->input('checklist.*.id');
         $section = $request->input('section');
 
-
         array_map(function($checklist_number, $status, $recommendation) use ($section) {
 
             DB::table('inspection_checked')->insert([
