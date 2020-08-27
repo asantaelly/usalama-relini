@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Role;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -81,6 +82,49 @@ class AdminController extends Controller
                     'user' => $user,
                     'roles' => $roles
                 ]);
+        
+    }
+
+    public function add_user(){
+
+        $roles = DB::table('roles')->where([
+            ['name', '!=', 'superuser'], 
+            ['name', '!=', 'normal'],
+            ])->get();
+
+        return view('dashboard.admin.create_user')->with([
+            'roles' => $roles,
+        ]);
+    }
+
+    public function store_user(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'last_name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'phone_number' => ['required', 'max:255', ''],
+            'address' => ['requied', 'max:255'],
+            'role' => ['required', 'string', 'max:255'],
+            'competence' => ['required', 'string', 'max:255'],
+            'medical' => ['require', 'string'],
+        ]);
+
+        $educations = $request->input('education.*.level');
+        $qualifications = $request->input('qualify.*.need');
+
+        $worker = new User;
+        $worker->name = $request->name;
+        $worker->email = $request->email;
+        $worker->password = Hash::make($request->password);
+        $worker->save();
+
+        DB::table('user_role')->insert([
+            'role_id' => $request->role,
+            'user_id' => $worker->id,
+        ]);
+
         
     }
 

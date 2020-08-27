@@ -91,6 +91,7 @@
 <script type="text/javascript">
     window.onload = function(){
         
+        
         // 
         // 
         //  PARTICULARS
@@ -98,8 +99,6 @@
         // 
         var maxField = 10;
         var x = 1;
-        // var particularFieldHTML = '<div class="row"><input type="text" name="inspection['+x+']particular" class="form-control col-8 m-1" placeholder="Particular"><button type="button" id="remove_particular" class="btn btn-danger btn-circle btn-sm mt-2" title="Add field"><i class="fas fa-trash"></i></button></div>';
-
         
         $('#add_particular').click(function(){
 
@@ -116,13 +115,13 @@
         });
 
 
+
         // 
         // 
         // INSPECTION CHECKS
         // 
         // 
         var y = 1;
-        // var checksFieldHTML = '<div class="row"><input type="text" class="form-control col-8 m-1" placeholder="Inspection Check"><button type="button" id="remove_checks" class="btn btn-danger btn-circle btn-sm mt-2" title="Add field"><i class="fas fa-trash"></i></button></div>';
 
         $("#add_checks").click(function(){
 
@@ -138,13 +137,13 @@
             // y--;
         });
 
+
         // 
         // 
         // REMARKS
         // 
         // 
         var z = 1;
-        // var remarksFieldHTML = '<div class="row"><input type="text" class="form-control col-8 m-1" placeholder="Remarks"><button type="button" id="remove_remarks" class="btn btn-danger btn-circle btn-sm mt-2" title="Add field"><i class="fas fa-trash"></i></button></div>';
 
         $("#add_remarks").click(function(){
 

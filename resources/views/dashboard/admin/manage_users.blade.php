@@ -1,11 +1,35 @@
 @extends('dashboard.index')
 
-@section('content')
-<!-- Page Heading -->
-{{-- <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-<p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> --}}
 
-<!-- DataTales Example -->
+
+
+@section('title')
+  <div class="ml-2">
+    User Management
+  </div>
+@endsection
+
+@section('menus')
+  <div class="row ml-2">
+    <a href="{{ route('create.user')}}" class="btn btn-dark btn-icon-split btn-sm mr-3">
+      <span class="icon text-light">
+        <i class="fas fa-plus"></i>
+      </span>
+      <span class="text text-light">Add Critical Workers</span>
+    </a>
+
+
+    {{-- <a href="{{route('accident.create')}}" class="btn btn-success btn-icon-split btn-sm mr-3">
+        <span class="icon text-light">
+          <i class="fas fa-plus"></i>
+        </span>
+        <span class="text text-light">Add Critical Worker</span>
+      </a> --}}
+  </div>
+  <br/>
+@endsection
+
+@section('content')
 <div class="card shadow mb-4">
   <div class="card-header py-3 text-center">
     <h6 class="m-0 font-weight-bold text-primary">System Users</h6>

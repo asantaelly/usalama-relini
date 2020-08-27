@@ -34,9 +34,12 @@ Route::post('report', 'ReportController@generate')->name('report.generate');
 Route::get('/report/show', 'ReportController@show')->name('report.show');
 Route::get('report', 'ReportController@index')->name('report.index');
 
+
+// ADMIN ROUTES
 Route::get('/admin/users', 'AdminController@manage_users')->name('manage.users');
 Route::get('/admin/users/{id}', 'AdminController@manage_user')->name('manage.user');
 Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.role');
+Route::get('/admin/create/user', 'AdminController@add_user')->name('create.user');
 
 
 

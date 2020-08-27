@@ -34,6 +34,20 @@
           <i class="fas fa-fw fa-users"></i>
           <span>User Management</span></a>
       </li>
+
+      {{-- <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userManage" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-clipboard-check"></i>
+          <span>User Management</span>
+        </a>
+        <div id="userManage" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="#">View Users</a>
+            <a class="collapse-item" href="#">Add User</a>
+            <a class="collapse-item" href="{{ route('inspection.add')}}">Add Checklist</a>
+          </div>
+        </div>
+      </li> --}}
       
     @endif
 
@@ -71,14 +85,9 @@
       </a>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          {{-- <a class="collapse-item" href="{{ route('inspection.details')}}">Inspection Details</a> --}}
-          {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Inspection Form</a> --}}
           <a class="collapse-item" href="{{ route('generate.form')}}">Inspection Checklist</a>
           <a class="collapse-item" href="{{ route('generate.results')}}">Inspection Results</a>
           <a class="collapse-item" href="{{ route('inspection.add')}}">Add Checklist</a>
-          {{-- <a class="collapse-item" href="#">Traffic</a>
-          <a class="collapse-item" href="#">Telecom & ICT</a>
-          <a class="collapse-item" href="#">Electrical System</a> --}}
         </div>
       </div>
     </li>
