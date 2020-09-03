@@ -51,13 +51,14 @@
                     </div>
 
                     <div class="row ml-2">
+
                         {{-- Assign role --}}
                         <a href="#" class="btn btn-primary btn-icon-split m-1" data-toggle="modal" data-target="#assignModal">
                             <span class="icon text-white-50">
                                 <i class="fas fa-flag"></i>
                             </span>
                             <span class="text">Assign Role</span>
-                            </a>
+                        </a>
 
                             <!-- Assigning role Modal -->
                             <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

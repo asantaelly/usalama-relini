@@ -70,7 +70,7 @@
               @endforeach
             @endif
             </td>
-              <td> {{ $user->created_at }}</td>
+              <td> {{ $user->created_at->toFormattedDateString() }}</td>
               <td>
                 @if ($user->status == true)
                   <button type="button" class="btn btn-success shadow">

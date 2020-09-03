@@ -7,6 +7,7 @@ use App\User;
 use App\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Carbon\Carbon;
 
 class AdminController extends Controller
 {
@@ -21,11 +22,7 @@ class AdminController extends Controller
         $this->middleware('auth');
     }
 
-    /**
-     * Show a view to manage users.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+
     public function manage_users()
     {
         $users = User::where('is_admin', false)->get();
@@ -35,11 +32,7 @@ class AdminController extends Controller
         ]);
     }
 
-    /**
-     * Show a view to manage users.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
+    
     public function manage_user($id){
 
         $user = User::find($id);
@@ -99,33 +92,64 @@ class AdminController extends Controller
 
     public function store_user(Request $request)
     {
-        $request->validate([
+            $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'phone_number' => ['required', 'max:255', ''],
-            'address' => ['requied', 'max:255'],
+            'address' => ['required', 'max:255'],
             'role' => ['required', 'string', 'max:255'],
             'competence' => ['required', 'string', 'max:255'],
-            'medical' => ['require', 'string'],
-        ]);
-
-        $educations = $request->input('education.*.level');
-        $qualifications = $request->input('qualify.*.need');
-
-        $worker = new User;
-        $worker->name = $request->name;
-        $worker->email = $request->email;
-        $worker->password = Hash::make($request->password);
-        $worker->save();
-
-        DB::table('user_role')->insert([
-            'role_id' => $request->role,
-            'user_id' => $worker->id,
+            'medical' => ['required', 'string'],
         ]);
 
         
+        $educations = $request->input('education.*.level');
+        $qualifications = $request->input('qualify.*.need');
+
+        $user_id = DB::table('users')->insertGetId([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'status' => FALSE,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        DB::table('user_role')->insert([
+            'role_id' => $request->role,
+            'user_id' => $user_id,
+        ]);
+
+        $profile_id = DB::table('worker_profiles')->insertGetId([
+            'last_name' => $request->last_name,
+            'phone_number' => $request->phone_number,
+            'address' => $request->address,
+            'competence' => $request->competence,
+            'medical' => $request->medical,
+            'user_id' => $user_id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
+
+        foreach($educations as $education) {
+
+            DB::table('worker_educations')->insert([
+                'worker_profile_id' => $profile_id,
+                'level' => $education,
+            ]);
+        }
+
+        foreach ($qualifications as $quality) {
+            
+            DB::table('worker_qualifications')->insert([
+                'worker_profile_id' => $profile_id,
+                'quality' => $quality,
+            ]);
+        }
+
+        return redirect()->route('manage.users');    
     }
 
 

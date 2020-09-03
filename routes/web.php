@@ -40,6 +40,7 @@ Route::get('/admin/users', 'AdminController@manage_users')->name('manage.users')
 Route::get('/admin/users/{id}', 'AdminController@manage_user')->name('manage.user');
 Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.role');
 Route::get('/admin/create/user', 'AdminController@add_user')->name('create.user');
+Route::post('/admin/store/user', 'AdminController@store_user')->name('store.user');
 
 
 

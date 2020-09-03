@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorkersProfilesTable extends Migration
+class CreateWorkerProfilesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class CreateWorkersProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('workers_profiles', function (Blueprint $table) {
+        Schema::create('worker_profiles', function (Blueprint $table) {
             $table->id();
+            $table->string('last_name');
             $table->bigInteger('phone_number');
             $table->string('address');
             $table->mediumText('competence');
@@ -31,6 +32,6 @@ class CreateWorkersProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workers_profiles');
+        Schema::dropIfExists('worker_profiles');
     }
 }

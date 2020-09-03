@@ -10,9 +10,11 @@ Add Critical Worker
       <h6 class="m-0 font-weight-bold text-primary">Form to Add Critical Worker</h6>
     </div>
   <div class="card-body text-dark">
-		<form action="{{route('officer.store')}}" method="POST">
+		<form action="{{ route('store.user')}}" method="POST" autocomplete="off">
 			@csrf
 			<div class="row" >
+
+				{{-- First_Name or Name --}}
 				<div class="form-group col-lg-4">
 					<label for="name">First Name</label> 
 					<input id="name" name="name" placeholder="First Name" type="text" required="required" class="form-control @error('name') is-invalid @enderror">
@@ -22,6 +24,8 @@ Add Critical Worker
 						</span>
 					@enderror
 				</div>
+
+				{{-- Last Name --}}
 				<div class="form-group col-lg-4">
 					<label for="last_name">Last Name</label> 
 					<input id="last_name" name="last_name" placeholder="Last Name" type="text" class="form-control @error('last_name') is-invalid @enderror" required="required">
@@ -32,9 +36,10 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				{{-- Email --}}
 				<div class="form-group col-lg-4">
 					<label for="email">Email</label>
-					<input id="email" name="email" placeholder="Eg. example@mail.com" type="text" class="form-control @error('email') is-invalid @enderror" required="required">
+					<input id="email" name="email" placeholder="Eg. example@mail.com" type="text" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
 					
 					@error('email')
 					<span class="invalid-feedback" role="alert">
@@ -45,9 +50,11 @@ Add Critical Worker
 			</div>
 
 			<div class="row">
+
+				{{-- Password --}}
 				<div class="form-group col-lg-4">
 					<label for="password">Password</label> 
-					<input id="password" name="password" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control @error('password') is-invalid @enderror" required="required">
+					<input id="password" name="password" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control @error('password') is-invalid @enderror">
 					@error('password')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -55,6 +62,7 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				{{-- Confirm Password --}}
 				<div class="form-group col-lg-4">
 					<label for="password_confirmation">Confirm Password</label> 
 					<input id="password_confirmation" name="password_confirmation" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control" required="required">
@@ -69,6 +77,8 @@ Add Critical Worker
 
 
 			<div class="row">
+
+				{{-- Phone Number --}}
 				<div class="form-group col-lg-4">
 					<label for="phone_number">Phone Number</label> 
 					<input id="phone_number" name="phone_number" placeholder="Eg. +255768564536" type="text" class="form-control @error('phone_number') is-invalid @enderror" required="required">
@@ -79,6 +89,8 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				
+				{{-- Address --}}
 				<div class="form-group col-lg-4">
 					<label for="address">Address</label> 
 					<input id="address" name="address" placeholder="Eg. Temeke, Dar es Salaam" type="text" class="form-control @error('address') is-invalid @enderror" required="required">
@@ -90,6 +102,7 @@ Add Critical Worker
 				</div>
 
 
+				{{-- Role --}}
 				<div class="form-group col-lg-4">
 					<label for="role">Role</label>
 					<select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
