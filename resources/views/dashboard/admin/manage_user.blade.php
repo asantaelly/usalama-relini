@@ -6,7 +6,7 @@
         <div class="col-8">
 
             <div class="card shadow">
-                <div class="card-header text-center">
+                <div class="card-header text-center bg-primary text-light">
                     {{ ucfirst($user->name.'\'s')}} Profile
                 </div>
                 <div class="card-body">
@@ -14,17 +14,73 @@
                     <table class="table table-borderless">
                     <tbody>
                         <tr>
-                          <th scope="row">Name</th>
+                          <th scope="row">First Name</th>
                           <td>{{ ucfirst($user->name)}}</td>
                         </tr>
+
+                        @if ($user->profile != NULL )
+                            <tr>
+                                <th scope="row">Last Name</th>
+                                <td>{{ ucfirst($user->profile->last_name)}}</td>
+                            </tr>
+                        @endif
+                        
+
                         <tr>
                           <th scope="row">Email</th>
                           <td>{{ $user->email }}</td>
                         </tr>
+
+                        @if ($user->profile != NULL )
+                            <tr>
+                                <th scope="row">Contact </th>
+                                <td>{{ ucfirst($user->profile->phone_number)}}</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Address</th>
+                                <td>{{ ucfirst($user->profile->address)}}</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Competence</th>
+                                <td>{{ ucfirst($user->profile->competence)}}</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Medical</th>
+                                <td>{{ ucfirst($user->profile->medical)}}</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Education</th>
+                                <td>
+                                    <ul>
+                                        @foreach ($user->profile->educations as $education)
+                                                <li>{{ $education->level }}</li>
+                                        @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">Qualifications</th>
+                                <td>
+                                    <ul>
+                                    @foreach ($user->profile->qualifications as $quality)
+                                            <li>{{ $quality->quality }}</li>
+                                    @endforeach
+                                    </ul>
+                                </td>
+                            </tr>
+
+                        @endif
+
                         <tr>
                           <th scope="row">Registered at</th>
                           <td>{{ $user->created_at->toFormattedDateString() }}</td>
                         </tr>
+
                         <tr>
                             <th scope="row">Role(s)</th>
                             <td>
@@ -35,9 +91,9 @@
                                     <b>{{ ucfirst($role->name) }}</b> |
                                 @endforeach
                             @endif
-                            </td>
-                            
+                            </td>    
                         </tr>
+
                         <tr>
                             <th scope="row">Status</th>
                             @if ($user->status == false)
@@ -45,7 +101,8 @@
                             @else
                                 <td> Active </td>
                             @endif
-                          </tr>
+                        </tr>
+
                       </tbody>
                     </table>
                     </div>
@@ -64,7 +121,7 @@
                             <div class="modal fade" id="assignModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                 <div class="modal-content">
-                                    <div class="modal-header">
+                                    <div class="modal-header bg-primary text-light">
                                     <h5 class="modal-title" id="exampleModalLabel">Assigning roles to {{ ucfirst($user->name) }}</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
@@ -127,7 +184,9 @@
                                     <span class="text">Deactivate</span>
                                 </a>
                             @else
-                                <a href="#" class="btn btn-success btn-icon-split m-1">
+
+                            {{-- Activate user --}}
+                                <a href="#" onclick="alert('Are you sure, You want to activate this account?')" class="btn btn-success btn-icon-split m-1">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>
                                     </span>
@@ -139,10 +198,17 @@
 
                             {{-- Delete user --}}
                             <a href="#" class="btn btn-danger btn-icon-split m-1">
-                            <span class="icon text-white-50">
-                                <i class="fas fa-trash"></i>
-                            </span>
-                            <span class="text">Delete</span>
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-trash"></i>
+                                </span>
+                                <span class="text">Delete</span>
+                            </a>
+
+                            <a href="#" class="btn btn-warning btn-icon-split m-1">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                <span class="text">Edit</span>
                             </a>
                     </div>
                 </div>

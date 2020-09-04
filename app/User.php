@@ -81,4 +81,8 @@ class User extends Authenticatable
             return $assign_roles;
 
     }
+
+    public function profile() {
+        return $this->hasOne('App\Profile');
+    }
 }

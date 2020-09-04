@@ -93,16 +93,16 @@ class AdminController extends Controller
     public function store_user(Request $request)
     {
             $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'phone_number' => ['required', 'max:255', ''],
-            'address' => ['required', 'max:255'],
-            'role' => ['required', 'string', 'max:255'],
-            'competence' => ['required', 'string', 'max:255'],
-            'medical' => ['required', 'string'],
-        ]);
+                'name' => ['required', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:8', 'confirmed'],
+                'phone_number' => ['required', 'max:255', ''],
+                'address' => ['required', 'max:255'],
+                'role' => ['required', 'string', 'max:255'],
+                'competence' => ['required', 'string', 'max:255'],
+                'medical' => ['required', 'string'],
+            ]);
 
         
         $educations = $request->input('education.*.level');
