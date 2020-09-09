@@ -107,20 +107,24 @@ class AdminController extends Controller
         
         $educations = $request->input('education.*.level');
         $qualifications = $request->input('qualify.*.need');
+        $roles = $request->input('roles.*.id');
 
         $user_id = DB::table('users')->insertGetId([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'status' => FALSE,
+            'status' => $request->status,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ]);
 
-        DB::table('user_role')->insert([
-            'role_id' => $request->role,
-            'user_id' => $user_id,
-        ]);
+        foreach($roles as $role) {
+
+            DB::table('user_role')->insert([
+                'role_id' => $role,
+                'user_id' => $user_id,
+            ]);
+        }
 
         $profile_id = DB::table('worker_profiles')->insertGetId([
             'last_name' => $request->last_name,
@@ -150,6 +154,22 @@ class AdminController extends Controller
         }
 
         return redirect()->route('manage.users');    
+    }
+
+    public function edit_user($id) {
+
+        $user = User::find($id);
+
+        $roles = DB::table('roles')->where([
+            ['name', '!=', 'superuser'], 
+            ['name', '!=', 'normal'],
+            ])->get();
+
+        return view('dashboard.admin.edit')->with([
+            'roles' => $roles,
+            'user' => $user,
+        ]);
+
     }
 
 

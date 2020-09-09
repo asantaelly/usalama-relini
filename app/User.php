@@ -69,7 +69,10 @@ class User extends Authenticatable
     public function userRole()
     {
             $assign_roles = array();
-            $roles = DB::table('roles')->where('name', '!=', 'superuser')->get();
+            $roles = DB::table('roles')->where([
+                ['name', '!=', 'superuser'],
+                ['name', '!=', 'normal']
+                ])->get();
             
             foreach ($roles as $role) {
 

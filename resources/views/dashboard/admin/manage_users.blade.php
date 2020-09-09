@@ -15,7 +15,7 @@
       <span class="icon text-light">
         <i class="fas fa-plus"></i>
       </span>
-      <span class="text text-light">Add Critical Workers</span>
+      <span class="text text-light">Add Worker</span>
     </a>
 
 

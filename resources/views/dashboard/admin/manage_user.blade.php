@@ -177,7 +177,7 @@
 
                             {{-- Deactivate user --}}
                             @if ($user->status == true)
-                                <a href="#" class="btn btn-warning btn-icon-split m-1">
+                                <a href="#" class="btn btn-secondary btn-icon-split m-1">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-exclamation-triangle"></i>
                                     </span>
@@ -204,7 +204,7 @@
                                 <span class="text">Delete</span>
                             </a>
 
-                            <a href="#" class="btn btn-warning btn-icon-split m-1">
+                            <a href="{{ route('edit.user', ['id' => $user->id])}}" class="btn btn-warning btn-icon-split m-1">
                                 <span class="icon text-white-50">
                                     <i class="fas fa-edit"></i>
                                 </span>

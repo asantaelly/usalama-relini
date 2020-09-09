@@ -1,13 +1,13 @@
 @extends('dashboard.index')
 
 @section('title')
-Add Critical Worker
+Add Worker
 @endsection
 
 @section('content')
 <div class="card shadow mb-4 col-lg-12 px-0">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Form to Add Critical Worker</h6>
+      <h6 class="m-0 font-weight-bold text-primary">Form to Add Worker</h6>
     </div>
   <div class="card-body text-dark">
 		<form action="{{ route('store.user')}}" method="POST" autocomplete="off">
@@ -73,6 +73,23 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				<div class="form-group col-lg-4">
+					<label for="statusRadio" class="font-weight-bolder">User Status</label>
+					<div class="row">
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio1" name="status" value="1" class="custom-control-input">
+							<label class="custom-control-label font-weight-bolder" for="customRadio1">Active</label>
+						</div> 
+						&nbsp;
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio2" name="status" value="0" class="custom-control-input" checked>
+							<label class="custom-control-label font-weight-bolder" for="customRadio2">Inactive</label>
+						</div>
+					</div>
+				</div>
+
+				
+
 			</div>
 
 
@@ -100,17 +117,33 @@ Add Critical Worker
 						</span>
 					@enderror
 				</div>
+			</div>
 
 
+			<div class="row">
 				{{-- Role --}}
 				<div class="form-group col-lg-4">
-					<label for="role" class="font-weight-bolder">Role</label>
+					<label for="role" class="font-weight-bolder">User Role(s)</label>
+
+					<div class="row">
+						@foreach($roles as $role)
+								<div class="form-check form-check-inline ml-3">
+									<input type="checkbox" id="" name="roles[{{$role->id}}][id]" value="{{ $role->id }}" class="form-check-input">
+									<label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
+								</div> 
+								&nbsp;
+						@endforeach
+					</div>
+
+
+
+					{{-- <label for="role" class="font-weight-bolder">Role</label>
 					<select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
 						<option value="" selected disabled>Choose Role</option>
 						@foreach($roles as $role)
 							<option value="{{ $role->id}}">{{ ucfirst($role->name)}}</option>
 						@endforeach
-					</select>
+					</select> --}}
 					
 					@error('role')
 					<span class="invalid-feedback" role="alert">
