@@ -191,9 +191,9 @@
                             </div> 
                             &nbsp;
                         @endforeach
-                        @foreach($user->userRole() as $role)
+                        @foreach($user->userRole() as $index => $role)
                             <div class="form-check form-check-inline ml-3">
-                                <input type="checkbox" id="" name="role" value="{{ $role->id }}" class="form-check-input">
+                                <input type="checkbox" id="role{{ $index }}" name="role" value="{{ $role->id }}" class="form-check-input">
                                 <label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
                             </div>
                             &nbsp;
@@ -279,11 +279,12 @@
                         @else
 
                                 <label for="education" class="font-weight-bolder ml-2">Education & Certification</label>
-
+                                <input type="hidden" id="levels_count" name="levels_count" value="{{ count($user->profile->educations) }}">
                                 @foreach ($user->profile->educations as $index => $education)
                                 <div class="row col-lg-12">
                                 <div class="form-group col-lg-4 added-{{$index}}">
-                                        <input id="education" name="education[{{ $index}}][level]" value="{{ $education->level }}" placeholder="Eg. Bachelor Degree in Computer & Business" type="text" class="form-control @error('education') is-invalid @enderror" required>
+                                        <input id="education{{ $index }}" name="education[{{ $index}}][level]" value="{{ $education->level }}" placeholder="Eg. Bachelor Degree in Computer & Business" type="text" class="form-control @error('education') is-invalid @enderror" required>
+                                        <input type="hidden"  name="level_index" value="{{$index}}">
                                     </div>
                                     @if ($index == 0)
                                         <div class="form-group col-lg-2 mt-0 pt-0">
@@ -362,8 +363,9 @@
 		var max_fields      = 15; //maximum input boxes allowed
 		var wrapper   		= $(".input_fields_wrap_contact"); //Fields wrapper
 		var add_button      = $(".add_field_button_contact"); //Add button ID
+        var levels_count    = $("#levels_count").val();
 		
-		var x = 0; //initlal text box count
+		var x = levels_count; //last text box count
 		$(add_button).click(function(e){ //on add input button click
 
 			e.preventDefault();
@@ -385,11 +387,6 @@
 		$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
 			e.preventDefault(); $(`.added-${x}`).parent('div').remove(); x--;
 		})
-
-        // var z = 1;
-        // $(wrapper).on("click",".eliminate_field", function(e){ //user click on remove text
-		// 	e.preventDefault(); $(`.added-${z}`).parent('div').remove(); --;
-		// })
 
 
 
