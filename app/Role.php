@@ -25,4 +25,9 @@ class Role extends Model
     {
         return $this->belongsToMany('App\Permission', 'permission_role');
     }
+
+    public function Training() {
+
+        return $this->hasOne('App\Role');
+    }
 }

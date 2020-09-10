@@ -133,18 +133,7 @@ Add Worker
 								</div> 
 								&nbsp;
 						@endforeach
-					</div>
-
-
-
-					{{-- <label for="role" class="font-weight-bolder">Role</label>
-					<select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
-						<option value="" selected disabled>Choose Role</option>
-						@foreach($roles as $role)
-							<option value="{{ $role->id}}">{{ ucfirst($role->name)}}</option>
-						@endforeach
-					</select> --}}
-					
+					</div>	
 					@error('role')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>

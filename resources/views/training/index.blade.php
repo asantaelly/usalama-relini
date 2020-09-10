@@ -1,21 +1,18 @@
 @extends('dashboard.index')
 
-
-
-
 @section('title')
   <div class="ml-2">
-    User Management
+    Training Schedule
   </div>
 @endsection
 
 @section('menus')
   <div class="row ml-2">
-    <a href="{{ route('create.user')}}" class="btn btn-dark btn-icon-split btn-sm mr-3">
+    <a href="{{ route('training.create')}}" class="btn btn-dark btn-icon-split btn-sm mr-3">
       <span class="icon text-light">
         <i class="fas fa-plus"></i>
       </span>
-      <span class="text text-light">Add Worker</span>
+      <span class="text text-light">Add Training</span>
     </a>
   </div>
   <br/>
@@ -24,55 +21,57 @@
 @section('content')
 <div class="card shadow mb-4">
   <div class="card-header py-3 text-center">
-    <h6 class="m-0 font-weight-bold text-primary">System Users</h6>
+    <h6 class="m-0 font-weight-bold text-primary">List of Training Events</h6>
   </div>
   <div class="card-body">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Role(s)</th>
-            <th>Registered at</th>
+            <th>Title</th>
+            <th>Group</th>
+            <th>Venue</th>
+            <th>Time of Event</th>
             <th>Status</th>
           </tr>
         </thead>
         <tfoot>
           <tr>
-            <th>Name</th>
-            <th>Role(s)</th>
-            <th>Registered at</th>
+            <th>Title</th>
+            <th>Group</th>
+            <th>Venue</th>
+            <th>Time of Event</th>
             <th>Status</th>
           </tr>
         </tfoot>
         <tbody>
 
 
-          @foreach ($users as $user)
+          @foreach ($events as $event)
             <tr>
               <td>
-              <a href="{{ route('manage.user', [ 'id' => $user->id]) }}">{{ ucfirst($user->name) }}</a>
+              <a href="#">{{ ucfirst($event->title) }}</a>
             </td>
             <td>
-            @if (count($user->roles) <= 1)
-              <b> {{ ucfirst($user->roles[0]->name) }} </b>
-            @else
-              @foreach ($user->roles as $role)
-                  <b>{{ ucfirst($role->name) }}</b> |
-              @endforeach
-            @endif
+              <b>{{ ucfirst($event->role->name) }}</b>
             </td>
-              <td> {{ $user->created_at->toFormattedDateString() }}</td>
+            <td>
+                {{ $event->venue}}
+            </td>
+              <td> 
+                  {{ date("F j, Y, g:i a", strtotime($event->training_date)) }}
+                </td>
               <td>
-                @if ($user->status == true)
+                @if ($event->status == true)
                   <button type="button" class="btn btn-success shadow">
-                      Active
-                  </button></td>
+                      Complete
+                  </button>
                 @else
                   <button type="button" class="btn btn-danger shadow">
-                      Inactive
-                  </button></td>
+                      Incomplete
+                  </button>
                 @endif
+              </td>
             </tr>
           @endforeach
 

@@ -99,8 +99,8 @@ class AdminController extends Controller
                 'password' => ['required', 'string', 'min:8', 'confirmed'],
                 'phone_number' => ['required', 'max:255', ''],
                 'address' => ['required', 'max:255'],
-                'role' => ['required', 'string', 'max:255'],
-                'competence' => ['required', 'string', 'max:255'],
+                'role' => ['required',],
+                'competence' => ['required', 'string'],
                 'medical' => ['required', 'string'],
             ]);
 
