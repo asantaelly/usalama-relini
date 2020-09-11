@@ -50,7 +50,7 @@
           @foreach ($events as $event)
             <tr>
               <td>
-              <a href="#">{{ ucfirst($event->title) }}</a>
+              <a href="{{ route('training.show', ['id'=>$event->id])}}">{{ ucfirst($event->title) }}</a>
             </td>
             <td>
               <b>{{ ucfirst($event->role->name) }}</b>

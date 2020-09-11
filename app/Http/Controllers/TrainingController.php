@@ -28,6 +28,17 @@ class TrainingController extends Controller
         ]);
     }
 
+    // Return a single instance
+    public function show($id) {
+
+        $event = Training::find($id);
+
+        return view('training/show', [
+            'event' => $event,
+        ]);
+
+    }
+
     // Create Training Instance
     public function create() {
 
@@ -69,4 +80,25 @@ class TrainingController extends Controller
 
         return redirect()->route('training.index');
     }
+
+
+    // Edit Training Instance
+    public function edit($id) {
+
+        $event = Training::find($id);
+        $time = Carbon::now();
+        $roles = DB::table('roles')->where([
+            ['name', '!=', 'superuser'], 
+            ['name', '!=', 'normal'],
+            ])->get();
+
+        return view('training/edit', [
+            'roles' => $roles,
+            'time' => $time,
+            'event' => $event,
+        ]);
+
+    }
+
+
 }
