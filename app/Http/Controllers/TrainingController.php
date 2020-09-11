@@ -100,5 +100,30 @@ class TrainingController extends Controller
 
     }
 
+    public function update(Request $request, $id) {
+
+        $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
+            'role_id' => 'required',
+            'venue' => ['required', 'string', 'max:255'],
+            'training_date' => 'required|date',
+        ]);
+
+        $event = Training::find($id);
+        DB::table('trainings')->where('id', $event->id)->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'role_id' => $request->role_id,
+            'venue' => $request->venue,
+            'training_date' => $request->training_date,
+            'user_id' => Auth::id(),
+            'status' => 0,
+            'updated_at' => Carbon::now(),
+        ]);
+
+        return redirect()->route('training.show', [ 'id' => $event->id]);
+    }
+
 
 }

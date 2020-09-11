@@ -48,6 +48,7 @@ Route::get('/admin/training/{id}', 'TrainingController@show')->name('training.sh
 Route::get('/admin/training/create', 'TrainingController@create')->name('training.create');
 Route::post('/admin/training/store', 'TrainingController@store')->name('training.store');
 Route::get('/admin/training/edit/{id}', 'TrainingController@edit')->name('training.edit');
+Route::put('/admin/training/update/{id}', 'TrainingController@update')->name('training.update');
 
 
 

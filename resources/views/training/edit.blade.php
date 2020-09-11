@@ -10,8 +10,9 @@ Edit Training Event
       <h6 class="m-0 font-weight-bold text-primary">Form to Edit Training Event</h6>
     </div>
   <div class="card-body text-dark">
-		<form action="{{ route('training.store')}}" method="POST" autocomplete="off">
+		<form action="{{ route('training.update', [ 'id' => $event->id])}}" method="POST" autocomplete="off">
             @csrf
+            @method('PUT')
             
 			<div class="row" >
 				<div class="form-group col-lg-6">
