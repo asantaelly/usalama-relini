@@ -134,4 +134,15 @@ class TrainingController extends Controller
     }
 
 
+    public function ops_index() {
+
+        $events = Training::all();
+
+        return view('training/operation/index', [
+            'events' => $events,
+        ]);
+        
+    }
+
+
 }

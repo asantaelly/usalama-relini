@@ -43,6 +43,10 @@ Route::get('/admin/create/user', 'AdminController@add_user')->name('create.user'
 Route::post('/admin/store/user', 'AdminController@store_user')->name('store.user');
 Route::get('/admin/edit/user/{id}', 'AdminController@edit_user')->name('edit.user');
 
+// Training Operation
+Route::get('/admin/training/operation', 'TrainingController@ops_index')->name('operation.index');
+
+// Training
 Route::get('/admin/training', 'TrainingController@index')->name('training.index');
 Route::get('/admin/training/create', 'TrainingController@create')->name('training.create');
 Route::post('/admin/training/store', 'TrainingController@store')->name('training.store');
@@ -50,6 +54,9 @@ Route::get('/admin/training/{id}', 'TrainingController@show')->name('training.sh
 Route::get('/admin/training/edit/{id}', 'TrainingController@edit')->name('training.edit');
 Route::put('/admin/training/update/{id}', 'TrainingController@update')->name('training.update');
 Route::delete('/admin/training/delete/{id}', 'TrainingController@delete')->name('training.delete');
+
+
+
 
 
 
