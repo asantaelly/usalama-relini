@@ -29,7 +29,7 @@
         <thead>
           <tr>
             <th>Title</th>
-            <th>Group</th>
+            <th>Attendees</th>
             <th>Venue</th>
             <th>Time of Event</th>
             <th>Status</th>
@@ -38,7 +38,7 @@
         <tfoot>
           <tr>
             <th>Title</th>
-            <th>Group</th>
+            <th>Attendees</th>
             <th>Venue</th>
             <th>Time of Event</th>
             <th>Status</th>
@@ -53,7 +53,7 @@
               <a href="{{ route('training.show', ['id'=>$event->id])}}">{{ ucfirst($event->title) }}</a>
             </td>
             <td>
-              <b>{{ ucfirst($event->role->name) }}</b>
+              <b>{{ ucfirst($event->role->name.'s\'') }}</b
             </td>
             <td>
                 {{ $event->venue}}

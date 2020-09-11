@@ -40,7 +40,7 @@ Add Training
 
 			<div class="row">
 				<div class="form-group col-lg-6">
-					<label for="role" class="font-weight-bolder">Attending Group</label>
+					<label for="role" class="font-weight-bolder">Attendees</label>
 
 					<div class="row ml-1">
                         @foreach($roles as $role)

@@ -31,6 +31,20 @@
 
                             <div class="row">
                                 <div class="col-lg-2">
+                                    <h5>Attendees: </h5>
+                                </div>
+                                <div class="col-lg-10">
+                                    <p class="ml-2">
+                                        <b>
+                                            {{ ucfirst($event->role->name.'s\'') }}
+                                        </b>
+                                    </p>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2">
                                     <h5>Venue : </h5>
                                 </div>
                                 <div class="col-lg-10">
@@ -89,14 +103,6 @@
 
                     <div class="row ml-2">
 
-                            {{-- Delete Event --}}
-                            <a href="#" class="btn btn-danger btn-icon-split m-1">
-                                <span class="icon text-white-50">
-                                    <i class="fas fa-trash"></i>
-                                </span>
-                                <span class="text">Delete</span>
-                            </a>
-
                             {{-- Edit Event --}}
                             <a href="{{ route('training.edit', [ 'id' => $event->id ])}}" class="btn btn-warning btn-icon-split m-1">
                                 <span class="icon text-white-50">
@@ -104,6 +110,18 @@
                                 </span>
                                 <span class="text">Edit</span>
                             </a>
+
+                            {{-- Delete Event --}}
+                            <form action="{{ route('training.delete', [ 'id' => $event->id ])}}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger btn-icon-split m-1">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-trash"></i>
+                                    </span>
+                                    <span class="text">Delete</span>
+                                </button>
+                            </form>   
                     </div>
                 </div>
             </div>

@@ -100,6 +100,7 @@ class TrainingController extends Controller
 
     }
 
+    // Store Edited Instance
     public function update(Request $request, $id) {
 
         $request->validate([
@@ -123,6 +124,13 @@ class TrainingController extends Controller
         ]);
 
         return redirect()->route('training.show', [ 'id' => $event->id]);
+    }
+
+    // Delete Instance
+    public function delete($id) {
+
+        DB::table('trainings')->where('id', $id)->delete();
+        return redirect()->route('training.index');
     }
 
 
