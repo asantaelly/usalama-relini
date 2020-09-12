@@ -8,9 +8,12 @@ class Training extends Model
 {
     protected $table = 'trainings';
 
-    public function role() {
-        
+    public function role() {  
         return $this->belongsTo('App\Role');
+    }
+
+    public function attendaces() {
+        return $this->hasMany('App\Attendance');
     }
 
 }

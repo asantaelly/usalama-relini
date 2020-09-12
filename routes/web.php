@@ -44,7 +44,10 @@ Route::post('/admin/store/user', 'AdminController@store_user')->name('store.user
 Route::get('/admin/edit/user/{id}', 'AdminController@edit_user')->name('edit.user');
 
 // Training Operation
-Route::get('/admin/training/operation', 'TrainingController@ops_index')->name('operation.index');
+
+Route::get('/admin/training/operation', 'TrainingController@index_attendance')->name('operation.index');
+Route::post('/admin/training/operation/store', 'TrainingController@store_attendance')->name('store.attendance');
+Route::get('/admin/training/operation/{id}', 'TrainingController@show_attendance')->name('operation.show');
 
 // Training
 Route::get('/admin/training', 'TrainingController@index')->name('training.index');

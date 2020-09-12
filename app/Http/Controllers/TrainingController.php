@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 use App\Training;
+use App\Attendance;
 
 
 class TrainingController extends Controller
@@ -134,7 +135,7 @@ class TrainingController extends Controller
     }
 
 
-    public function ops_index() {
+    public function index_attendance() {
 
         $events = Training::all();
 
@@ -142,6 +143,65 @@ class TrainingController extends Controller
             'events' => $events,
         ]);
         
+    }
+
+    public function show_attendance($id) {
+
+        $event = Training::find($id);
+        $attendances = Attendance::where('training_id', $id)->get();
+
+        return view('training/operation/show', [
+            'event' => $event,
+            'attendances' => $attendances
+        ]);
+    }
+
+    public function store_attendance(Request $request) {
+
+        
+        $event = Training::find($request->training_id);
+
+        $attendances = $request->input('attendance.*.status');
+        $users = $request->input('users.*.id');
+        $users_attendances = array_combine($users, $attendances);
+
+        if ($users_attendances == FALSE) {
+            return redirect()->route('operation.show', [$event]);
+        }
+
+        
+
+        foreach($users_attendances as $user_id => $attendance_status) {
+
+            $attendance = DB::table('attendances')->where([
+                ['user_id', $user_id],
+                ['training_id', $request->training_id],
+                ])->first();
+
+
+            if($attendance != NULL ) {
+                
+                DB::table('attendances')->where([
+                        ['user_id', $user_id],
+                        ['training_id', $request->training_id],
+                    ])->update([
+                    'status' => $attendance_status,
+                    'updated_at' => Carbon::now(),
+                ]);
+            } else {
+
+                DB::table('attendances')->insert([
+                    'user_id' => $user_id,
+                    'training_id' => $request->training_id,
+                    'status' => $attendance_status,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(),
+                ]);
+            }
+        }
+
+        return redirect()->route('operation.show', [$event]);
+
     }
 
 

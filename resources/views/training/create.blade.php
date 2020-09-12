@@ -86,7 +86,14 @@ Add Training
 			<hr>
 
 				<div class="form-group">
-					<button name="submit" type="submit" class="btn btn-success">Save Changes</button>
+					<div class="text-left">
+						<button class="btn btn-success btn-icon-split m-1">
+							<span class="icon text-white-50">
+								<i class="fas fa-check-circle"></i>
+							</span>
+							<span class="text">Submit</span>
+						</button>
+					</div>
 				</div>
 			</form>
 	</div>

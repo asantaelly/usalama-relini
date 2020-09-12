@@ -97,7 +97,7 @@
       <div id="collapseTraining" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <a class="collapse-item" href="{{ route('training.index') }}">Training Schedule</a>
-          <a class="collapse-item" href="{{ route('operation.index')}}">Training Operation</a>
+          <a class="collapse-item" href="{{ route('operation.index')}}">Training Attendance</a>
         </div>
       </div>
     </li>

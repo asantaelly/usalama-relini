@@ -88,4 +88,21 @@ class User extends Authenticatable
     public function profile() {
         return $this->hasOne('App\Profile');
     }
+
+    public function attendances() {
+        return $this->hasMany('App\Attendance');
+    }
+
+    public function getAttendanceStatus($event_id) {
+
+        $attendances = $this->attendances;
+        foreach($attendances as $attendance) {
+
+            if($attendance->training_id == $event_id) {
+                $status = $attendance->status;
+                return $status;
+                break;
+            }
+        }
+    }
 }

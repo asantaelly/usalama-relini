@@ -53,7 +53,7 @@
               <a href="{{ route('training.show', ['id'=>$event->id])}}">{{ ucfirst($event->title) }}</a>
             </td>
             <td>
-              <b>{{ ucfirst($event->role->name.'s\'') }}</b
+              <b>{{ ucfirst($event->role->name.'s\'') }}</b>
             </td>
             <td>
                 {{ $event->venue}}
