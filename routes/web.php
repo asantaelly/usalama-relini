@@ -42,6 +42,7 @@ Route::post('/admin/users/{id}', 'AdminController@assign_roles')->name('assign.r
 Route::get('/admin/create/user', 'AdminController@add_user')->name('create.user');
 Route::post('/admin/store/user', 'AdminController@store_user')->name('store.user');
 Route::get('/admin/edit/user/{id}', 'AdminController@edit_user')->name('edit.user');
+Route::put('/admin/update/user/{id}', 'AdminController@update_user')->name('update.user');
 
 // Training Operation
 
