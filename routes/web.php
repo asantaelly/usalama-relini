@@ -58,11 +58,6 @@ Route::get('/admin/training/edit/{id}', 'TrainingController@edit')->name('traini
 Route::put('/admin/training/update/{id}', 'TrainingController@update')->name('training.update');
 Route::delete('/admin/training/delete/{id}', 'TrainingController@delete')->name('training.delete');
 
-
-
-
-
-
 // INSPECTION routes
 Route::get('/inspection/form', 'InspectionController@show_inspection_form')->name('inspection.form');
 Route::post('/inspection/submit', 'InspectionController@store_inspection')->name('inspection.checked');
@@ -72,3 +67,36 @@ Route::get('/inspection/add_details', 'InspectionController@add_details')->name(
 Route::post('/inspection/add_details', 'InspectionController@store_details')->name('inspection.store');
 Route::get('inspection/generate/results', 'InspectionController@generate_results')->name('generate.results');
 Route::get('inspection/show/results', 'InspectionController@show_inspection_results')->name('show.results');
+
+//PROJECTS 
+Route::get('/projects', 'ProjectController@index')->name('project.index');
+Route::get('/projects/create', 'ProjectController@create')->name('project.create');
+Route::get('/projects/edit/{id}', 'ProjectController@edit')->name('project.edit');
+Route::post('/projects/update/{id}', 'ProjectController@update')->name('project.update');
+Route::get('/projects/delete/{id}', 'ProjectController@destroy')->name('project.delete');
+Route::post('/projects/store', 'ProjectController@store')->name('project.store');
+
+//TASKS
+Route::get('/tasks','TaskController@index')->name('task.index');
+Route::get('/tasks/view/{id}','TaskController@view')->name('task.view');
+Route::get('/tasks/create', 'TaskController@create')->name('task.create');
+Route::post('/tasks/store', 'TaskController@store')->name('task.store');
+Route::get('/tasks/search', 'TaskController@searchTask')->name('task.search');
+Route::get('/tasks/sort/{key}', 'TaskController@sort')->name('task.sort');
+Route::get('/tasks/edit/{id}','TaskController@edit')->name('task.edit');
+Route::get('/tasks/list/{projectid}','TaskController@tasklist')->name('task.list');
+Route::get('/tasks/delete/{id}', 'TaskController@destroy')->name('task.delete') ;
+Route::get('/tasks/deletefile/{id}', 'TaskController@deleteFile')->name('task.deletefile');
+Route::post('/tasks/update/{id}', 'TaskController@update')->name('task.update') ;
+Route::get('/tasks/completed/{id}','TaskController@completed')->name('task.completed');
+
+//USERS TASK ASSIGNMENT
+Route::get('/users', 'UserController@index')->name('user.index'); 
+Route::get('/users/list/{id}','UserController@userTaskList')->name('user.list');
+Route::get('/users/create', 'UserController@create')->name('user.create'); 
+Route::post('/users/store', 'UserController@store')->name('user.store'); 
+Route::get('/users/edit/{id}', 'UserController@edit')->name('user.edit'); 
+Route::post('/users/update/{id}', 'UserController@update')->name('user.update') ;
+Route::get('/users/activate/{id}', 'UserController@activate')->name('user.activate') ; 
+Route::get('/users/delete/{id}', 'UserController@destroy')->name('user.delete') ;
+Route::get('/users/disable/{id}', 'UserController@disable')->name('user.disable') ;
