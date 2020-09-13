@@ -50,7 +50,8 @@ class AccidentController extends Controller
             'sections' => Section::get_dropdown_menu(),
             'belonged_quarter' => get_quarters_dropdown(),
             'nature_of_accident' => get_nature_of_accident_dropdown(),
-            'resposible_designation' => get_responsible_designation_dropdown()
+            'resposible_designation' => get_responsible_designation_dropdown(),
+            'subjects' => get_accident_subject_dropdown()
             ]);
     }
 
@@ -73,7 +74,7 @@ class AccidentController extends Controller
                 'guard_name' => ['sometimes', 'required', 'string'],
                 'received_from_control_location' => ['sometimes', 'required', 'string'],
                 'received_from_control_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-                'accident_subject' => ['required', 'string'],
+                'accident_subject' => ['required', 'string', Rule::in(array_column(get_accident_subject_dropdown(), 'value'))],
                 'brief_particulars' => ['sometimes', 'required', 'string'],
                 'damages' => ['sometimes', 'required', 'string'],
                 'cause_of_the_accident' => ['sometimes', 'required', 'string'],
@@ -179,9 +180,33 @@ class AccidentController extends Controller
                 $accident_log->injuries()->attach($key, ['number' => $value]);
             }
 
-            // $officerconcerd_mobile_phone = OfficerContact::pluck('phone_no')->get();
+            $officers = OfficerContact::all();
 
-            // Notification::route('sms', $officerconcerd_mobile_phone )->notify(new OfficerConcernedNotification($accident_log));
+            $number_string = '';
+    
+            $index = 0;
+
+            $message = 'There is accident log added to the system as officer concerd you must check it';
+    
+            foreach($officers as $officer) {
+    
+                $index++;
+    
+                if($index == OfficerContact::count()) {
+    
+                    $number_string =  $number_string . str_replace('+','', $officer->phone_no);
+                }else {
+    
+                    $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
+                }
+                    
+            }
+
+            send_sms_to_officer_concerd($number_string, $message);
+
+            $responce = str_replace('Response : ', '', 'Response : b263f3f2-f143-434e-8c1f-e83abb18f9fc,9b10258c-4f0e-4997-a0cc-63bb49620b37,16cd5b47-a77b-4104-9a37-a9fc6fa97545,8d932fe0-1296-4ce9-a386-054cb7627bb9,ee9a8151-17e1-4e86-9bb7-1a161861bb0e,4c9d1231-58ef-4e12-bdbc-d2edcd68363f');
+
+            get_sms_deliver_report($responce);
 
             return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
 
@@ -228,6 +253,7 @@ class AccidentController extends Controller
             'belonged_quarter_selected' => get_quarters_dropdown()[array_search($accident->belonged_quarter, array_column(get_quarters_dropdown(), 'value'))],
             'nature_of_accident_selected' => get_nature_of_accident_dropdown()[array_search($accident->ature_of_accident, array_column( get_nature_of_accident_dropdown(), 'value'))],
             'resposible_designation_selected' => get_responsible_designation_dropdown()[array_search($accident->resposible_designation, array_column(get_responsible_designation_dropdown(), 'value'))],
+            'subjects' => get_accident_subject_dropdown()
             ]);
     }
 
@@ -240,6 +266,7 @@ class AccidentController extends Controller
      */
     public function update(Request $request, Accident $accident)
     {
+        
         $data = $request->validate([
             'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
             'occured_at' => ['required', 'string'],
@@ -302,11 +329,6 @@ class AccidentController extends Controller
 
             $accident->injuries()->sync($key, ['number' => $value]);
         }
-
-        // $officerconcerd_mobile_phone = OfficerContact::pluck('phone_no')->get();
-
-        // Notification::route('sms', $officerconcerd_mobile_phone )->notify(new OfficerConcernedNotification($accident_log));
-
 
         return redirect()->back()->with(['success' => 'Accident Log Updated Successful']);
     }

@@ -122,8 +122,16 @@
 				</div>
 			</div>
 				<div class="form-group">
-					<label for="accident_subject">Subject</label> 
-					<input id="accident_subject" name="accident_subject" placeholder="Subject" value="{{$accident->accident_subject}}" type="text" class="form-control @error('accident_subject') is-invalid @enderror" required="required">
+					<label for="accident_subject">Subject</label>
+					<div>
+						<select id="accident_subject" name="accident_subject" required="required" class="custom-select @error('accident_subject') is-invalid @enderror">
+							@foreach ($subjects as $subject)
+							<option data-has-death="{{$subject['has_death']}}" value="{{$subject['value']}}" @if ($section['value']== $accident->accident_subject)
+                                selected
+                            @endif>{{$subject['option']}} has death(s) ( {{$subject['has_death']}} )</option>
+							@endforeach
+						</select>
+					</div>  
 					@error('accident_subject')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -412,6 +420,17 @@
 	var max_fields      = 10; //maximum input boxes allowed
 	var wrapper   		= $(".input_fields_wrap_death"); //Fields wrapper
 	var add_button      = $(".add_field_button_death"); //Add button ID
+
+	$("#accident_subject").change(function(){
+		
+		if ($("#accident_subject").find(':selected').data('has-death') == 'no') {
+		wrapper.hide()
+			add_button.hide()
+		}else{
+			wrapper.show()
+			add_button.show()
+		}
+	})
 	
 	var x = 1; //initlal text box count
 	$(add_button).click(function(e){ //on add input button click
