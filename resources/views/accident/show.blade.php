@@ -114,8 +114,26 @@
                         </td>
                         <td class="px-0">{{$officer->ext_no}}</td>
                         <td class="px-0">{{$officer->name}}</td>
-                        <td><span class="h6 text-sm">--</span></td>
-                        <td class="px-0"><span class="h6 text-sm">--</span></td>
+                        <td>
+                            @foreach ($officer->officer_contacts as $contact)
+                            {{ empty($officer->officer_accident_log_sms_status($accident->id, $contact->id))?'--':$officer->officer_accident_log_sms_status($accident->id, $contact->id)->time}} 
+                            @if ($loop->last)
+                                &nbsp;
+                            @else
+                             /
+                            @endif  
+                          @endforeach
+                        </td>
+                        <td class="px-0">
+                            @foreach ($officer->officer_contacts as $contact)
+                            {{ empty($officer->officer_accident_log_sms_status($accident->id, $contact->id))?'--': $officer->officer_accident_log_sms_status($accident->id, $contact->id)->remarks}} 
+                            @if ($loop->last)
+                                &nbsp;
+                            @else
+                             /
+                            @endif  
+                          @endforeach
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>

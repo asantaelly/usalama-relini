@@ -38,12 +38,12 @@ if (!function_exists('send_sms_to_officer_concerd')) {
 
         if (curl_errno($channel)) {
             
-            return 'error:' . curl_error($channel);
+            return ['error' => curl_error($channel), 'has_error'=> true];
         }
 
         curl_close($channel);
 
-        return $output;
+        return ['response'=> $output, 'has_error'=>false];
 
     }
 }
@@ -53,24 +53,12 @@ if (!function_exists('get_sms_deliver_report')) {
     function get_sms_deliver_report($smscid)
     {
 
-        //Prepare you post parameters
-        $postData = [
-            'username' => env('BULKSMS_USERNAME'),
-            'password' => env('BULKSMS_PASSWORD'),
-            'smscid' => $smscid
-        ];
-
-        $data_string = json_encode($postData);
-
         // init the resource
         $channel = curl_init();
 
         curl_setopt_array($channel, [
-            CURLOPT_URL => env('BULKSMS_DELIVERY_URL'),
+            CURLOPT_URL => env('BULKSMS_DELIVERY_URL').'?smscid='.$smscid,
             CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_POST => true,
-            CURLOPT_HTTPHEADER => ["Content-Type: application/json"],
-            CURLOPT_POSTFIELDS => $data_string
         ]);
 
         //Ignore SSL certificate verification
@@ -80,15 +68,14 @@ if (!function_exists('get_sms_deliver_report')) {
         //get response
         $output = curl_exec($channel);
 
-        //Print error if any
         if (curl_errno($channel)) {
-
-            return 'error:' . curl_error($channel);
+            
+            return ['error' => curl_error($channel), 'has_error'=> true];
         }
 
         curl_close($channel);
 
-        return $output;
+        return ['response'=> $output, 'has_error'=> false];
 
     }
 }

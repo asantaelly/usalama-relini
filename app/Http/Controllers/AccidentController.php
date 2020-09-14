@@ -6,12 +6,14 @@ use App\Death;
 use App\Injury;
 use App\Section;
 use App\Accident;
+use Carbon\Carbon;
+use App\OfficerContact;
 use App\OfficerConcerned;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\OfficerConcernedNotification;
-use App\OfficerContact;
 
 class AccidentController extends Controller
 {
@@ -63,7 +65,6 @@ class AccidentController extends Controller
      */
     public function store(Request $request)
     {
-       
        $data = $request->validate([
                 'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
                 'occured_at' => ['required', 'string'],
@@ -84,10 +85,10 @@ class AccidentController extends Controller
                 'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
                 'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
                 'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-                'death_id.*.id' => ['sometimes', 'required', 'exists:deaths,id', 'distinct'],
-                'death_number.*.value' => ['sometimes', 'required', 'string'],
-                'injury_id.*.id' => ['sometimes', 'required', 'exists:injuries,id', 'distinct'],
-                'injury_number.*.value' => ['sometimes', 'required', 'string'],
+                'death_id' => ['sometimes'],
+                'death_number' => ['sometimes'],
+                'injury_id' => ['sometimes'],
+                'injury_number' => ['sometimes'],
             ]);
             
             $section = Section::find($request['section_id']);
@@ -125,17 +126,78 @@ class AccidentController extends Controller
                 'user_id' => auth()->user()->id
                 ]);
                 
-                $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
-                $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
-                
-                foreach ($deaths as $key => $value) {
+                if(is_array($request['death_id'])){
 
-                    $accident_log->deaths()->attach($key, ['number' => $value]);
+                    $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+                    foreach ($deaths as $key => $value) {
+
+                        $accident_log->deaths()->attach($key, ['number' => $value]);
+                    }
                 }
                 
-                foreach ($injuries as $key => $value) {
+                if(is_array($request['injury_id'])){
 
-                    $accident_log->injuries()->attach($key, ['number' => $value]);
+                    $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+                    
+                    foreach ($injuries as $key => $value) {
+
+                        $accident_log->injuries()->attach($key, ['number' => $value]);
+                    }
+                }
+
+                $officers = OfficerContact::all();
+
+                $number_string = '';
+        
+                $index = 0;
+    
+                $message = 'There is accident log added to the system as officer concerd you must check it';
+        
+                foreach($officers as $officer) {
+        
+                    $index++;
+        
+                    if($index == OfficerContact::count()) {
+        
+                        $number_string =  $number_string . str_replace('+','', $officer->phone_no);
+                    }else {
+        
+                        $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
+                    }
+                        
+                }
+    
+                 $response = send_sms_to_officer_concerd($number_string, $message);
+    
+    
+                 if($response['has_error']) {
+    
+                    return redirect('/accident')->with(['success' => 'Accident Log Created Successful but there was an error during sending the sms']);
+                 }
+    
+                $smscids = str_replace('Response : ', '', $response['response']);
+    
+                $single_numbers = explode(',', $number_string);
+                 
+                $index2 = 0;
+    
+                foreach (explode(',',$smscids )as $smscid) {
+    
+                   $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
+    
+                   $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
+                    
+                   DB::table('accident_log_contact')->insert([
+                    'time' => Carbon::now(),
+                    'remarks'=> $status,
+                    'officer_contact_id'=> $offcer->id,
+                    'accident_id' => $accident_log->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(), 
+                    ]);
+    
+                    $index2++;
                 }
                 
                 return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
@@ -166,18 +228,25 @@ class AccidentController extends Controller
                 'reference_number' => $request['reference_number'],
                 'user_id' => auth()->user()->id
             ]);
-            
-            $deaths = array_combine(array_column($request['death_id'],'id'), array_column($request['death_number'], 'value'));
-            $injuries = array_combine(array_column($request['injury_id'],'id'), array_column($request['injury_number'],'value'));
-            
-            foreach ($deaths as $key => $value) {
 
-                $accident_log->deaths()->attach($key, ['number' => $value]);
+            if(is_array($request['death_id'])){
+
+                $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+                foreach ($deaths as $key => $value) {
+
+                    $accident_log->deaths()->attach($key, ['number' => $value]);
+                }
             }
             
-            foreach ($injuries as $key => $value) {
+            if(is_array($request['injury_id'])){
 
-                $accident_log->injuries()->attach($key, ['number' => $value]);
+                $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+                
+                foreach ($injuries as $key => $value) {
+
+                    $accident_log->injuries()->attach($key, ['number' => $value]);
+                }
             }
 
             $officers = OfficerContact::all();
@@ -202,13 +271,39 @@ class AccidentController extends Controller
                     
             }
 
-            send_sms_to_officer_concerd($number_string, $message);
+             $response = send_sms_to_officer_concerd($number_string, $message);
 
-            $responce = str_replace('Response : ', '', 'Response : b263f3f2-f143-434e-8c1f-e83abb18f9fc,9b10258c-4f0e-4997-a0cc-63bb49620b37,16cd5b47-a77b-4104-9a37-a9fc6fa97545,8d932fe0-1296-4ce9-a386-054cb7627bb9,ee9a8151-17e1-4e86-9bb7-1a161861bb0e,4c9d1231-58ef-4e12-bdbc-d2edcd68363f');
 
-            get_sms_deliver_report($responce);
+             if($response['has_error']) {
 
-            return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
+                return redirect('/accident')->with(['success' => 'Accident Log Created Successful but there was an error during sending the sms']);
+             }
+
+            $smscids = str_replace('Response : ', '', $response['response']);
+
+            $single_numbers = explode(',', $number_string);
+             
+            $index2 = 0;
+
+            foreach (explode(',',$smscids )as $smscid) {
+
+               $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
+
+               $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
+                
+               DB::table('accident_log_contact')->insert([
+                'time' => Carbon::now(),
+                'remarks'=> $status,
+                'officer_contact_id'=> $offcer->id,
+                'accident_id' => $accident_log->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(), 
+                ]);
+
+                $index2++;
+            }
+
+            return redirect('/accident')->with(['success' => 'Accident Log Created Successful and sms were sent successful also']);
 
 
     }
@@ -266,7 +361,6 @@ class AccidentController extends Controller
      */
     public function update(Request $request, Accident $accident)
     {
-        
         $data = $request->validate([
             'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
             'occured_at' => ['required', 'string'],
@@ -287,10 +381,10 @@ class AccidentController extends Controller
             'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
             'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
             'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-            'death_id.*.id' => ['sometimes', 'required', 'exists:deaths,id', 'distinct'],
-            'death_number.*.value' => ['sometimes', 'required', 'string'],
-            'injury_id.*.id' => ['sometimes', 'required', 'exists:injuries,id', 'distinct'],
-            'injury_number.*.value' => ['sometimes', 'required', 'string'],
+            'death_id' => ['sometimes'],
+            'death_number' => ['sometimes'],
+            'injury_id' => ['sometimes'],
+            'injury_number' => ['sometimes'],
         ]);
 
         $accident_log = $accident->update([
@@ -316,18 +410,25 @@ class AccidentController extends Controller
             'reference_number' => $request['reference_number'],
             'user_id' => auth()->user()->id
         ]);
-        
-        $deaths = array_combine(array_column($request['death_id'],'id'), array_column($request['death_number'], 'value'));
-        $injuries = array_combine(array_column($request['injury_id'],'id'), array_column($request['injury_number'],'value'));
-        
-        foreach ($deaths as $key => $value) {
 
-            $accident->deaths()->sync($key, ['number' => $value]);
+        if(is_array($request['death_id'])){
+
+            $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+            foreach ($deaths as $key => $value) {
+
+                $accident->deaths()->sync($key, ['number' => $value]);
+            }
         }
         
-        foreach ($injuries as $key => $value) {
+        if(is_array($request['injury_id'])){
 
-            $accident->injuries()->sync($key, ['number' => $value]);
+            $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+            
+            foreach ($injuries as $key => $value) {
+
+                $accident->injuries()->sync($key, ['number' => $value]);
+            }
         }
 
         return redirect()->back()->with(['success' => 'Accident Log Updated Successful']);
