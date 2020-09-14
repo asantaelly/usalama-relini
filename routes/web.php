@@ -49,6 +49,7 @@ Route::put('/admin/update/user/{id}', 'AdminController@update_user')->name('upda
 Route::get('/admin/training/operation', 'TrainingController@index_attendance')->name('operation.index');
 Route::post('/admin/training/operation/store', 'TrainingController@store_attendance')->name('store.attendance');
 Route::get('/admin/training/operation/{id}', 'TrainingController@show_attendance')->name('operation.show');
+Route::put('/admin/training/status/{id}', 'TrainingController@close_event')->name('close.event');
 
 // Training
 Route::get('/admin/training', 'TrainingController@index')->name('training.index');

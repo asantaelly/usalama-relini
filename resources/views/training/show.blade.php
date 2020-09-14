@@ -121,7 +121,14 @@
                                     </span>
                                     <span class="text">Delete</span>
                                 </button>
-                            </form>   
+                            </form> 
+                            
+                            <a href="{{ route('operation.show', ['id'=>$event->id])}}" class="btn btn-dark btn-icon-split m-1">
+                                <span class="icon text-white-50">
+                                    <i class="fas fa-list-alt"></i>
+                                </span>
+                                <span class="text">Attendance</span>
+                            </a>
                     </div>
                 </div>
             </div>

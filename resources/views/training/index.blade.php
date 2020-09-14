@@ -64,7 +64,7 @@
               <td>
                 @if ($event->status == true)
                   <button type="button" class="btn btn-success shadow">
-                      Complete
+                      Completed
                   </button>
                 @else
                   <button type="button" class="btn btn-danger shadow">

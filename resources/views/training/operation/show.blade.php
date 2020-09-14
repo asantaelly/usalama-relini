@@ -159,7 +159,7 @@
 
                                                 @if ($user->getAttendanceStatus($event->id) == false)
                                                     <div class="btn-group btn-group-toggle" data-toggle="buttons">
-
+                                                        
                                                         <label class="btn btn-success">
                                                             <input type="radio" name="attendance[{{$index}}][status]" value="1" id="status{{$event->id}}"> Attended
                                                         </label>
@@ -187,15 +187,16 @@
                                                     </div>
                                                 @endif
 
-
-                                                    
-            
                                             </td>
                                             </tr>
                                         @endforeach
                                   </tbody>
                                 </table>
                               </div>
+                              <div class="row">
+
+                            @if ($event->status == FALSE)
+                                 
                                 <div class="text-left">
                                     <button type="submit" class="btn btn-info btn-icon-split m-1">
                                         <span class="icon text-white-50">
@@ -205,6 +206,34 @@
                                     </button>
                                 </div>
                             </form>
+
+                                {{--  Button to close Training Event --}}
+                                <div class="text-left">
+                                    <form action="{{ route('close.event', ['id' => $event->id])}}" method="post">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" class="btn btn-warning btn-icon-split m-1">
+                                            <span class="icon text-white-50">
+                                                <i class="fas fa-times-circle"></i>
+                                            </span>
+                                            <span class="text text-dark">Close Event</span>
+                                        </button>
+                                    </form>
+                                    
+                                </div>
+                            @else
+                                
+                                <div class="text-left">
+                                    <button type="submit" class="btn btn-danger btn-icon-split m-1" disabled>
+                                        <span class="icon text-white-50">
+                                            <i class="fas fa-lock"></i>
+                                        </span>
+                                        <span class="text">Event Closed</span>
+                                    </button>
+                                </div>
+
+                            @endif 
+                            </div>
                             </div>
                           </div>
                     </div>
