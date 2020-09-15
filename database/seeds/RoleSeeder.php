@@ -41,6 +41,22 @@ class RoleSeeder extends Seeder
                             [
                                 'name' => 'station master',
                                 'description' => 'Responsible for the assigned station'
+                            ],
+                            [
+                                'name' => 'safety worker',
+                                'description' => 'Worker responsible for monitoring and ensure safety'
+                            ],
+                            [
+                                'name' => 'locomotive driver',
+                                'description' => 'Train operator or driver'
+                            ],
+                            [
+                                'name' => 'train guard',
+                                'description' => 'Guarding the train'
+                            ],
+                            [
+                                'name' => 'level crossing watchman',
+                                'description' => 'Railway watchman'
                             ]
             );
     

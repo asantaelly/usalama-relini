@@ -13,7 +13,7 @@
                 <form action="{{ route('inspection.form')}}" method="GET">
                     @csrf
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        {{-- <div class="form-group col-md-6">
                             <label for="">Department</label>
                             <select name="department" id="" class="custom-select">
                                 <option value="" selected disabled>Select Department:</option>
@@ -21,7 +21,7 @@
                                     <option value="{{ $department->id }}">{{ $department->name }}</option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                         <div class="form-group col-md-6">
                             <label for="">Section</label>
                             <select name="section" id="" class="custom-select @error('section') is-invalid @enderror">

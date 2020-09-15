@@ -179,21 +179,21 @@
 
             <div class="row" >
 				{{-- Role --}}
-				<div class="form-group col-lg-4">
+				<div class="form-group">
                     <label for="statusRadio" class="font-weight-bolder">User Role(s)</label>
-					<div class="row">
+					<div class="">
                         @foreach($user->roles as $role)
                             @if ($role->name == 'normal')
                                 @continue
                             @endif
-                            <div class="form-check form-check-inline ml-3">
+                            <div class="form-check form-check-inline ml-3 col-lg-4">
                                 <input type="checkbox" id="role{{$role->id}}" name="role[{{$role->id}}][id]" value="{{$role->id}}" class="form-check-input" checked>
                                 <label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
                             </div>
                             &nbsp;
                         @endforeach
                         @foreach($user->userRole() as $index => $role)
-                            <div class="form-check form-check-inline ml-3">
+                            <div class="form-check form-check-inline ml-3 col-lg-4">
                                 <input type="checkbox" id="role{{ $role->id }}" name="role[{{ $role->id }}][id]" value="{{ $role->id }}" class="form-check-input">
                                 <label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
                             </div>

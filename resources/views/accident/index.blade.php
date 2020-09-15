@@ -12,12 +12,12 @@
 		</span>
 		<span class="text">Add New Accident Log</span>
   </a>
-  <a href="{{route('report.index')}}" class="btn btn-info btn-icon-split btn-sm mr-3">
+  {{-- <a href="{{route('report.index')}}" class="btn btn-info btn-icon-split btn-sm mr-3">
 		<span class="icon text-white-50">
 			<i class="fas fa-file"></i>
 		</span>
 		<span class="text">Generate Report</span>
-  </a>
+  </a> --}}
 </div><br/><br/>
 
 @endsection

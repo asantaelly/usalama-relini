@@ -7,7 +7,7 @@ Add Worker
 @section('content')
 <div class="card shadow mb-4 col-lg-12 px-0">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Form to Add Worker</h6>
+      	<h6 class="m-0 font-weight-bold text-primary">Form to Add Worker</h6>
     </div>
   <div class="card-body text-dark">
 		<form action="{{ route('store.user')}}" method="POST" autocomplete="off">
@@ -16,7 +16,7 @@ Add Worker
 
 				{{-- First_Name or Name --}}
 				<div class="form-group col-lg-4">
-					<label for="name" class="font-weight-bolder">First Name</label> 
+					<label for="name" class="font-weight-bolder">First Name</label>
 					<input id="name" name="name" placeholder="First Name" type="text" required="required" class="form-control @error('name') is-invalid @enderror">
 					@error('name')
 					<span class="invalid-feedback" role="alert">
@@ -39,7 +39,7 @@ Add Worker
 				{{-- Email --}}
 				<div class="form-group col-lg-4">
 					<label for="email" class="font-weight-bolder">Email</label>
-					<input id="email" name="email" placeholder="Eg. example@mail.com" type="text" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
+					<input id="email" name="email" placeholder="Eg. example@mail.com" type="email" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
 					
 					@error('email')
 					<span class="invalid-feedback" role="alert">
@@ -122,16 +122,19 @@ Add Worker
 
 			<div class="row">
 				{{-- Role --}}
-				<div class="form-group col-lg-4">
-					<label for="role" class="font-weight-bolder">User Role(s)</label>
+				<div class="form-group">
+					<label for="role" class="font-weight-bolder ml-3">User Role(s)</label>
 
 					<div class="row">
 						@foreach($roles as $role)
+							<div class="col-lg-4">
 								<div class="form-check form-check-inline ml-3">
-									<input type="checkbox" id="" name="roles[{{$role->id}}][id]" value="{{ $role->id }}" class="form-check-input">
+									<input type="checkbox" name="roles[{{$role->id}}][id]" value="{{ $role->id }}" class="form-check-input">
 									<label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
 								</div> 
-								&nbsp;
+							</div>
+								
+								{{-- &nbsp; --}}
 						@endforeach
 					</div>	
 					@error('role')
@@ -279,12 +282,6 @@ Add Worker
 		$(qualify_wrapper).on("click",".remove_field_qualify", function(e){ //user click on remove text
 			e.preventDefault(); $(`.addedy-${y}`).parent('div').remove(); y--;
 		})
-
-
-
-
-
-
 
 	});
  </script>

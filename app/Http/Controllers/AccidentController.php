@@ -14,6 +14,8 @@ use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\OfficerConcernedNotification;
+use App\User;
+use App\Role;
 
 class AccidentController extends Controller
 {
@@ -46,6 +48,11 @@ class AccidentController extends Controller
      */
     public function create()
     {
+
+        $users = User::all();
+        $driver = Role::where('name', 'locomotive driver')->first();
+        $guard = Role::where('name', 'train guard')->first();
+
         return view('accident.create',[
             'death_types' => Death::get_dropdown_menu(), 
             'injury_types' => Injury::get_dropdown_menu(),
@@ -53,7 +60,9 @@ class AccidentController extends Controller
             'belonged_quarter' => get_quarters_dropdown(),
             'nature_of_accident' => get_nature_of_accident_dropdown(),
             'resposible_designation' => get_responsible_designation_dropdown(),
-            'subjects' => get_accident_subject_dropdown()
+            'subjects' => get_accident_subject_dropdown(),
+            'driver' => $driver,
+            'guard' => $guard,
             ]);
     }
 
