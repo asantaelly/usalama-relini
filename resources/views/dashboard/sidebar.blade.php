@@ -85,8 +85,8 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
             <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
-            <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>
-            <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
+            {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>
+            <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a> --}}
           </div>
         </div>
       </li>

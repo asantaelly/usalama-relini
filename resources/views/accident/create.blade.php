@@ -82,7 +82,7 @@
 				<div class="form-group col-lg-6">
 
 					<label for="driver_name">Driver(s)</label>
-						<select id="accident_subject" name="accident_subject" required="required" class="custom-select @error('accident_subject') is-invalid @enderror">
+						<select id="driver_name" name="driver_name" required="required" class="custom-select @error('driver_name') is-invalid @enderror">
 							<option value="" selected disabled>Select Driver</option>
 							@foreach ($driver->users as $driver)
 							<option name="driver_name" value="{{ $driver->name }}">{{ $driver->name }}</option>
@@ -99,10 +99,10 @@
 				<div class="form-group col-lg-6">
 					<label for="guard_name">Guard(s)</label> 
 
-					<select id="accident_subject" name="accident_subject" required="required" class="custom-select @error('accident_subject') is-invalid @enderror">
+					<select id="guard_name" name="guard_name" required="required" class="custom-select @error('guard_name') is-invalid @enderror">
 						<option value="" selected disabled>Select Guard</option>
 						@foreach ($guard->users as $guard)
-						<option name="driver_name" value="{{ $guard->name }}">{{ $guard->name }}</option>
+						<option name="guard_name" value="{{ $guard->name }}">{{ $guard->name }}</option>
 						@endforeach
 					</select>
 
