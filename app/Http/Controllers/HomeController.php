@@ -38,11 +38,13 @@ class HomeController extends Controller
         $tasks = DB::table('tasks')->get();
         $events = DB::table('trainings')->get();
 
-        
+        $months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        $numbers = [20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240];
+
+
         // Tasks Percentages
         $tasks_percent = (int) ($tasks->where('completed', TRUE)->count()/$tasks->count() * 100);
 
-        //  return dd($tasks_percent);
 
         return view('home', [
             'users' => $users,
@@ -50,6 +52,8 @@ class HomeController extends Controller
             'inspections' => $inspections,
             'tasks_percent' => $tasks_percent,
             'events' => $events,
+            'months' => $months,
+            'numbers' => $numbers,
         ]);
     }
 }

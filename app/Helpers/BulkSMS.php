@@ -36,8 +36,12 @@ if (!function_exists('send_sms_to_officer_concerd')) {
         //get response
         $output = curl_exec($channel);
 
+        return dd($output);
+
+
         if (curl_errno($channel)) {
-            
+
+            // return dd($channel);
             return ['error' => curl_error($channel), 'has_error'=> true];
         }
 
