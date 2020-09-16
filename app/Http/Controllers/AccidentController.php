@@ -54,7 +54,7 @@ class AccidentController extends Controller
         $guard = Role::where('name', 'train guard')->first();
 
         return view('accident.create',[
-            'death_types' => Death::get_dropdown_menu(), 
+            'death_types' => Death::get_dropdown_menu(),
             'injury_types' => Injury::get_dropdown_menu(),
             'sections' => Section::get_dropdown_menu(),
             'belonged_quarter' => get_quarters_dropdown(),
@@ -101,18 +101,18 @@ class AccidentController extends Controller
                 'injury_id' => ['sometimes'],
                 'injury_number' => ['sometimes'],
             ]);
-            
+
             $section = Section::find($request['section_id']);
 
             $last_ref_no = Accident::where('section_id', $section->id)->orderBy('created_at', 'desc')->first();
-            
+
             if (isset($last_ref_no->id)) {
-                
+
                 $section_btw = explode("-", $section->between);
                 $list = explode(".", $last_ref_no->reference_number);
 
                 $request->merge(['reference_number' => $section_btw[0] . ".ACC." . ($list[2]+1).".". date('y')]);
-                
+
                 $accident_log = Accident::create([
                 'time_of_accident' => $request['time_of_accident'],
                 'occured_at' => $request['occured_at'],
@@ -137,7 +137,7 @@ class AccidentController extends Controller
                 'critical_level' => $request['critical_level'],
                 'user_id' => auth()->user()->id
                 ]);
-                
+
                 if(is_array($request['death_id'])){
 
                     $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
@@ -147,11 +147,11 @@ class AccidentController extends Controller
                         $accident_log->deaths()->attach($key, ['number' => $value]);
                     }
                 }
-                
+
                 if(is_array($request['injury_id'])){
 
                     $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
-                    
+
                     foreach ($injuries as $key => $value) {
 
                         $accident_log->injuries()->attach($key, ['number' => $value]);
@@ -161,57 +161,57 @@ class AccidentController extends Controller
                 $officers = OfficerContact::all();
 
                 $number_string = '';
-        
+
                 $index = 0;
-    
-                $message = 'There is accident log added to the system as officer concerd you must check it';
-        
+
+                $message = 'There is an accident log added to the system, as a concerned officer please check it';
+
                 foreach($officers as $officer) {
-        
+
                     $index++;
-        
+
                     if($index == OfficerContact::count()) {
-        
+
                         $number_string =  $number_string . str_replace('+','', $officer->phone_no);
                     }else {
-        
+
                         $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
                     }
-                        
+
                 }
-    
+
                  $response = send_sms_to_officer_concerd($number_string, $message);
-    
-    
+
+
                  if($response['has_error']) {
-    
+
                     return redirect('/accident')->with(['success' => 'Accident Log Created Successful but there was an error during sending the sms']);
                  }
-    
+
                 $smscids = str_replace('Response : ', '', $response['response']);
-    
+
                 $single_numbers = explode(',', $number_string);
-                 
+
                 $index2 = 0;
-    
+
                 foreach (explode(',',$smscids )as $smscid) {
-    
+
                    $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
-    
+
                    $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
-                    
+
                    DB::table('accident_log_contact')->insert([
                     'time' => Carbon::now(),
                     'remarks'=> $status,
                     'officer_contact_id'=> $offcer->id,
                     'accident_id' => $accident_log->id,
                     'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(), 
+                    'updated_at' => Carbon::now(),
                     ]);
-    
+
                     $index2++;
                 }
-                
+
                 return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
             }
 
@@ -251,11 +251,11 @@ class AccidentController extends Controller
                     $accident_log->deaths()->attach($key, ['number' => $value]);
                 }
             }
-            
+
             if(is_array($request['injury_id'])){
 
                 $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
-                
+
                 foreach ($injuries as $key => $value) {
 
                     $accident_log->injuries()->attach($key, ['number' => $value]);
@@ -265,23 +265,23 @@ class AccidentController extends Controller
             $officers = OfficerContact::all();
 
             $number_string = '';
-    
+
             $index = 0;
 
             $message = 'There is accident log added to the system as officer concerd you must check it';
-    
+
             foreach($officers as $officer) {
-    
+
                 $index++;
-    
+
                 if($index == OfficerContact::count()) {
-    
+
                     $number_string =  $number_string . str_replace('+','', $officer->phone_no);
                 }else {
-    
+
                     $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
                 }
-                    
+
             }
 
              $response = send_sms_to_officer_concerd($number_string, $message);
@@ -295,7 +295,7 @@ class AccidentController extends Controller
             $smscids = str_replace('Response : ', '', $response['response']);
 
             $single_numbers = explode(',', $number_string);
-             
+
             $index2 = 0;
 
             foreach (explode(',',$smscids )as $smscid) {
@@ -303,14 +303,14 @@ class AccidentController extends Controller
                $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
 
                $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
-                
+
                DB::table('accident_log_contact')->insert([
                 'time' => Carbon::now(),
                 'remarks'=> $status,
                 'officer_contact_id'=> $offcer->id,
                 'accident_id' => $accident_log->id,
                 'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(), 
+                'updated_at' => Carbon::now(),
                 ]);
 
                 $index2++;
@@ -330,7 +330,7 @@ class AccidentController extends Controller
     public function show(Accident $accident)
     {
         return view('accident.show', [
-            'accident' => $accident, 
+            'accident' => $accident,
             'belonged_quarter' => get_quarters_dropdown(),
             'nature_of_accident' => get_nature_of_accident_dropdown(),
             'officers'=> OfficerConcerned::all()
@@ -344,11 +344,11 @@ class AccidentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Accident $accident)
-    {   
-        
+    {
+
 
         return view('accident.edit',[
-            'death_types' => Death::get_dropdown_menu(), 
+            'death_types' => Death::get_dropdown_menu(),
             'injury_types' => Injury::get_dropdown_menu(),
             'sections' => Section::get_dropdown_menu(),
             'belonged_quarter' => get_quarters_dropdown(),
@@ -375,6 +375,30 @@ class AccidentController extends Controller
      */
     public function update(Request $request, Accident $accident)
     {
+      $officers = OfficerContact::all();
+
+      $number_string = '';
+
+      $index = 0;
+
+      $message = 'There is accident log added to the system as officer concerd you must check it';
+
+      foreach($officers as $officer) {
+
+          $index++;
+
+          if($index == OfficerContact::count()) {
+
+              $number_string =  $number_string . str_replace('+','', $officer->phone_no);
+          }else {
+
+              $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
+          }
+
+      }
+
+       $response = send_sms_to_officer_concerd($number_string, $message);
+       dd($response);
         $data = $request->validate([
             'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
             'occured_at' => ['required', 'string'],
@@ -436,11 +460,11 @@ class AccidentController extends Controller
                 $accident->deaths()->sync($key, ['number' => $value]);
             }
         }
-        
+
         if(is_array($request['injury_id'])){
 
             $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
-            
+
             foreach ($injuries as $key => $value) {
 
                 $accident->injuries()->sync($key, ['number' => $value]);

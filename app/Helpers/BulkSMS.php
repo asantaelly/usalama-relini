@@ -10,14 +10,14 @@ if (!function_exists('send_sms_to_officer_concerd')) {
             'username' => env('BULKSMS_USERNAME'),
             'password' => env('BULKSMS_PASSWORD'),
             'message' => $message,
-            'sid' => env('BULKSMS_sENDER_ID'),
+            'sid' => env('BULKSMS_SENDER_ID'),
             'type' => env('BULKSMS_TYPE'),
             'mno' => $numbers,
             'dcs' => env('BULKSMS_DCS')
         ];
 
         $data_string = json_encode($postData);
-
+        
         // init the resource
         $channel = curl_init();
 
@@ -71,7 +71,7 @@ if (!function_exists('get_sms_deliver_report')) {
         $output = curl_exec($channel);
 
         if (curl_errno($channel)) {
-            
+
             return ['error' => curl_error($channel), 'has_error'=> true];
         }
 
@@ -81,4 +81,3 @@ if (!function_exists('get_sms_deliver_report')) {
 
     }
 }
-   

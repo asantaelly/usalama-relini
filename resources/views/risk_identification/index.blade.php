@@ -10,7 +10,7 @@
 		<span class="icon text-white-50">
 			<i class="fas fa-plus"></i>
 		</span>
-		<span class="text">Add New Risk</span>
+		<span class="text">Identify New Risk</span>
   </a>
 </div>
 
@@ -58,7 +58,7 @@
                       <form action="{{route('risk_identification.destroy', ['risk_identification' => $risk->id ])}}" method="POST" class="mx-1">
                         @csrf
                         @method('DELETE')
-                    
+
                         <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                     </form>
                     </div>

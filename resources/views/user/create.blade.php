@@ -7,7 +7,7 @@
     {{ csrf_field() }}
 
     <div class="col-md-7">
-    	<label>Create new User <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></label>
+    	<label>Add New Safety Critical Worker <span class="glyphicon glyphicon-plus" aria-hidden="true"></span></label>
 
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="Enter User Full Name" name="name" value="{{ old('name') }}">
@@ -57,11 +57,3 @@ function validateForm() {
 	}
 }
 </script>
-
-
-
-
-
-
-
-

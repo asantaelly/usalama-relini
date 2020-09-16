@@ -32,27 +32,27 @@
       <li class="nav-item">
         <a class="nav-link" href="{{ route('manage.users')}}">
           <i class="fas fa-fw fa-users"></i>
-          <span>User Management</span></a>
+          <span>Safety Critical Workers</span></a>
       </li>
-   
+
     @endif
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-bell"></i>
-        <span>Safety</span>
+        <span>Accident Management</span>
       </a>
       <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           {{-- <h6 class="collapse-header">Custom Components:</h6> --}}
-          <a class="collapse-item" href="{{route('accident.index')}}">Accident Logs</a>
+          <a class="collapse-item" href="{{route('accident.index')}}">Accident Logsheets</a>
           <a class="collapse-item" href="{{route('report.index')}}">Accident Analysis</a>
-          <a class="collapse-item" href="{{route('officer.index')}}">Officer Concerned</a>
-          <a class="collapse-item" href="{{route('progress.index')}}">Progress Report</a>
-          <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
-          <a class="collapse-item" href="{{route('death.index')}}">Death Type</a>
-          <a class="collapse-item" href="{{route('injury.index')}}">Injury Type</a>
+          <a class="collapse-item" href="{{route('officer.index')}}">Accident Response Team</a>
+          <a class="collapse-item" href="{{route('progress.index')}}">Accident Progress</a>
+          <a class="collapse-item" href="{{route('section.index')}}">Manage Sections</a>
+          <a class="collapse-item" href="{{route('death.index')}}">Accident Death</a>
+          <a class="collapse-item" href="{{route('injury.index')}}">Accident Injury</a>
         </div>
       </div>
     </li>
@@ -61,7 +61,7 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         <i class="fas fa-fw fa-clipboard-check"></i>
-        <span>Inspection</span>
+        <span>Inspection & Auditing</span>
       </a>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
@@ -76,7 +76,7 @@
     <li class="nav-item">
       <a class="nav-link" href="{{ __('components')}}">
         <i class="fas fa-fw fa-thermometer-three-quarters"></i>
-        <span>Quality Assurance</span></a>
+        <span>Quality Contol</span></a>
     </li>
 
 
@@ -98,7 +98,7 @@
         </div>
       </li>
 
-    
+
 
      <!-- Nav Item - Pages Collapse Menu -->
      <li class="nav-item">
@@ -119,7 +119,7 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining" aria-expanded="true" aria-controls="collapseThree">
         <i class="fas fa-fw fa-lightbulb"></i>
-        <span>Training</span>
+        <span>Training & Awareness</span>
       </a>
       <div id="collapseTraining" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
@@ -128,7 +128,7 @@
         </div>
       </div>
     </li>
-  
+
     @endif
 
     <!-- Divider -->
