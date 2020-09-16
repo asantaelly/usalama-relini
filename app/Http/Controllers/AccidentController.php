@@ -164,7 +164,7 @@ class AccidentController extends Controller
 
                 $index = 0;
 
-                $message = 'There is an accident log added to the system, as a concerned officer please check it';
+                $message = 'ORSMS has new accident Log, as a concerned officer kindly be informed to follow up.';
 
                 foreach($officers as $officer) {
 
@@ -268,7 +268,7 @@ class AccidentController extends Controller
 
             $index = 0;
 
-            $message = 'There is accident log added to the system as officer concerd you must check it';
+            $message = 'ORSMS has new accident Log, as a concerned officer kindly be informed to follow up.';
 
             foreach($officers as $officer) {
 
@@ -375,30 +375,6 @@ class AccidentController extends Controller
      */
     public function update(Request $request, Accident $accident)
     {
-      $officers = OfficerContact::all();
-
-      $number_string = '';
-
-      $index = 0;
-
-      $message = 'There is accident log added to the system as officer concerd you must check it';
-
-      foreach($officers as $officer) {
-
-          $index++;
-
-          if($index == OfficerContact::count()) {
-
-              $number_string =  $number_string . str_replace('+','', $officer->phone_no);
-          }else {
-
-              $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
-          }
-
-      }
-
-       $response = send_sms_to_officer_concerd($number_string, $message);
-       dd($response);
         $data = $request->validate([
             'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
             'occured_at' => ['required', 'string'],
