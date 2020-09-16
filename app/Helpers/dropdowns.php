@@ -23,6 +23,17 @@ if (!function_exists('get_nature_of_accident_dropdown')) {
     }
 }
 
+if (!function_exists('get_accident_critical_level_dropdown')) {
+    function get_accident_critical_level_dropdown()
+    {
+        return [
+            ['option'=> 'NORMAL RISK', 'value'=> 'NORMAL RISK'],
+            ['option'=> 'VERY RISK', 'value'=> 'VERY RISK'],
+            ['option'=> 'TORELABLR RISK', 'value'=> 'TORELABLR RISK']
+        ];
+    }
+}
+
 if (!function_exists('get_responsible_designation_dropdown')) {
     function get_responsible_designation_dropdown()
     {

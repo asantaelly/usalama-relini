@@ -53,7 +53,8 @@ class AccidentController extends Controller
             'belonged_quarter' => get_quarters_dropdown(),
             'nature_of_accident' => get_nature_of_accident_dropdown(),
             'resposible_designation' => get_responsible_designation_dropdown(),
-            'subjects' => get_accident_subject_dropdown()
+            'subjects' => get_accident_subject_dropdown(),
+            'critical_levels' => get_accident_critical_level_dropdown()
             ]);
     }
 
@@ -85,6 +86,7 @@ class AccidentController extends Controller
                 'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
                 'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
                 'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+                'critical_level' => ['sometimes', 'required'],
                 'death_id' => ['sometimes'],
                 'death_number' => ['sometimes'],
                 'injury_id' => ['sometimes'],
@@ -123,6 +125,7 @@ class AccidentController extends Controller
                 'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
                 'line_closure_time' => $request['line_closure_time'],
                 'reference_number' => $request['reference_number'],
+                'critical_level' => $request['critical_level'],
                 'user_id' => auth()->user()->id
                 ]);
                 
@@ -226,6 +229,7 @@ class AccidentController extends Controller
                 'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
                 'line_closure_time' => $request['line_closure_time'],
                 'reference_number' => $request['reference_number'],
+                'critical_level' => $request['critical_level'],
                 'user_id' => auth()->user()->id
             ]);
 
@@ -348,7 +352,8 @@ class AccidentController extends Controller
             'belonged_quarter_selected' => get_quarters_dropdown()[array_search($accident->belonged_quarter, array_column(get_quarters_dropdown(), 'value'))],
             'nature_of_accident_selected' => get_nature_of_accident_dropdown()[array_search($accident->ature_of_accident, array_column( get_nature_of_accident_dropdown(), 'value'))],
             'resposible_designation_selected' => get_responsible_designation_dropdown()[array_search($accident->resposible_designation, array_column(get_responsible_designation_dropdown(), 'value'))],
-            'subjects' => get_accident_subject_dropdown()
+            'subjects' => get_accident_subject_dropdown(),
+            'critical_levels' => get_accident_critical_level_dropdown()
             ]);
     }
 
@@ -381,6 +386,7 @@ class AccidentController extends Controller
             'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
             'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
             'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
+            'critical_level' => ['sometimes', 'required'],
             'death_id' => ['sometimes'],
             'death_number' => ['sometimes'],
             'injury_id' => ['sometimes'],
@@ -408,6 +414,7 @@ class AccidentController extends Controller
             'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
             'line_closure_time' => $request['line_closure_time'],
             'reference_number' => $request['reference_number'],
+            'critical_level' => $request['critical_level'],
             'user_id' => auth()->user()->id
         ]);
 
