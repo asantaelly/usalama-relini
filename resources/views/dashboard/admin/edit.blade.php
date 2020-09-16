@@ -10,8 +10,9 @@
       <h6 class="m-0 font-weight-bold text-primary">Form to Edit Worker</h6>
     </div>
   <div class="card-body text-dark">
-		<form action="{{ route('store.user')}}" method="POST" autocomplete="off">
-			@csrf
+		<form action="{{ route('update.user', ['id' => $user->id])}}" method="POST" autocomplete="off">
+            @csrf
+            @method('PUT')
 			<div class="row" >
 
 				{{-- First_Name or Name --}}
@@ -178,22 +179,22 @@
 
             <div class="row" >
 				{{-- Role --}}
-				<div class="form-group col-lg-4">
+				<div class="form-group">
                     <label for="statusRadio" class="font-weight-bolder">User Role(s)</label>
-					<div class="row">
+					<div class="">
                         @foreach($user->roles as $role)
                             @if ($role->name == 'normal')
                                 @continue
                             @endif
-                            <div class="form-check form-check-inline ml-3">
-                                <input type="checkbox" id="" name="role" value="{{ $role->id }}" class="form-check-input" checked>
+                            <div class="form-check form-check-inline ml-3 col-lg-4">
+                                <input type="checkbox" id="role{{$role->id}}" name="role[{{$role->id}}][id]" value="{{$role->id}}" class="form-check-input" checked>
                                 <label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
-                            </div> 
+                            </div>
                             &nbsp;
                         @endforeach
                         @foreach($user->userRole() as $index => $role)
-                            <div class="form-check form-check-inline ml-3">
-                                <input type="checkbox" id="role{{ $index }}" name="role" value="{{ $role->id }}" class="form-check-input">
+                            <div class="form-check form-check-inline ml-3 col-lg-4">
+                                <input type="checkbox" id="role{{ $role->id }}" name="role[{{ $role->id }}][id]" value="{{ $role->id }}" class="form-check-input">
                                 <label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
                             </div>
                             &nbsp;
@@ -281,24 +282,23 @@
                                 <label for="education" class="font-weight-bolder ml-2">Education & Certification</label>
                                 <input type="hidden" id="levels_count" name="levels_count" value="{{ count($user->profile->educations) }}">
                                 @foreach ($user->profile->educations as $index => $education)
-                                <div class="row col-lg-12">
-                                <div class="form-group col-lg-4 added-{{$index}}">
-                                        <input id="education{{ $index }}" name="education[{{ $index}}][level]" value="{{ $education->level }}" placeholder="Eg. Bachelor Degree in Computer & Business" type="text" class="form-control @error('education') is-invalid @enderror" required>
-                                        <input type="hidden"  name="level_index" value="{{$index}}">
+                                    <div class="row col-lg-12">
+                                        <div class="form-group col-lg-4 added-{{$index+1}}">
+                                                <input id="education{{ $index+1 }}" name="education[{{ $index+1}}][level]" value="{{ $education->level }}" placeholder="Eg. Bachelor Degree in Computer & Business" type="text" class="form-control @error('education') is-invalid @enderror" required>
+                                        </div>
+                                        @if ($index == 0)
+                                            <div class="form-group col-lg-2 mt-0 pt-0">
+                                                <button  class="btn btn-primary add_field_button_contact">Add More field</button>
+                                            </div>
+                                        @else
+                                            <div class="form-group col-lg-3 mt-0 pt-0">
+                                                <a href="#" class="btn btn-danger btn-circle remove_field">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                                <input type="hidden" name="remove_id" class="remove_id" value="{{ $index+1}}">
+                                            </div>
+                                        @endif   
                                     </div>
-                                    @if ($index == 0)
-                                        <div class="form-group col-lg-2 mt-0 pt-0">
-                                            <button  class="btn btn-primary add_field_button_contact">Add More field</button>
-                                        </div>
-                                    @else
-                                        <div class="form-group col-lg-3 mt-0 pt-0">
-                                            <a href="#" class="btn btn-danger btn-circle remove_field">
-                                                <i class="fas fa-trash"></i>
-                                            </a>
-                                        </div>
-                                    @endif
-                                    
-                                </div>
                                 @endforeach
                                 
                         @endif
@@ -319,11 +319,11 @@
                         </div>
                     @else
                         <label for="qualify" class="font-weight-bolder ml-2">Qualifications</label>
-
+                        <input type="hidden" id="quality_count" name="quality_count" value="{{ count($user->profile->qualifications) }}">
                         @foreach ($user->profile->qualifications as $index => $quality)
                         <div class="row col-lg-12">
-                            <div class="form-group col-lg-4">
-                                <input id="quality" name="qualify[{{ $index+1}}][need]" value="{{ $quality->quality }}" placeholder="Eg. More than 5 years of Experience" type="text" class="form-control" required>
+                            <div class="form-group col-lg-4 addedy-{{ $index+1 }}">
+                                <input id="quality{{$index+1}}" name="qualify[{{ $index+1}}][need]" value="{{ $quality->quality }}" placeholder="Eg. More than 5 years of Experience" type="text" class="form-control" required>
                             </div>
                             @if ($index == 0)
                                 <div class="form-group col-lg-2 mt-0 pt-0">
@@ -334,6 +334,7 @@
                                     <a href="#" class="btn btn-danger btn-circle remove_field_qualify">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                    <input type="hidden" name="remove_qualify_id" class="remove_qualify_id" value="{{ $index+1}}">
                                 </div>
                             @endif
                             
@@ -353,9 +354,6 @@
 	 $(document).ready(function() {
 
 
-
-
-
 		// 
 		// Education Field
 		// 
@@ -364,8 +362,10 @@
 		var wrapper   		= $(".input_fields_wrap_contact"); //Fields wrapper
 		var add_button      = $(".add_field_button_contact"); //Add button ID
         var levels_count    = $("#levels_count").val();
+        var elements = [];
 		
-		var x = levels_count; //last text box count
+        var x = levels_count; //last text box count
+
 		$(add_button).click(function(e){ //on add input button click
 
 			e.preventDefault();
@@ -379,13 +379,18 @@
 							<div class="form-group col-lg-3 mt-0 pt-0">
 								<a href="#" class="btn btn-danger btn-circle remove_field">
 									<i class="fas fa-trash"></i>
-								</a>
+                                </a>
+                                <input type="hidden" name="remove_id" class="remove_id" value="{{ null }}">
 							</div></div>`); //add input box
 			}
-		});
+        });
+        
 		
 		$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-			e.preventDefault(); $(`.added-${x}`).parent('div').remove(); x--;
+            e.preventDefault();
+
+                $(`.added-${x}`).parent('div').remove(); x--;
+
 		})
 
 
@@ -394,12 +399,13 @@
 		// QUALITY 
 		// 
 		var qualify_wrapper  = $(".input_fields_wrap_qualify"); //Fields wrapper
-		var add_qualify      = $(".add_field_button_qualify"); //Add button ID
+        var add_qualify      = $(".add_field_button_qualify"); //Add button ID
+        var quality_count    = $("#quality_count").val();
 		
-		var y = 1; //initlal text box count
+		var y = quality_count; //initlal text box count
 		$(add_qualify).click(function(e){ //on add input button click
-
-			e.preventDefault();
+            e.preventDefault();
+            
 			if(y < max_fields){ //max input box allowed
 				y++; //text box increment
 				$(qualify_wrapper).append(`
@@ -418,13 +424,6 @@
 		$(qualify_wrapper).on("click",".remove_field_qualify", function(e){ //user click on remove text
 			e.preventDefault(); $(`.addedy-${y}`).parent('div').remove(); y--;
 		})
-
-
-
-
-
-
-
 	});
  </script>
 @endsection

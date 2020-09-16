@@ -204,5 +204,19 @@ class TrainingController extends Controller
 
     }
 
+    public function close_event(Request $request, $id) {
+
+            $training = DB::table('trainings')->where('id', $id)->update([
+                'status' => TRUE,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            $event = Training::find($id);
+
+            return redirect()->route('operation.show', [$event]);
+ 
+
+    }
+
 
 }

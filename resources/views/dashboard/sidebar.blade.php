@@ -47,6 +47,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
           {{-- <h6 class="collapse-header">Custom Components:</h6> --}}
           <a class="collapse-item" href="{{route('accident.index')}}">Accident Logs</a>
+          <a class="collapse-item" href="{{route('report.index')}}">Accident Analysis</a>
           <a class="collapse-item" href="{{route('officer.index')}}">Officer Concerned</a>
           <a class="collapse-item" href="{{route('progress.index')}}">Progress Report</a>
           <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
@@ -71,21 +72,26 @@
       </div>
     </li>
 
-     <!-- Nav Item - Pages Collapse Menu -->
-     <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-        <i class="fas fa-fw fa-asterisk"></i>
-        <span>Risk Management</span>
-      </a>
-      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
-          <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
-          {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a> --}}
-          <a class="collapse-item" href="{{ route('components.index')}}">Standard & Comparison</a>
+
+    @if(Auth::user()->is_admin && Auth::user()->hasRole('superuser') || Auth::user()->hasRole('director'))
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+          <i class="fas fa-fw fa-asterisk"></i>
+          <span>Risk Management</span>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
+            <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
+            {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>--}}
+            <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
+          </div>
         </div>
-      </div>
-    </li>
+      </li>
+
+    
 
      <!-- Nav Item - Pages Collapse Menu -->
      <li class="nav-item">
@@ -115,6 +121,8 @@
         </div>
       </div>
     </li>
+  
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

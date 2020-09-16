@@ -78,18 +78,34 @@
 				</div>
 			</div>
 			<div class="row">
+
 				<div class="form-group col-lg-6">
-					<label for="driver_name">Driver(s)</label> 
-					<input id="driver_name" name="driver_name" placeholder="Driver(s)" type="text" class="form-control @error('driver_name') is-invalid @enderror" required="required">
+
+					<label for="driver_name">Driver(s)</label>
+						<select id="driver_name" name="driver_name" required="required" class="custom-select @error('driver_name') is-invalid @enderror">
+							<option value="" selected disabled>Select Driver</option>
+							@foreach ($driver->users as $driver)
+							<option name="driver_name" value="{{ $driver->name }}">{{ $driver->name }}</option>
+							@endforeach
+						</select>
+
 					@error('driver_name')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
 						</span>
-					@enderror
+					 @enderror
 				</div>
+
 				<div class="form-group col-lg-6">
 					<label for="guard_name">Guard(s)</label> 
-					<input id="guard_name" name="guard_name" placeholder="Guard(s)" type="text" class="form-control @error('guard_name') is-invalid @enderror">
+
+					<select id="guard_name" name="guard_name" required="required" class="custom-select @error('guard_name') is-invalid @enderror">
+						<option value="" selected disabled>Select Guard</option>
+						@foreach ($guard->users as $guard)
+						<option name="guard_name" value="{{ $guard->name }}">{{ $guard->name }}</option>
+						@endforeach
+					</select>
+
 					@error('guard_name')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
