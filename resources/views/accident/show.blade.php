@@ -19,11 +19,30 @@
         </div>
         <div class="row mb-5">
             <div class="col-lg-12 col-md-12">
-            <h6 class="text-sm"><strong>Reported by :</strong> <u> {{auth()->user()->name}}</u> &nbsp; <strong>No :</strong> <u>{{$accident->created_at}}</u></h6>
-            <h6 class=""><strong>Time of Accident :</strong> <u>{{$accident->time_of_accident}}</u> &nbsp; <strong>Place :</strong> <u>{{$accident->occured_at}}</u> &nbsp; <strong>Section :</strong> <u>{{$accident->section->code_name}}</u> </h6>
-            <h6 class=""><strong>Train/Loco(s) :</strong> <u>{{$accident->train}}</u> &nbsp; <strong>Fuel Balance:</strong> <u>{{$accident->fuel_balance}}</u> &nbsp; <strong>TL :</strong> <u>{{$accident->train_load}}</u> </h6>
-            <h6 class=""><strong>Driver(s) :</strong> <u>{{$accident->driver_name}}</u> &nbsp; <strong>Guard(s):</strong> <u>{{$accident->guard_name}}</u> </h6>
-            <h6 class=""><strong>Received From Control :</strong> <u>{{$accident->received_from_control_location}}</u> &nbsp; <strong>At :</strong> <u>{{$accident->received_from_control_time}}</u> </h6>
+                <table cellpadding="3">
+                    <tr>
+                        <td colspan="2"><h6 class="text-sm"><strong>Reported by :</strong> <u> {{$accident->user->name}}</u> &nbsp;</h6></td>
+                        <td><h6 class="text-sm"><strong>On :</strong> <u> {{$accident->created_at}}</u> &nbsp;</h6></td>
+                    </tr>
+                    <tr>
+                        <td><h6 class=""><strong>Time of Accident :</strong> <u>{{$accident->time_of_accident}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>Place :</strong> <u>{{$accident->occured_at}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>Section :</strong> <u>{{$accident->section->code_name}}</u> &nbsp;</h6></td>
+                    </tr>
+                    <tr>
+                        <td><h6 class=""><strong>Train/Loco(s) :</strong> <u>{{$accident->train}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>Fuel Balance :</strong> <u>{{$accident->fuel_balance}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>TL :</strong> <u>{{$accident->train_load}}</u> &nbsp;</h6></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><h6 class=""><strong>Driver(s) :</strong> <u>{{$accident->driver_name}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>Guard(s) :</strong> <u>{{$accident->guard_name}}</u> &nbsp;</h6></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2"><h6 class=""><strong>Received From Control :</strong> <u>{{$accident->received_from_control_location}}</u> &nbsp;</h6></td>
+                        <td><h6 class=""><strong>At :</strong> <u>{{$accident->received_from_control_time}}</u> &nbsp;</h6></td>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="row mb-2 ml-1">
@@ -95,8 +114,26 @@
                         </td>
                         <td class="px-0">{{$officer->ext_no}}</td>
                         <td class="px-0">{{$officer->name}}</td>
-                        <td><span class="h6 text-sm">--</span></td>
-                        <td class="px-0"><span class="h6 text-sm">--</span></td>
+                        <td>
+                            @foreach ($officer->officer_contacts as $contact)
+                            {{ empty($officer->officer_accident_log_sms_status($accident->id, $contact->id))?'--':$officer->officer_accident_log_sms_status($accident->id, $contact->id)->time}} 
+                            @if ($loop->last)
+                                &nbsp;
+                            @else
+                             /
+                            @endif  
+                          @endforeach
+                        </td>
+                        <td class="px-0">
+                            @foreach ($officer->officer_contacts as $contact)
+                            {{ empty($officer->officer_accident_log_sms_status($accident->id, $contact->id))?'--': $officer->officer_accident_log_sms_status($accident->id, $contact->id)->remarks}} 
+                            @if ($loop->last)
+                                &nbsp;
+                            @else
+                             /
+                            @endif  
+                          @endforeach
+                        </td>
                     </tr>
                     @endforeach
                     </tbody>

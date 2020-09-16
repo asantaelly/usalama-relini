@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateWorkersProfilesTable extends Migration
+class CreateComponentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,9 @@ class CreateWorkersProfilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('workers_profiles', function (Blueprint $table) {
+        Schema::create('components', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('phone_number');
-            $table->string('address');
-            $table->mediumText('competence');
-            $table->mediumText('medical');
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('component');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ class CreateWorkersProfilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('workers_profiles');
+        Schema::dropIfExists('components');
     }
 }

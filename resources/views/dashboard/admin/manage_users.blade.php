@@ -15,16 +15,8 @@
       <span class="icon text-light">
         <i class="fas fa-plus"></i>
       </span>
-      <span class="text text-light">Add Critical Workers</span>
+      <span class="text text-light">Add Worker</span>
     </a>
-
-
-    {{-- <a href="{{route('accident.create')}}" class="btn btn-success btn-icon-split btn-sm mr-3">
-        <span class="icon text-light">
-          <i class="fas fa-plus"></i>
-        </span>
-        <span class="text text-light">Add Critical Worker</span>
-      </a> --}}
   </div>
   <br/>
 @endsection
@@ -63,14 +55,14 @@
             </td>
             <td>
             @if (count($user->roles) <= 1)
-              {{ ucfirst($user->roles[0]->name) }}
+              <b> {{ ucfirst($user->roles[0]->name) }} </b>
             @else
               @foreach ($user->roles as $role)
                   <b>{{ ucfirst($role->name) }}</b> |
               @endforeach
             @endif
             </td>
-              <td> {{ $user->created_at }}</td>
+              <td> {{ $user->created_at->toFormattedDateString() }}</td>
               <td>
                 @if ($user->status == true)
                   <button type="button" class="btn btn-success shadow">

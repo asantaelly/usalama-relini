@@ -1,20 +1,22 @@
 @extends('dashboard.index')
 
 @section('title')
-Add Critical Worker
+Add Worker
 @endsection
 
 @section('content')
 <div class="card shadow mb-4 col-lg-12 px-0">
     <div class="card-header py-3">
-      <h6 class="m-0 font-weight-bold text-primary">Form to Add Critical Worker</h6>
+      	<h6 class="m-0 font-weight-bold text-primary">Form to Add Worker</h6>
     </div>
   <div class="card-body text-dark">
-		<form action="{{route('officer.store')}}" method="POST">
+		<form action="{{ route('store.user')}}" method="POST" autocomplete="off">
 			@csrf
 			<div class="row" >
+
+				{{-- First_Name or Name --}}
 				<div class="form-group col-lg-4">
-					<label for="name">First Name</label> 
+					<label for="name" class="font-weight-bolder">First Name</label>
 					<input id="name" name="name" placeholder="First Name" type="text" required="required" class="form-control @error('name') is-invalid @enderror">
 					@error('name')
 					<span class="invalid-feedback" role="alert">
@@ -22,8 +24,10 @@ Add Critical Worker
 						</span>
 					@enderror
 				</div>
+
+				{{-- Last Name --}}
 				<div class="form-group col-lg-4">
-					<label for="last_name">Last Name</label> 
+					<label for="last_name" class="font-weight-bolder">Last Name</label> 
 					<input id="last_name" name="last_name" placeholder="Last Name" type="text" class="form-control @error('last_name') is-invalid @enderror" required="required">
 					@error('last_name')
 						<span class="invalid-feedback" role="alert">
@@ -32,9 +36,10 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				{{-- Email --}}
 				<div class="form-group col-lg-4">
-					<label for="email">Email</label>
-					<input id="email" name="email" placeholder="Eg. example@mail.com" type="text" class="form-control @error('email') is-invalid @enderror" required="required">
+					<label for="email" class="font-weight-bolder">Email</label>
+					<input id="email" name="email" placeholder="Eg. example@mail.com" type="email" class="form-control @error('email') is-invalid @enderror" autocomplete="off">
 					
 					@error('email')
 					<span class="invalid-feedback" role="alert">
@@ -45,9 +50,11 @@ Add Critical Worker
 			</div>
 
 			<div class="row">
+
+				{{-- Password --}}
 				<div class="form-group col-lg-4">
-					<label for="password">Password</label> 
-					<input id="password" name="password" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control @error('password') is-invalid @enderror" required="required">
+					<label for="password" class="font-weight-bolder">Password</label> 
+					<input id="password" name="password" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control @error('password') is-invalid @enderror">
 					@error('password')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -55,8 +62,9 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				{{-- Confirm Password --}}
 				<div class="form-group col-lg-4">
-					<label for="password_confirmation">Confirm Password</label> 
+					<label for="password_confirmation" class="font-weight-bolder">Confirm Password</label> 
 					<input id="password_confirmation" name="password_confirmation" placeholder="Eg. Y7ut@hg0O9hj12q" type="password" class="form-control" required="required">
 					@error('medical')
 					<span class="invalid-feedback" role="alert">
@@ -65,12 +73,31 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				<div class="form-group col-lg-4">
+					<label for="statusRadio" class="font-weight-bolder">User Status</label>
+					<div class="row">
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio1" name="status" value="1" class="custom-control-input">
+							<label class="custom-control-label font-weight-bolder" for="customRadio1">Active</label>
+						</div> 
+						&nbsp;
+						<div class="custom-control custom-radio">
+							<input type="radio" id="customRadio2" name="status" value="0" class="custom-control-input" checked>
+							<label class="custom-control-label font-weight-bolder" for="customRadio2">Inactive</label>
+						</div>
+					</div>
+				</div>
+
+				
+
 			</div>
 
 
 			<div class="row">
+
+				{{-- Phone Number --}}
 				<div class="form-group col-lg-4">
-					<label for="phone_number">Phone Number</label> 
+					<label for="phone_number" class="font-weight-bolder">Phone Number</label> 
 					<input id="phone_number" name="phone_number" placeholder="Eg. +255768564536" type="text" class="form-control @error('phone_number') is-invalid @enderror" required="required">
 					@error('phone_number')
 					<span class="invalid-feedback" role="alert">
@@ -79,8 +106,10 @@ Add Critical Worker
 					@enderror
 				</div>
 
+				
+				{{-- Address --}}
 				<div class="form-group col-lg-4">
-					<label for="address">Address</label> 
+					<label for="address" class="font-weight-bolder">Address</label> 
 					<input id="address" name="address" placeholder="Eg. Temeke, Dar es Salaam" type="text" class="form-control @error('address') is-invalid @enderror" required="required">
 					@error('address')
 					<span class="invalid-feedback" role="alert">
@@ -88,17 +117,26 @@ Add Critical Worker
 						</span>
 					@enderror
 				</div>
+			</div>
 
 
-				<div class="form-group col-lg-4">
-					<label for="role">Role</label>
-					<select name="role" id="role" class="form-control @error('role') is-invalid @enderror" required>
-						<option value="" selected disabled>Choose Role</option>
+			<div class="row">
+				{{-- Role --}}
+				<div class="form-group">
+					<label for="role" class="font-weight-bolder ml-3">User Role(s)</label>
+
+					<div class="row">
 						@foreach($roles as $role)
-							<option value="{{ $role->id}}">{{ ucfirst($role->name)}}</option>
+							<div class="col-lg-4">
+								<div class="form-check form-check-inline ml-3">
+									<input type="checkbox" name="roles[{{$role->id}}][id]" value="{{ $role->id }}" class="form-check-input">
+									<label class="form-check-label font-weight-bolder" for="">{{ ucfirst($role->name) }}</label>
+								</div> 
+							</div>
+								
+								{{-- &nbsp; --}}
 						@endforeach
-					</select>
-					
+					</div>	
 					@error('role')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -111,7 +149,7 @@ Add Critical Worker
 
 			<div class="row">
 				<div class="form-group col-lg-4">
-					<label for="competence">Competence</label> 
+					<label for="competence" class="font-weight-bolder">Competence</label> 
 					<textarea id="competence" name="competence" placeholder="Eg. Sufficient skills to Drive a Train" type="text" class="form-control @error('competence') is-invalid @enderror" required="required"></textarea>
 					@error('competence')
 					<span class="invalid-feedback" role="alert">
@@ -122,7 +160,7 @@ Add Critical Worker
 
 
 				<div class="form-group col-lg-4">
-					<label for="medical">Medical Fitness</label> 
+					<label for="medical" class="font-weight-bolder">Medical Fitness</label> 
 					<textarea id="medical" name="medical" placeholder="Eg. Good Healthy and Mental Condition" type="text" class="form-control @error('medical') is-invalid @enderror" required="required"></textarea>
 					@error('medical')
 					<span class="invalid-feedback" role="alert">
@@ -137,7 +175,7 @@ Add Critical Worker
 
 					<div class="row col-lg-12">
 						<div class="form-group col-lg-4">
-							<label for="education">Education & Certification</label> 
+							<label for="education" class="font-weight-bolder">Education & Certification</label> 
 							<input id="education" name="education[0][level]" placeholder="Eg. Bachelor Degree in Computer & Business" type="text" class="form-control @error('education') is-invalid @enderror" required>
 							@error('education')
 							<span class="invalid-feedback" role="alert">
@@ -155,7 +193,7 @@ Add Critical Worker
 
 					<div class="row col-lg-12">
 						<div class="form-group col-lg-4">
-							<label for="qalify">Qualifications</label> 
+							<label for="qalify" class="font-weight-bolder">Qualifications</label> 
 							<input id="qualify" name="qualify[0][need]" placeholder="Eg. More than 5 years of Experience" type="text" class="form-control @error('qualify') is-invalid @enderror" required>
 							@error('qualify')
 							<span class="invalid-feedback" role="alert">
@@ -244,12 +282,6 @@ Add Critical Worker
 		$(qualify_wrapper).on("click",".remove_field_qualify", function(e){ //user click on remove text
 			e.preventDefault(); $(`.addedy-${y}`).parent('div').remove(); y--;
 		})
-
-
-
-
-
-
 
 	});
  </script>

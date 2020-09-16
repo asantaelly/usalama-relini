@@ -33,7 +33,7 @@ Create Progress Report
 			<div class="row input_fields_wrap_progress">
 				<div class="form-group col-lg-4">
 					<label for="time">Time</label> 
-					<input id="time" name="time[0][time]" placeholder="YYYY-MM-DD HH:MM:SS" type="text" required="required" class="form-control @error('time') is-invalid @enderror">
+					<input id="time" name="time[0][time]" placeholder="YYYY-MM-DD HH:MM:SS" data-date="1979-09-16T05:25:07Z" data-date-format="dd MM yyyy - HH:ii p" data-link-field="time" type="text" required="required" class="form-control @error('time') is-invalid @enderror">
 					@error('time')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -93,6 +93,17 @@ Create Progress Report
 	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
 		e.preventDefault(); $(`.added-${x}`).parent('div').remove(); x--;
 	})
+
+	$('#time').datetimepicker({
+        //language:  'fr',
+        weekStart: 1,
+        todayBtn:  1,
+		autoclose: 1,
+		todayHighlight: 1,
+		startView: 2,
+		forceParse: 0,
+        showMeridian: 1
+	});
 
 });
  </script>

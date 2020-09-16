@@ -6,12 +6,16 @@ use App\Death;
 use App\Injury;
 use App\Section;
 use App\Accident;
+use Carbon\Carbon;
+use App\OfficerContact;
 use App\OfficerConcerned;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\OfficerConcernedNotification;
-use App\OfficerContact;
+use App\User;
+use App\Role;
 
 class AccidentController extends Controller
 {
@@ -44,13 +48,22 @@ class AccidentController extends Controller
      */
     public function create()
     {
+
+        $users = User::all();
+        $driver = Role::where('name', 'locomotive driver')->first();
+        $guard = Role::where('name', 'train guard')->first();
+
         return view('accident.create',[
             'death_types' => Death::get_dropdown_menu(), 
             'injury_types' => Injury::get_dropdown_menu(),
             'sections' => Section::get_dropdown_menu(),
             'belonged_quarter' => get_quarters_dropdown(),
             'nature_of_accident' => get_nature_of_accident_dropdown(),
-            'resposible_designation' => get_responsible_designation_dropdown()
+            'resposible_designation' => get_responsible_designation_dropdown(),
+            'subjects' => get_accident_subject_dropdown(),
+            'critical_levels' => get_accident_critical_level_dropdown(),
+            'driver' => $driver,
+            'guard' => $guard,
             ]);
     }
 
@@ -62,7 +75,6 @@ class AccidentController extends Controller
      */
     public function store(Request $request)
     {
-       
        $data = $request->validate([
                 'time_of_accident' => ['required', 'date_format:Y-m-d H:i:s'],
                 'occured_at' => ['required', 'string'],
@@ -73,7 +85,7 @@ class AccidentController extends Controller
                 'guard_name' => ['sometimes', 'required', 'string'],
                 'received_from_control_location' => ['sometimes', 'required', 'string'],
                 'received_from_control_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-                'accident_subject' => ['required', 'string'],
+                'accident_subject' => ['required', 'string', Rule::in(array_column(get_accident_subject_dropdown(), 'value'))],
                 'brief_particulars' => ['sometimes', 'required', 'string'],
                 'damages' => ['sometimes', 'required', 'string'],
                 'cause_of_the_accident' => ['sometimes', 'required', 'string'],
@@ -83,10 +95,11 @@ class AccidentController extends Controller
                 'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
                 'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
                 'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-                'death_id.*.id' => ['sometimes', 'required', 'exists:deaths,id', 'distinct'],
-                'death_number.*.value' => ['sometimes', 'required', 'string'],
-                'injury_id.*.id' => ['sometimes', 'required', 'exists:injuries,id', 'distinct'],
-                'injury_number.*.value' => ['sometimes', 'required', 'string'],
+                'critical_level' => ['sometimes', 'required'],
+                'death_id' => ['sometimes'],
+                'death_number' => ['sometimes'],
+                'injury_id' => ['sometimes'],
+                'injury_number' => ['sometimes'],
             ]);
             
             $section = Section::find($request['section_id']);
@@ -121,20 +134,82 @@ class AccidentController extends Controller
                 'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
                 'line_closure_time' => $request['line_closure_time'],
                 'reference_number' => $request['reference_number'],
+                'critical_level' => $request['critical_level'],
                 'user_id' => auth()->user()->id
                 ]);
                 
-                $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
-                $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
-                
-                foreach ($deaths as $key => $value) {
+                if(is_array($request['death_id'])){
 
-                    $accident_log->deaths()->attach($key, ['number' => $value]);
+                    $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+                    foreach ($deaths as $key => $value) {
+
+                        $accident_log->deaths()->attach($key, ['number' => $value]);
+                    }
                 }
                 
-                foreach ($injuries as $key => $value) {
+                if(is_array($request['injury_id'])){
 
-                    $accident_log->injuries()->attach($key, ['number' => $value]);
+                    $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+                    
+                    foreach ($injuries as $key => $value) {
+
+                        $accident_log->injuries()->attach($key, ['number' => $value]);
+                    }
+                }
+
+                $officers = OfficerContact::all();
+
+                $number_string = '';
+        
+                $index = 0;
+    
+                $message = 'There is accident log added to the system as officer concerd you must check it';
+        
+                foreach($officers as $officer) {
+        
+                    $index++;
+        
+                    if($index == OfficerContact::count()) {
+        
+                        $number_string =  $number_string . str_replace('+','', $officer->phone_no);
+                    }else {
+        
+                        $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
+                    }
+                        
+                }
+    
+                 $response = send_sms_to_officer_concerd($number_string, $message);
+    
+    
+                 if($response['has_error']) {
+    
+                    return redirect('/accident')->with(['success' => 'Accident Log Created Successful but there was an error during sending the sms']);
+                 }
+    
+                $smscids = str_replace('Response : ', '', $response['response']);
+    
+                $single_numbers = explode(',', $number_string);
+                 
+                $index2 = 0;
+    
+                foreach (explode(',',$smscids )as $smscid) {
+    
+                   $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
+    
+                   $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
+                    
+                   DB::table('accident_log_contact')->insert([
+                    'time' => Carbon::now(),
+                    'remarks'=> $status,
+                    'officer_contact_id'=> $offcer->id,
+                    'accident_id' => $accident_log->id,
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now(), 
+                    ]);
+    
+                    $index2++;
                 }
                 
                 return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
@@ -163,27 +238,85 @@ class AccidentController extends Controller
                 'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
                 'line_closure_time' => $request['line_closure_time'],
                 'reference_number' => $request['reference_number'],
+                'critical_level' => $request['critical_level'],
                 'user_id' => auth()->user()->id
             ]);
-            
-            $deaths = array_combine(array_column($request['death_id'],'id'), array_column($request['death_number'], 'value'));
-            $injuries = array_combine(array_column($request['injury_id'],'id'), array_column($request['injury_number'],'value'));
-            
-            foreach ($deaths as $key => $value) {
 
-                $accident_log->deaths()->attach($key, ['number' => $value]);
+            if(is_array($request['death_id'])){
+
+                $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+                foreach ($deaths as $key => $value) {
+
+                    $accident_log->deaths()->attach($key, ['number' => $value]);
+                }
             }
             
-            foreach ($injuries as $key => $value) {
+            if(is_array($request['injury_id'])){
 
-                $accident_log->injuries()->attach($key, ['number' => $value]);
+                $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+                
+                foreach ($injuries as $key => $value) {
+
+                    $accident_log->injuries()->attach($key, ['number' => $value]);
+                }
             }
 
-            // $officerconcerd_mobile_phone = OfficerContact::pluck('phone_no')->get();
+            $officers = OfficerContact::all();
 
-            // Notification::route('sms', $officerconcerd_mobile_phone )->notify(new OfficerConcernedNotification($accident_log));
+            $number_string = '';
+    
+            $index = 0;
 
-            return redirect('/accident')->with(['success' => 'Accident Log Created Successful']);
+            $message = 'There is accident log added to the system as officer concerd you must check it';
+    
+            foreach($officers as $officer) {
+    
+                $index++;
+    
+                if($index == OfficerContact::count()) {
+    
+                    $number_string =  $number_string . str_replace('+','', $officer->phone_no);
+                }else {
+    
+                    $number_string =  $number_string . str_replace('+','', $officer->phone_no).',';
+                }
+                    
+            }
+
+             $response = send_sms_to_officer_concerd($number_string, $message);
+
+
+             if($response['has_error']) {
+
+                return redirect('/accident')->with(['success' => 'Accident Log Created Successful but there was an error during sending the sms']);
+             }
+
+            $smscids = str_replace('Response : ', '', $response['response']);
+
+            $single_numbers = explode(',', $number_string);
+             
+            $index2 = 0;
+
+            foreach (explode(',',$smscids )as $smscid) {
+
+               $status =  str_replace('status : ','',get_sms_deliver_report($smscid)['response']);
+
+               $offcer = OfficerContact::where('phone_no' , 'like' , '%'. $single_numbers[$index2] . '%')->first();
+                
+               DB::table('accident_log_contact')->insert([
+                'time' => Carbon::now(),
+                'remarks'=> $status,
+                'officer_contact_id'=> $offcer->id,
+                'accident_id' => $accident_log->id,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(), 
+                ]);
+
+                $index2++;
+            }
+
+            return redirect('/accident')->with(['success' => 'Accident Log Created Successful and sms were sent successful also']);
 
 
     }
@@ -228,6 +361,8 @@ class AccidentController extends Controller
             'belonged_quarter_selected' => get_quarters_dropdown()[array_search($accident->belonged_quarter, array_column(get_quarters_dropdown(), 'value'))],
             'nature_of_accident_selected' => get_nature_of_accident_dropdown()[array_search($accident->ature_of_accident, array_column( get_nature_of_accident_dropdown(), 'value'))],
             'resposible_designation_selected' => get_responsible_designation_dropdown()[array_search($accident->resposible_designation, array_column(get_responsible_designation_dropdown(), 'value'))],
+            'subjects' => get_accident_subject_dropdown(),
+            'critical_levels' => get_accident_critical_level_dropdown()
             ]);
     }
 
@@ -260,10 +395,11 @@ class AccidentController extends Controller
             'responsible_designation' => ['sometimes', 'required', Rule::in(array_column(get_responsible_designation_dropdown(), 'value'))],
             'time_spent_for_line_clear' => ['sometimes', 'required', 'string', 'date_format:Y-m-d H:i:s'],
             'line_closure_time' => ['sometimes', 'required', 'date_format:Y-m-d H:i:s'],
-            'death_id.*.id' => ['sometimes', 'required', 'exists:deaths,id', 'distinct'],
-            'death_number.*.value' => ['sometimes', 'required', 'string'],
-            'injury_id.*.id' => ['sometimes', 'required', 'exists:injuries,id', 'distinct'],
-            'injury_number.*.value' => ['sometimes', 'required', 'string'],
+            'critical_level' => ['sometimes', 'required'],
+            'death_id' => ['sometimes'],
+            'death_number' => ['sometimes'],
+            'injury_id' => ['sometimes'],
+            'injury_number' => ['sometimes'],
         ]);
 
         $accident_log = $accident->update([
@@ -287,26 +423,29 @@ class AccidentController extends Controller
             'time_spent_for_line_clear' => $request['time_spent_for_line_clear'],
             'line_closure_time' => $request['line_closure_time'],
             'reference_number' => $request['reference_number'],
+            'critical_level' => $request['critical_level'],
             'user_id' => auth()->user()->id
         ]);
-        
-        $deaths = array_combine(array_column($request['death_id'],'id'), array_column($request['death_number'], 'value'));
-        $injuries = array_combine(array_column($request['injury_id'],'id'), array_column($request['injury_number'],'value'));
-        
-        foreach ($deaths as $key => $value) {
 
-            $accident->deaths()->sync($key, ['number' => $value]);
+        if(is_array($request['death_id'])){
+
+            $deaths = array_combine(array_column($request['death_id'], 'id'), array_column($request['death_number'], 'value'));
+
+            foreach ($deaths as $key => $value) {
+
+                $accident->deaths()->sync($key, ['number' => $value]);
+            }
         }
         
-        foreach ($injuries as $key => $value) {
+        if(is_array($request['injury_id'])){
 
-            $accident->injuries()->sync($key, ['number' => $value]);
+            $injuries = array_combine(array_column($request['injury_id'], 'id'), array_column($request['injury_number'], 'value'));
+            
+            foreach ($injuries as $key => $value) {
+
+                $accident->injuries()->sync($key, ['number' => $value]);
+            }
         }
-
-        // $officerconcerd_mobile_phone = OfficerContact::pluck('phone_no')->get();
-
-        // Notification::route('sms', $officerconcerd_mobile_phone )->notify(new OfficerConcernedNotification($accident_log));
-
 
         return redirect()->back()->with(['success' => 'Accident Log Updated Successful']);
     }

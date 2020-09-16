@@ -78,18 +78,34 @@
 				</div>
 			</div>
 			<div class="row">
+
 				<div class="form-group col-lg-6">
-					<label for="driver_name">Driver(s)</label> 
-					<input id="driver_name" name="driver_name" placeholder="Driver(s)" type="text" class="form-control @error('driver_name') is-invalid @enderror" required="required">
+
+					<label for="driver_name">Driver(s)</label>
+						<select id="driver_name" name="driver_name" required="required" class="custom-select @error('driver_name') is-invalid @enderror">
+							<option value="" selected disabled>Select Driver</option>
+							@foreach ($driver->users as $driver)
+							<option name="driver_name" value="{{ $driver->name }}">{{ $driver->name }}</option>
+							@endforeach
+						</select>
+
 					@error('driver_name')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
 						</span>
-					@enderror
+					 @enderror
 				</div>
+
 				<div class="form-group col-lg-6">
 					<label for="guard_name">Guard(s)</label> 
-					<input id="guard_name" name="guard_name" placeholder="Guard(s)" type="text" class="form-control @error('guard_name') is-invalid @enderror">
+
+					<select id="guard_name" name="guard_name" required="required" class="custom-select @error('guard_name') is-invalid @enderror">
+						<option value="" selected disabled>Select Guard</option>
+						@foreach ($guard->users as $guard)
+						<option name="guard_name" value="{{ $guard->name }}">{{ $guard->name }}</option>
+						@endforeach
+					</select>
+
 					@error('guard_name')
 					<span class="invalid-feedback" role="alert">
 								<strong>{{ $message }}</strong>
@@ -117,15 +133,30 @@
 					@enderror
 				</div>
 			</div>
-				<div class="form-group">
-					<label for="accident_subject">Subject</label> 
-					<input id="accident_subject" name="accident_subject" placeholder="Subject" type="text" class="form-control @error('accident_subject') is-invalid @enderror" required="required">
-					@error('accident_subject')
-					<span class="invalid-feedback" role="alert">
-								<strong>{{ $message }}</strong>
-						</span>
-					@enderror
+			<div class="row">
+				<div class="form-group col-lg-6">
+					<label for="accident_subject">Subject</label>
+					<div>
+						<select id="accident_subject" name="accident_subject" required="required" class="custom-select @error('accident_subject') is-invalid @enderror">
+							<option value="" selected disabled>Select Subject</option>
+							@foreach ($subjects as $subject)
+							<option data-has-death="{{$subject['has_death']}}" value="{{$subject['value']}}">{{$subject['option']}} has death(s) ( {{$subject['has_death']}} )</option>
+							@endforeach
+						</select>
+					</div> 
 				</div>
+				<div class="form-group col-lg-6">
+					<label for="critical_level">Critical Level</label>
+					<div>
+						<select id="critical_level" name="critical_level" required="required" class="custom-select @error('critical_level') is-invalid @enderror">
+							<option value="" selected disabled>Select Critical Level</option>
+							@foreach ($critical_levels as $critical_level)
+							<option  value="{{$critical_level['value']}}">{{$critical_level['option']}}</option>
+							@endforeach
+						</select>
+					</div> 
+				</div>
+			</div>
 				<div class="form-group">
 					<label for="brief_particulars">Brief Particulars</label> 
 					<textarea id="brief_particulars" name="brief_particulars" cols="40" rows="5" class="form-control @error('brief_particulars') is-invalid @enderror"></textarea>
@@ -310,6 +341,18 @@
 	var max_fields      = 10; //maximum input boxes allowed
 	var wrapper   		= $(".input_fields_wrap_death"); //Fields wrapper
 	var add_button      = $(".add_field_button_death"); //Add button ID
+
+	$("#accident_subject").change(function(){
+		
+		if ($("#accident_subject").find(':selected').data('has-death') == 'no') {
+		wrapper.hide()
+			add_button.hide()
+		}else{
+			wrapper.show()
+			add_button.show()
+		}
+	})
+	
 	
 	var x = 1; //initlal text box count
 	$(add_button).click(function(e){ //on add input button click

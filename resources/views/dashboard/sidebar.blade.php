@@ -1,7 +1,7 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
       <div class="sidebar-brand-icon rotate-n-15">
         <i class="fas fa-hard-hat"></i>
       </div>
@@ -13,7 +13,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="#">
+      <a class="nav-link" href="/">
         <i class="fas fa-fw fa-tachometer-alt"></i>
         <span>Dashboard</span></a>
     </li>
@@ -34,29 +34,8 @@
           <i class="fas fa-fw fa-users"></i>
           <span>User Management</span></a>
       </li>
-
-      {{-- <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#userManage" aria-expanded="true" aria-controls="collapseTwo">
-          <i class="fas fa-fw fa-clipboard-check"></i>
-          <span>User Management</span>
-        </a>
-        <div id="userManage" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-          <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="#">View Users</a>
-            <a class="collapse-item" href="#">Add User</a>
-            <a class="collapse-item" href="{{ route('inspection.add')}}">Add Checklist</a>
-          </div>
-        </div>
-      </li> --}}
-      
+   
     @endif
-
-      <!-- Nav Item - Charts -->
-      {{-- <li class="nav-item">
-        <a class="nav-link" href="{{ route('inspection.form')}}">
-          <i class="fas fa-fw fa-clipboard-check"></i>
-          <span>Inspection</span></a>
-      </li> --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
@@ -68,6 +47,7 @@
         <div class="bg-white py-2 collapse-inner rounded">
           {{-- <h6 class="collapse-header">Custom Components:</h6> --}}
           <a class="collapse-item" href="{{route('accident.index')}}">Accident Logs</a>
+          <a class="collapse-item" href="{{route('report.index')}}">Accident Analysis</a>
           <a class="collapse-item" href="{{route('officer.index')}}">Officer Concerned</a>
           <a class="collapse-item" href="{{route('progress.index')}}">Progress Report</a>
           <a class="collapse-item" href="{{route('section.index')}}">Sections</a>
@@ -92,21 +72,57 @@
       </div>
     </li>
 
+
+    @if(Auth::user()->is_admin && Auth::user()->hasRole('superuser') || Auth::user()->hasRole('director'))
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+          <i class="fas fa-fw fa-asterisk"></i>
+          <span>Risk Management</span>
+        </a>
+        <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
+            <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
+            {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>--}}
+            <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
+          </div>
+        </div>
+      </li>
+
+    
+
      <!-- Nav Item - Pages Collapse Menu -->
      <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-        <i class="fas fa-fw fa-hard-hat"></i>
-        <span>Risk Management</span>
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsefour" aria-expanded="true" aria-controls="collapsefour">
+        <i class="fas fa-fw fa-tasks"></i>
+        <span>Task Management</span>
       </a>
-      <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+      <div id="collapsefour" class="collapse" aria-labelledby="headingfour" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
-          <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
-          <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
-          <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>
-          <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
+          <a class="collapse-item" href="{{ route('project.index')}}">Projects</a>
+          <a class="collapse-item" href="{{ route('task.index')}}">Tasks</a>
         </div>
       </div>
     </li>
+
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTraining" aria-expanded="true" aria-controls="collapseThree">
+        <i class="fas fa-fw fa-lightbulb"></i>
+        <span>Training</span>
+      </a>
+      <div id="collapseTraining" class="collapse" aria-labelledby="headingThree" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <a class="collapse-item" href="{{ route('training.index') }}">Training Schedule</a>
+          <a class="collapse-item" href="{{ route('operation.index')}}">Training Attendance</a>
+        </div>
+      </div>
+    </li>
+  
+    @endif
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">
