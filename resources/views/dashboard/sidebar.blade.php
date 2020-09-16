@@ -72,6 +72,13 @@
       </div>
     </li>
 
+    <!-- Nav Item - Charts -->
+    <li class="nav-item">
+      <a class="nav-link" href="{{ __('components')}}">
+        <i class="fas fa-fw fa-thermometer-three-quarters"></i>
+        <span>Quality Assurance</span></a>
+    </li>
+
 
     @if(Auth::user()->is_admin && Auth::user()->hasRole('superuser') || Auth::user()->hasRole('director'))
 
@@ -86,7 +93,7 @@
             <a class="collapse-item" href="{{ route('risk_identification.index')}}">Risk Identification</a>
             <a class="collapse-item" href="{{ route('risk_control.index')}}">Risk Control</a>
             {{-- <a class="collapse-item" href="{{ route('inspection.form')}}">Fore Casting</a>--}}
-            <a class="collapse-item" href="{{ route('inspection.form')}}">Standard & Comparison</a>
+            {{-- <a class="collapse-item" href="{{ __('components')}}">Standard & Comparison</a> --}}
           </div>
         </div>
       </li>
