@@ -12,7 +12,7 @@
     <div class=" p-md-5">
         <div class="row align-items-center mb-5">
             <div class="col-sm-12 mb-3 mb-sm-0">
-                <h5 align="center"><strong>TANZANIA RAILWAY CORPARATION</strong></h5>
+                <h5 align="center"><strong>TANZANIA RAILWAY CORPORATION</strong></h5>
                 <h5 class="text-sm"align="center"><strong>HEADQUATER CONTROL</strong></h5>
                 <h5 align="center"><strong>{{$data[0]['report_name']}}</strong></h5>
             </div>
