@@ -121,7 +121,8 @@
 					@enderror
 				</div>
 			</div>
-				<div class="form-group">
+			<div class="row">
+				<div class="form-group col-lg-6">
 					<label for="accident_subject">Subject</label>
 					<div>
 						<select id="accident_subject" name="accident_subject" required="required" class="custom-select @error('accident_subject') is-invalid @enderror">
@@ -138,6 +139,19 @@
 						</span>
 					@enderror
 				</div>
+				<div class="form-group col-lg-6">
+					<label for="critical_level">Critical Level</label>
+					<div>
+						<select id="critical_level" name="critical_level" required="required" class="custom-select @error('critical_level') is-invalid @enderror">
+							@foreach ($critical_levels as $critical_level)
+							<option  value="{{$critical_level['value']}}" @if ($section['value']== $accident->critical_level)
+                                selected
+                            @endif>{{$critical_level['option']}}</option>
+							@endforeach
+						</select>
+					</div> 
+				</div>
+			</div>
 				<div class="form-group">
 					<label for="brief_particulars">Brief Particulars</label> 
 					<textarea id="brief_particulars" name="brief_particulars" cols="40" rows="5"  class="form-control @error('brief_particulars') is-invalid @enderror">{{$accident->brief_particulars}}</textarea>
