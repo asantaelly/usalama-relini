@@ -46,7 +46,14 @@ class HomeController extends Controller
 
 
                 // Tasks Percentages
-                $tasks_percent = (int) ($tasks->where('completed', TRUE)->count()/$tasks->count() * 100);
+                if($tasks->count() != 0) {
+
+                    $tasks_percent = (int) ($tasks->where('completed', TRUE)->count()/$tasks->count() * 100);
+
+                } else {
+                    
+                    $tasks_percent = 0;
+                }
 
 
                 return view('home', [
