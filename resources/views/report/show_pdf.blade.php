@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
@@ -9,7 +9,7 @@
 
 </head>
 <body>
-    <div class="card card-body p-md-5">
+    <div class=" p-md-5">
         <div class="row align-items-center mb-5">
             <div class="col-sm-12 mb-3 mb-sm-0">
                 <h5 align="center"><strong>TANZANIA RAILWAY CORPARATION</strong></h5>
@@ -17,11 +17,12 @@
                 <h5 align="center"><strong>{{$data[0]['report_name']}}</strong></h5>
             </div>
         </div>
-        <div class="row mb-5 mt-5">
+        <br>
+        <div class="row card card-body pt-5 mb-5 mt-5">
             <div class="col-12">
                 <!-- Table -->
                 <div class="table-responsive">
-                <table class="table mb-0" style="font-size: 10px">
+                <table class="table table-striped mb-0" style="font-size: 10px">
                     <thead>
                     <tr>
                         <th class="px-1 bg-transparent border-top-0">S/N</th>

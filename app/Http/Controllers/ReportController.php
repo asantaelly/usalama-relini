@@ -154,10 +154,7 @@ class ReportController extends Controller
 
             $time = 0;
             ini_set('max_execution_time', $time);
-            $pdf = \PDF::loadView('report.show_pdf', [
-            'data' => $result,
-            ]);
-            // ->setPaper('a4', 'landscape');
+            $pdf = \PDF::loadView('report.show_pdf', ['data' => $result,])->setPaper('a4', 'landscape');
 
             return $pdf->save('../public/storage/reports/'.$generatedTime.'-report.pdf')->stream('report.pdf');
 
