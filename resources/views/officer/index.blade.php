@@ -21,7 +21,7 @@
          <!-- DataTales Example -->
          <div class="card shadow mb-4 col-lg-12">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List Of Officer Concerned</h6>
+              <h6 class="m-0 font-weight-bold text-primary">List Of Officers Concerned</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -32,7 +32,7 @@
                       <th>Name</th>
                       <th>Mobile Phone No.</th>
                       <th>EXT No</th>
-                      <th>Menues</th>
+                      <th>Menus</th>
                     </tr>
                   </thead>
                   <tfoot>
@@ -41,7 +41,7 @@
                       <th>Name</th>
                       <th>Mobile Phone No.</th>
                       <th>EXT No</th>
-                      <th>Menues</th>
+                      <th>Menus</th>
                     </tr>
                   </tfoot>
                   <tbody>
@@ -51,12 +51,12 @@
                       <td>{{$officer->name}}</td>
                       <td>
                         @foreach ($officer->officer_contacts as $contact)
-                        {{$contact->phone_no}} 
+                        {{$contact->phone_no}}
                         @if ($loop->last)
                             &nbsp;
                         @else
                          /
-                        @endif  
+                        @endif
                       @endforeach
                     </td>
                       <td>{{$officer->ext_no}}</td>
@@ -67,7 +67,7 @@
                       <form action="{{route('officer.destroy', ['officer' => $officer->id ])}}" method="POST" class="mx-1">
                         @csrf
                         @method('DELETE')
-                    
+
                         <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                     </form>
                     </div>

@@ -10,7 +10,7 @@
 		<span class="icon text-white-50">
 			<i class="fas fa-plus"></i>
 		</span>
-		<span class="text">Add New Risk</span>
+		<span class="text">Add New Control Measure</span>
   </a>
 </div>
 
@@ -21,7 +21,7 @@
          <!-- DataTales Example -->
          <div class="card shadow mb-4 col-lg-12">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List Of Risk Control</h6>
+              <h6 class="m-0 font-weight-bold text-primary">List Of Risk Control Measures</h6>
             </div>
             <div class="card-body">
               <div class="table-responsive">
@@ -58,7 +58,7 @@
                       <form action="{{route('risk_control.destroy', ['risk_control' => $risk->id ])}}" method="POST" class="mx-1">
                         @csrf
                         @method('DELETE')
-                    
+
                         <button type="submit" class="btn btn-danger btn-circle btn-sm"><i class="fas fa-trash"></i></button>
                     </form>
                     </div>

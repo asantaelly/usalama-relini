@@ -51,7 +51,7 @@ class HomeController extends Controller
                     $tasks_percent = (int) ($tasks->where('completed', TRUE)->count()/$tasks->count() * 100);
 
                 } else {
-                    
+
                     $tasks_percent = 0;
                 }
 
@@ -72,6 +72,6 @@ class HomeController extends Controller
             return redirect()->route('login');
         }
 
-       
+
     }
 }
