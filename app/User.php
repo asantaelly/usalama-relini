@@ -66,6 +66,7 @@ class User extends Authenticatable
         return false;
     }
 
+    // Returns roles that do not belong to user
     public function userRole()
     {
             $assign_roles = array();
