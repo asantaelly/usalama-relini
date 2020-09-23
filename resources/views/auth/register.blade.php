@@ -84,7 +84,7 @@
                     </div>
 
                     <div class="form-group">
-                      <input type="text" class="form-control form-control-user @error('') is-invalid @enderror" name="password_confirmation" id="InputName" aria-describedby="name" placeholder="Confirm Password">
+                      <input type="password" class="form-control form-control-user @error('') is-invalid @enderror" name="password_confirmation" id="InputName" aria-describedby="name" placeholder="Confirm Password">
                   </div>
 
                     <button type="submit" class="btn btn-info btn-user btn-block">
