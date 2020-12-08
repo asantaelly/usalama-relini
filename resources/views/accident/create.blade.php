@@ -386,7 +386,8 @@
 	});
 	
 	$(wrapper).on("click",".remove_field", function(e){ //user click on remove text
-		e.preventDefault(); $(`.added-${x}`).parent('div').remove(); x--;
+		e.preventDefault(); 
+		$(`.added-${x}`).parent('div').remove(); x--;
 	})
 
 	var max_fields_injury     = 10; //maximum input boxes allowed
