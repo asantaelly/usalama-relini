@@ -2,7 +2,7 @@
 *.css linguist-vendored
 *.scss linguist-vendored
 *.js linguist-vendored
-
+*.html linguist-vendored
 *.php linguist-vendored=false
 /resources/* linguist-vendored
 
