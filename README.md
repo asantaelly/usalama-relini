@@ -59,7 +59,4 @@ Online Railway Safety Management Systems
    ```
       php artisan config:clear
    ```
-
-## License
-
-This project is a Private Property. Not available for public.
+   
